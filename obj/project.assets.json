@@ -11806,11 +11806,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\School\\source\\repos\\zorgapp\\zorgapp\\zorgapp.csproj",
+      "projectUniqueName": "C:\\Users\\School\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
       "projectName": "zorgapp",
-      "projectPath": "C:\\Users\\School\\source\\repos\\zorgapp\\zorgapp\\zorgapp.csproj",
+      "projectPath": "C:\\Users\\School\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
       "packagesPath": "C:\\Users\\School\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\School\\source\\repos\\zorgapp\\zorgapp\\obj\\",
+      "outputPath": "C:\\Users\\School\\Documents\\GitHub\\Project-C\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
