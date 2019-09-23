@@ -1,0 +1,6 @@
+/Users/yasemin/Documents/Inf_jaar_2/zorgapp/obj/Debug/netcoreapp2.1/zorgapp.csprojAssemblyReference.cache
+/Users/yasemin/Documents/Inf_jaar_2/zorgapp/obj/Debug/netcoreapp2.1/zorgapp.csproj.CoreCompileInputs.cache
+/Users/yasemin/Documents/Inf_jaar_2/zorgapp/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cache
+/Users/yasemin/Documents/Inf_jaar_2/zorgapp/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cs
+/Users/yasemin/Documents/Inf_jaar_2/zorgapp/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfoInputs.cache
+/Users/yasemin/Documents/Inf_jaar_2/zorgapp/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfo.cs

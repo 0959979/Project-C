@@ -1,0 +1,16 @@
+{
+  "FilePath": "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj",
+  "Configuration": {
+    "ConfigurationName": "MVC-2.1",
+    "LanguageVersion": "2.1",
+    "Extensions": [
+      {
+        "ExtensionName": "MVC-2.1"
+      }
+    ]
+  },
+  "ProjectWorkspaceState": null,
+  "RootNamespace": "zorgapp",
+  "Documents": [],
+  "SerializationFormat": "0.2"
+}
