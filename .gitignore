@@ -4,3 +4,6 @@
 .vs/zorgapp/v15/Server/sqlite3/storage.ide-shm
 .vs/zorgapp/v15/Server/sqlite3/storage.ide-wal
 .vs/zorgapp/DesignTimeBuild/.dtbcache
+.vs/zorgapp/v15/Server/sqlite3/storage.ide-shm
+*.ide-shm
+*.ide-wal
