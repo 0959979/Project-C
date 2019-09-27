@@ -8,13 +8,9 @@ using zorgapp.Models;
 
 namespace zorgapp.Controllers{
 
-    public class PatientConroller : Controller{
+    public class PatientController : Controller{
 
-//GET: Patient/CreateAccount
-public ActionResult CreateAccount()
-{
-
-    return View();
-}
+        //GET: Patient/CreateAccount
+        public IActionResult CreateAccount() => View();
     }
 }
