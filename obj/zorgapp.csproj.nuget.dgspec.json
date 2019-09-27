@@ -1,28 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj": {}
+    "C:\\Users\\Cruelwalker\\Desktop\\Project-C\\zorgapp.csproj": {}
   },
   "projects": {
-    "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj": {
+    "C:\\Users\\Cruelwalker\\Desktop\\Project-C\\zorgapp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj",
+        "projectUniqueName": "C:\\Users\\Cruelwalker\\Desktop\\Project-C\\zorgapp.csproj",
         "projectName": "zorgapp",
-        "projectPath": "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj",
-        "packagesPath": "/Users/yaseminsnoek/.nuget/packages/",
-        "outputPath": "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/",
+        "projectPath": "C:\\Users\\Cruelwalker\\Desktop\\Project-C\\zorgapp.csproj",
+        "packagesPath": "C:\\Users\\Cruelwalker\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Cruelwalker\\Desktop\\Project-C\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/Users/yaseminsnoek/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Cruelwalker\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -45,12 +49,7 @@
               "version": "[2.1.1, )",
               "autoReferenced": true
             },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "(, )"
-            },
             "Microsoft.NETCore.App": {
-              "suppressParent": "All",
               "target": "Package",
               "version": "[2.1.0, )",
               "autoReferenced": true
