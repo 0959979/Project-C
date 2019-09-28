@@ -12,5 +12,27 @@ namespace zorgapp.Controllers{
 
         //GET: Patient/CreateAccount
         public IActionResult CreateAccount() => View();
+
+        // [HttpPost]
+        // public FileStreamResult test (Patient patient)
+        // {
+        //     string name = patient.FirstName;
+        //     string lastname = patient.LastName;
+
+        // }
+
+        // public ActionResult CreatePatientAccount(Patient patientView)
+        // {
+        //     Patient patient = new Patient(1,patientView.FirstName,patientView.LastName, patientView.PhoneNumber,patientView.UserName,patientView.Password,patientView.Email);
+        //     return View();
+
+        // }
+
+
+
+
+
     }
-}
+    }
+
+

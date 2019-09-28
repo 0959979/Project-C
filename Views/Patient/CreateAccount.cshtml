@@ -1,16 +1,28 @@
-@model zorgapp.Models.Patient;
+@model zorgapp.Models.Patient
+<!DOCTYPE html>
 
-@{
+
+<!-- @{
     ViewData["Title"] = "CreateAccount";
-}
-<h2>Create Account</h2>
-<p>Hello, just testing here (:</p>
+} -->
 
-<div>
-  <Button variant="primary" size="lg" block>
-    Create Account
-  </Button>
-  <Button variant="secondary" size="lg" block>
-    Hello
-  </Button>
-</div>
+<h2>Create a patient account</h2>
+<p>Enter all fields and press submit</p>
+
+<form action="CreateAccount" method = "post">
+  First name:<br>
+  <input type="string" required name = firstname><br>
+  Last name:<br>
+  <input type="string" required name = lastname><br>
+  Email:<br>
+  <input type="email" required name = email><br>
+  Phone number:<br>
+  <input type="int" required name = phonenumber><br>
+  Username:<br>
+  <input type="string" required name = username><br>
+  Password:<br>
+  <input type= "password" minlength="8" required name = password> <br><br>
+  <input type="submit" value="Submit">
+  </form>
+
+</html>
