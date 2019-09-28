@@ -56,7 +56,7 @@ namespace zorgapp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=ProfilePage}/{action=Index}/{id?}");
             });
         }
     }
