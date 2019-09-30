@@ -22,12 +22,12 @@ namespace zorgapp.Controllers{
         
 
         //PatientList Page
-        public IActionResult PatientList() => View();
-//         {
-// //             var patients = from p in _context.Patients select p;
+        public IActionResult PatientList()
+         {
+             var patients = from p in _context.Patients select p;
 
-//             return View();
-//         }
+             return View(patients);
+         }
 
 
        
