@@ -7,3 +7,9 @@
 .vs/zorgapp/v15/Server/sqlite3/storage.ide-shm
 *.ide-shm
 *.ide-wal
+.vs/zorgapp/v15/Server/sqlite3/storage.ide-wal
+.vs/zorgapp/v15/Server/sqlite3/storage.ide
+bin/Debug/netcoreapp2.1/zorgapp.dll
+bin/Debug/netcoreapp2.1/zorgapp.pdb
+obj/Debug/netcoreapp2.1/zorgapp.dll
+obj/Debug/netcoreapp2.1/zorgapp.pdb

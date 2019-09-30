@@ -60,13 +60,13 @@ namespace zorgapp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Name = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: true),
-                    Username = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    Phonenum = table.Column<int>(nullable: false),
-                    Authorise = table.Column<int>(nullable: false)
+                    Username = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
+                    Phonenum = table.Column<int>(nullable: true),
+                    Authorise = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
