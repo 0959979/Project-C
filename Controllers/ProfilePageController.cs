@@ -8,13 +8,14 @@ namespace zorgapp.Controllers
 {
     public class ProfilePageController : Controller
     {
-        public string Index()
+        public IActionResult Index()
         {
 
-            return "hoi";
+            return View();
         }
         public IActionResult Profile()
         {
+            ViewData["User"] = "Doctor";
 
             return View();
         }

@@ -21,7 +21,6 @@ C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\zorgapp.Ta
 C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\zorgapp.TagHelpers.output.cache
 C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorCoreGenerate.cache
 C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\About.g.cshtml.cs
-C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.g.cshtml.cs
 C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\Privacy.g.cshtml.cs
 C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Error.g.cshtml.cs
 C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
@@ -36,4 +35,5 @@ C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\zorgapp.dl
 C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\zorgapp.pdb
 C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CopyComplete
 C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\Contact.g.cshtml.cs
-C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Pages\Profile.g.cshtml.cs
+C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\ProfilePage\Profile.g.cshtml.cs
+C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\ProfilePage\Index.g.cshtml.cs
