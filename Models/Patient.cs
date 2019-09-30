@@ -9,11 +9,7 @@ namespace zorgapp.Models
         public string Name { get; set; }
         public string LastName { get; set; }
         public int PhoneNumber { get; set; }
-        public int DocumentId { get; set; }
-        public int AppointmentId { get; set; }
-        public int ReportId { get; set; }
-        public int MedicineId { get; set; }
-
+/*
         public Patient(int patientId, string name, string lastName, int phoneNumber, string userName, string password){
             patientId = PatientId;
             name = Name;
@@ -22,10 +18,6 @@ namespace zorgapp.Models
             userName = UserName;
             password = Password;
         }
-
-
-
-        
+*/
     }
-
 }
