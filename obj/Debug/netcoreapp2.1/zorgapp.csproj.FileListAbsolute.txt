@@ -34,5 +34,64 @@
 /Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csproj.CopyComplete
 /Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/CreateAccount.g.cshtml.cs
 /Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/SubmitPatientAccount.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/hello.g.cshtml.cs
+C:\Users\Cruelwalker\Desktop\Project-C\bin\Debug\netcoreapp2.1\zorgapp.deps.json
+C:\Users\Cruelwalker\Desktop\Project-C\bin\Debug\netcoreapp2.1\zorgapp.runtimeconfig.json
+C:\Users\Cruelwalker\Desktop\Project-C\bin\Debug\netcoreapp2.1\zorgapp.runtimeconfig.dev.json
+C:\Users\Cruelwalker\Desktop\Project-C\bin\Debug\netcoreapp2.1\zorgapp.dll
+C:\Users\Cruelwalker\Desktop\Project-C\bin\Debug\netcoreapp2.1\zorgapp.pdb
+C:\Users\Cruelwalker\Desktop\Project-C\bin\Debug\netcoreapp2.1\zorgapp.Views.dll
+C:\Users\Cruelwalker\Desktop\Project-C\bin\Debug\netcoreapp2.1\zorgapp.Views.pdb
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csprojAssemblyReference.cache
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CoreCompileInputs.cache
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorAssemblyInfo.cache
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorAssemblyInfo.cs
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.AssemblyInfoInputs.cache
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.AssemblyInfo.cs
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.TagHelpers.input.cache
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.TagHelpers.output.cache
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorCoreGenerate.cache
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.g.cshtml.cs
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\CreateAccount.g.cshtml.cs
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Error.g.cshtml.cs
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_Layout.g.cshtml.cs
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\_ViewImports.g.cshtml.cs
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\_ViewStart.g.cshtml.cs
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorTargetAssemblyInfo.cache
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorTargetAssemblyInfo.cs
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.Views.pdb
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.dll
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.pdb
+C:\Users\Cruelwalker\Desktop\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CopyComplete
+C:\Users\School\Documents\GitHub\Project-C\bin\Debug\netcoreapp2.1\zorgapp.deps.json
+C:\Users\School\Documents\GitHub\Project-C\bin\Debug\netcoreapp2.1\zorgapp.runtimeconfig.json
+C:\Users\School\Documents\GitHub\Project-C\bin\Debug\netcoreapp2.1\zorgapp.runtimeconfig.dev.json
+C:\Users\School\Documents\GitHub\Project-C\bin\Debug\netcoreapp2.1\zorgapp.dll
+C:\Users\School\Documents\GitHub\Project-C\bin\Debug\netcoreapp2.1\zorgapp.pdb
+C:\Users\School\Documents\GitHub\Project-C\bin\Debug\netcoreapp2.1\zorgapp.Views.dll
+C:\Users\School\Documents\GitHub\Project-C\bin\Debug\netcoreapp2.1\zorgapp.Views.pdb
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csprojAssemblyReference.cache
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CoreCompileInputs.cache
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorAssemblyInfo.cache
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorAssemblyInfo.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.AssemblyInfoInputs.cache
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.AssemblyInfo.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.TagHelpers.input.cache
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.TagHelpers.output.cache
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorCoreGenerate.cache
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\CreateAccount.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Error.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_Layout.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\_ViewImports.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\_ViewStart.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorTargetAssemblyInfo.cache
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorTargetAssemblyInfo.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.Views.pdb
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.dll
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.pdb
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CopyComplete
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\PatientList.g.cshtml.cs
