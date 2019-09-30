@@ -34,3 +34,5 @@
 /Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csproj.CopyComplete
 /Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/CreateAccount.g.cshtml.cs
 /Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.g.cshtml.cs
+/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/SubmitPatientAccount.g.cshtml.cs
+/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/hello.g.cshtml.cs

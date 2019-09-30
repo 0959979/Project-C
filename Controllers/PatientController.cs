@@ -13,6 +13,36 @@ namespace zorgapp.Controllers{
         //GET: Patient/CreateAccount
         public IActionResult CreateAccount() => View();
 
+       
+        // public ActionResult SubmitPatientAccount(){
+        //     return View();
+        // }
+
+        // [HttpPost]
+        // public ActionResult SubmitPatientAccount(string firstname, string lastname){
+            
+        //         ViewData["FirstName"] = firstname;
+        //         ViewData["LastName"] = lastname;
+            
+
+        //     return View();
+        // }
+
+        
+        // [HttpPost]
+        // public ActionResult SubmitPatientAccount(){
+        //     ViewBag.name = "test";
+        //     return View();
+        // }
+
+        public ActionResult SubmitPatientAccount()  
+        {  
+            Patient rec = new Patient (1,"y","s",1,"ysnoek","12345678","y@ello.nl"); 
+            ViewBag.Message = rec;  
+            return View();  
+        }  
+  
+
         // [HttpPost]
         // public FileStreamResult test (Patient patient)
         // {
@@ -20,16 +50,6 @@ namespace zorgapp.Controllers{
         //     string lastname = patient.LastName;
 
         // }
-
-        // public ActionResult CreatePatientAccount(Patient patientView)
-        // {
-        //     Patient patient = new Patient(1,patientView.FirstName,patientView.LastName, patientView.PhoneNumber,patientView.UserName,patientView.Password,patientView.Email);
-        //     return View();
-
-        // }
-
-
-
 
 
     }

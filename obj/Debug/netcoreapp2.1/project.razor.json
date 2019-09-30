@@ -2877,6 +2877,11 @@
   "RootNamespace": "zorgapp",
   "Documents": [
     {
+      "FilePath": "Views/Patient/SubmitPatientAccount.cshtml",
+      "TargetPath": "Views/Patient/SubmitPatientAccount.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views/Patient/CreateAccount.cshtml",
       "TargetPath": "Views/Patient/CreateAccount.cshtml",
       "FileKind": "mvc"

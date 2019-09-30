@@ -13,9 +13,9 @@ namespace zorgapp.Models
         public string Email {get; set; }
 
 
-        public Patient(int patientId, string name, string lastName, int phoneNumber, string userName, string password, string email){
+        public Patient(int patientId, string firstname, string lastName, int phoneNumber, string userName, string password, string email){
             patientId = PatientId;
-            name = FirstName;
+            firstname = FirstName;
             lastName = LastName;
             phoneNumber = PhoneNumber;
             userName = UserName;
