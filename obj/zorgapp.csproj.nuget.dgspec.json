@@ -1,26 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Cruelwalker\\Desktop\\Project-C\\zorgapp.csproj": {}
+    "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Cruelwalker\\Desktop\\Project-C\\zorgapp.csproj": {
+    "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Cruelwalker\\Desktop\\Project-C\\zorgapp.csproj",
+        "projectUniqueName": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
         "projectName": "zorgapp",
-        "projectPath": "C:\\Users\\Cruelwalker\\Desktop\\Project-C\\zorgapp.csproj",
-        "packagesPath": "C:\\Users\\Cruelwalker\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Cruelwalker\\Desktop\\Project-C\\obj\\",
+        "projectPath": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
+        "packagesPath": "C:\\Users\\santa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Cruelwalker\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\santa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.1"
@@ -43,23 +41,43 @@
       "frameworks": {
         "netcoreapp2.1": {
           "dependencies": {
+            "Microsoft.AspNetCore.All": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
             "Microsoft.AspNetCore.App": {
               "suppressParent": "All",
               "target": "Package",
               "version": "[2.1.1, )",
               "autoReferenced": true
             },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.2, )"
+            },
             "Microsoft.NETCore.App": {
+              "suppressParent": "All",
               "target": "Package",
               "version": "[2.1.0, )",
               "autoReferenced": true
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[2.1.0, )"
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

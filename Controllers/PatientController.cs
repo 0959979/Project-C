@@ -68,6 +68,34 @@ namespace zorgapp.Controllers{
 
         // }
 
+        public ActionResult Login(string username, string password)
+        {
+            string Username = username;
+            string Password = password;
+            //var UserL = from u in _context.Patients where u.UserName == Username select u;
+            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
+            if (user != null)
+            {
+                if (user.Password == Password)
+                {
+                    return RedirectToAction("Profile", "Patient");
+                }
+                else
+                {
+                    ViewBag.emptyfield = "Username or Password is incorrect";
+                }
+            }
+            else if (Username != null)
+            {
+                ViewBag.emptyfield = "Username or Password is incorrect";
+            }
+            return View();
+        }
+
+        public ActionResult Profile()
+        {
+            return View();
+        }
 
     }
     }
