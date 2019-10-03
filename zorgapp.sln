@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "zorgapp", "zorgapp.csproj", "{9F10ACB8-CB6E-4057-BC3C-2452069F82FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5166F632-7D69-405E-B5E3-B09B0BB497B1}"
-	ProjectSection(SolutionItems) = preProject
-		HTMLPage2.html = HTMLPage2.html
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
