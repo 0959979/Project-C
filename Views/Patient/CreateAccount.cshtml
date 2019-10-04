@@ -9,7 +9,7 @@
 <h2>Create a patient account</h2>
 <p>Enter all fields and press submit</p>
 
-<form asp-action="SubmitPatientAccount" method = "post">
+<form asp-action="CreateAccount" method = "post">
   First name:<br>
   <input type="string" required name = firstname id="firstname"><br>
   Last name:<br>
@@ -22,7 +22,7 @@
   <input type="string" required name = username id="username"><br>
   Password:<br>
   <input type= "password" minlength="8" required name = password id="password"> <br><br>
-  <input type="submit" value="Submit" id="submit">
+  <input type="submit" id="submit">
   </form>
 
 

@@ -16,18 +16,39 @@ namespace zorgapp.Controllers{
             _context = context;
         }
 
-        //GET: Patient/CreateAccount
-        public IActionResult CreateAccount() => View();
+        //GET: Patient/CreateAccountgit
+    //    public IActionResult CreateAccount() => View();
+
+        //GET: Patient/PatientList
+        // public IActionResult PatientList() => View();
+        public IActionResult CreateAccount(string firstname, string lastname, string email,int phonenumber, string username, string password)
+        {
+            Patient patient = new Patient()
+            {
+                FirstName = firstname,
+                LastName = lastname,
+                Email = email,
+                PhoneNumber = phonenumber,
+                UserName = username,
+                Password = password,
+                PatientId = 2
+            };
+            _context.Patients.Add(patient);
+            _context.SaveChanges();
+
+            return View(patient);
+
+        }
 
         
 
         //PatientList Page
-        public IActionResult PatientList() => View();
-//         {
-// //             var patients = from p in _context.Patients select p;
+        public IActionResult PatientList() 
+        {
+            var patients = from p in _context.Patients select p;
 
-//             return View();
-//         }
+            return View(patients);
+        }
 
 
        
@@ -52,12 +73,12 @@ namespace zorgapp.Controllers{
         //     return View();
         // }
 
-        public ActionResult SubmitPatientAccount()  
-        {  
+      //  public ActionResult SubmitPatientAccount()  
+      //  {  
             // Patient rec = new Patient (1,"y","s",1,"ysnoek","12345678","y@ello.nl"); 
             // ViewBag.Message = rec;  
-            return View();  
-        }  
+       //     return View();  
+       // }  
   
 
         // [HttpPost]

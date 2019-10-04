@@ -126,3 +126,4 @@ C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/P
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.dll
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.pdb
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csproj.CopyComplete
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/SubmitPatientAccount.g.cshtml.cs
