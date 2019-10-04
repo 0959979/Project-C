@@ -96,6 +96,20 @@ namespace zorgapp.Controllers{
         {
             return View();
         }
+        public ActionResult Message(string sendto, string message) //Send a message to a patient
+        {
+            string Sendto = sendto; //recipient name
+            string Message = message;
+            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == Sendto);
+            if (user != null)
+            {
+                //add the Message to the List<string> of messages
+                user.Messages.Add(Message);
+                //send the new List<string> into the Database
+
+            }
+            return View();
+        }
 
     }
     }
