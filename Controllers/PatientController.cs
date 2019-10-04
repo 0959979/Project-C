@@ -30,8 +30,8 @@ namespace zorgapp.Controllers{
                 Email = email,
                 PhoneNumber = phonenumber,
                 UserName = username,
-                Password = password,
-                PatientId = 2
+                Password = password
+                //PatientId = 6
             };
             _context.Patients.Add(patient);
             _context.SaveChanges();
