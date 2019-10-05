@@ -70,7 +70,7 @@ using zorgapp.Models;
             WriteLiteral(" -->\n\n<h2>Create a patient account</h2>\n<p>Enter all fields and press submit</p>\n\n");
             EndContext();
             BeginContext(180, 665, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "59d3101e9cab4f89bc599be7c7feae85", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0ab70f361c784d9a9b952f6f84b890b6", async() => {
                 BeginContext(202, 526, true);
                 WriteLiteral(@"
   First name:<br>
@@ -88,7 +88,7 @@ using zorgapp.Models;
   ");
                 EndContext();
                 BeginContext(728, 107, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("input", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "1650e33a53af4c7f90eff0d6f71c145c", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("input", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "420b6f03e9e544ddb456e72158c10b8e", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_FormActionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.FormActionTagHelper>();
