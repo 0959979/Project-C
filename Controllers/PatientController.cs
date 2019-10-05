@@ -15,13 +15,10 @@ namespace zorgapp.Controllers{
         {
             _context = context;
         }
+        public IActionResult CreateAccount() => View();
 
-        //GET: Patient/CreateAccountgit
-    //    public IActionResult CreateAccount() => View();
-
-        //GET: Patient/PatientList
-        // public IActionResult PatientList() => View();
-        public IActionResult CreateAccount(string firstname, string lastname, string email,int phonenumber, string username, string password)
+        [Route("Patient/SubmitPatientAccount")]
+        public IActionResult SubmitPatientAccount(string firstname, string lastname, string email,int phonenumber, string username, string password)
         {
             Patient patient = new Patient()
             {
@@ -36,7 +33,11 @@ namespace zorgapp.Controllers{
             _context.Patients.Add(patient);
             _context.SaveChanges();
 
-            return View(patient);
+            ViewData["FirstName"] = patient.FirstName;
+            ViewData["LastName"] = patient.LastName;
+
+
+            return View("SubmitPatientAccount");
 
         }
 
@@ -51,43 +52,9 @@ namespace zorgapp.Controllers{
         }
 
 
-       
-        // public ActionResult SubmitPatientAccount(){
-        //     return View();
-        // }
-
-        // [HttpPost]
-        // public ActionResult SubmitPatientAccount(string firstname, string lastname){
-            
-        //         ViewData["FirstName"] = firstname;
-        //         ViewData["LastName"] = lastname;
-            
-
-        //     return View();
-        // }
 
         
-        // [HttpPost]
-        // public ActionResult SubmitPatientAccount(){
-        //     ViewBag.name = "test";
-        //     return View();
-        // }
 
-      //  public ActionResult SubmitPatientAccount()  
-      //  {  
-            // Patient rec = new Patient (1,"y","s",1,"ysnoek","12345678","y@ello.nl"); 
-            // ViewBag.Message = rec;  
-       //     return View();  
-       // }  
-  
-
-        // [HttpPost]
-        // public FileStreamResult test (Patient patient)
-        // {
-        //     string name = patient.FirstName;
-        //     string lastname = patient.LastName;
-
-        // }
 
 
     }

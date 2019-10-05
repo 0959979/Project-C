@@ -130,3 +130,4 @@ C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.cspro
 C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csprojAssemblyReference.cache
 /Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/PatientList.g.cshtml.cs
 /Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/SubmitPatientAccount.g.cshtml.cs
+/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/CreateAccount.g.cshtml.cs

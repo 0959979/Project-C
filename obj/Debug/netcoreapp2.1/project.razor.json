@@ -2882,6 +2882,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "Views/Doctor/CreateAccount.cshtml",
+      "TargetPath": "Views/Doctor/CreateAccount.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views/Patient/CreateAccount.cshtml",
       "TargetPath": "Views/Patient/CreateAccount.cshtml",
       "FileKind": "mvc"
