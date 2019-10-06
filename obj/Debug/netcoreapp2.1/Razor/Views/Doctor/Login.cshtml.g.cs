@@ -65,7 +65,7 @@ using zorgapp.Models;
             WriteLiteral(" -->\r\n\r\n<h2>Login</h2>\r\n<p>Enter all fields and press submit</p>\r\n\r\n");
             EndContext();
             BeginContext(164, 282, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4d5e760b1d3342299623fdd751403b93", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9d8fa8ae967543e4ba19dc302ef86291", async() => {
                 BeginContext(203, 236, true);
                 WriteLiteral("\r\n    Username:<br>\r\n    <input type=\"string\" required name=username id=\"username\"><br>\r\n    Password:<br>\r\n    <input type=\"password\" required name=password id=\"password\"> <br><br>\r\n    <input type=\"submit\" value=\"Login\" id=\"submit\">\r\n");
                 EndContext();

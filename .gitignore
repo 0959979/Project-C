@@ -10,3 +10,9 @@ bin/Debug/netcoreapp2.1/zorgapp.pdb
 bin/Debug/netcoreapp2.1/zorgapp.Views.pdb
 bin/Debug/netcoreapp2.1/zorgapp.Views.dll
 bin/Debug/netcoreapp2.1/zorgapp.dll
+.vs/zorgapp/v16/.suo
+*.cache
+*.ide-wal
+*.ide-shm
+obj/Debug/netcoreapp2.1/Razor/Views/Patient/Login.cshtml.g.cs
+obj/Debug/

@@ -70,13 +70,13 @@ namespace zorgapp.Controllers{
 
         public ActionResult Login(string username, string password)
         {
-            string Username = username;
-            string Password = password;
+            //string Username = username;
+            //string Password = password;
             //var UserL = from u in _context.Patients where u.UserName == Username select u;
             Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
             if (user != null)
             {
-                if (user.Password == Password)
+                if (user.Password == password)
                 {
                     return RedirectToAction("Profile", "Patient");
                 }
@@ -85,7 +85,7 @@ namespace zorgapp.Controllers{
                     ViewBag.emptyfield = "Username or Password is incorrect";
                 }
             }
-            else if (Username != null)
+            else if (username != null)
             {
                 ViewBag.emptyfield = "Username or Password is incorrect";
             }
@@ -98,15 +98,27 @@ namespace zorgapp.Controllers{
         }
         public ActionResult Message(string sendto, string message) //Send a message to a patient
         {
-            string Sendto = sendto; //recipient name
-            string Message = message;
-            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == Sendto);
+            //string Sendto = sendto; //recipient name
+            //string Message = message;
+            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == sendto);
             if (user != null)
             {
-                //add the Message to the List<string> of messages
-                user.Messages.Add(Message);
-                //send the new List<string> into the Database
-
+                if (message != null && message != "")
+                {
+                    //_context.Patients.Update(user); niet nodig
+                    //add the Message to the List<string> of messages
+                    user.Messages.Add(message);
+                    //send the new List<string> into the Database
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    ViewBag.emptyfield = "You need to type in a message to send it.";
+                }
+            }
+            else if (sendto != null)
+            {
+                ViewBag.emptyfield = "User not found";
             }
             return View();
         }

@@ -65,7 +65,7 @@ using zorgapp.Models;
             WriteLiteral(" -->\r\n\r\n<h2>Create a patient account</h2>\r\n<p>Enter all fields and press submit</p>\r\n\r\n");
             EndContext();
             BeginContext(191, 653, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "46bb58a1b9994800b276ce592f1df758", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6b2fa32a16ce473b8e22a2bece35e0f7", async() => {
                 BeginContext(246, 591, true);
                 WriteLiteral(@"
   First name:<br>
