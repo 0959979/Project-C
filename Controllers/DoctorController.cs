@@ -111,6 +111,10 @@ namespace zorgapp.Controllers
                     //mark for updating, is dit nodig? idk. blijkbaar niet
                     //_context.Doctors.Update(user);
                     //add the Message to the List<string> of messages
+                    if (user.Messages == null)
+                    {
+                        user.Messages = new List<string> { };
+                    }
                     user.Messages.Add(message);
                     //send the new List<string> into the Database
                     _context.SaveChanges();

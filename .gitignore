@@ -15,4 +15,6 @@ bin/Debug/netcoreapp2.1/zorgapp.dll
 *.ide-wal
 *.ide-shm
 obj/Debug/netcoreapp2.1/Razor/Views/Patient/Login.cshtml.g.cs
+bin/Debug/
 obj/Debug/
+.vs/
