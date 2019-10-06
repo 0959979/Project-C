@@ -85,7 +85,6 @@ namespace zorgapp.Controllers{
                 if (message != null && message != "")
                 {
                     //mark for updating, is dit nodig? idk. blijkbaar niet
-                    //_context.Doctors.Update(user);
                     //add the Message to the List<string> of messages
                     user.Messages.Add(message);
                     //send the new List<string> into the Database
