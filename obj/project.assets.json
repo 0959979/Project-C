@@ -13907,23 +13907,41 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "/Users/yaseminsnoek/.nuget/packages/": {},
     "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+=======
+    "C:\\Users\\santa\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+>>>>>>> Login2
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj",
       "projectName": "zorgapp",
       "projectPath": "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj",
       "packagesPath": "/Users/yaseminsnoek/.nuget/packages/",
       "outputPath": "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/",
+=======
+      "projectUniqueName": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
+      "projectName": "zorgapp",
+      "projectPath": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
+      "packagesPath": "C:\\Users\\santa\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\obj\\",
+>>>>>>> Login2
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
+<<<<<<< HEAD
         "/Users/yaseminsnoek/.nuget/NuGet/NuGet.Config"
+=======
+        "C:\\Users\\santa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+>>>>>>> Login2
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
@@ -13972,10 +13990,16 @@
           }
         },
         "imports": [
-          "net461"
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
         ],
         "assetTargetFallback": true,
-        "warn": true
+        "warn": true,
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

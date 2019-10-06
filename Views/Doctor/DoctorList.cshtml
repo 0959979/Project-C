@@ -1,0 +1,51 @@
+﻿@model IEnumerable<zorgapp.Models.Doctor>
+@{
+    ViewData["Title"] = "Test";
+}
+
+<h2>Doctor List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Messages)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @*Html.DisplayFor(modelItem => item.Messages)*@
+                <table class="table">
+                    <tbody>
+                        @foreach (string mes in item.Messages)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => mes)
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
