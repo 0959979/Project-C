@@ -2892,6 +2892,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "Views/Patient/Profile.cshtml",
+      "TargetPath": "Views/Patient/Profile.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views/Shared/_ValidationScriptsPartial.cshtml",
       "TargetPath": "Views/Shared/_ValidationScriptsPartial.cshtml",
       "FileKind": "mvc"
@@ -2902,8 +2907,23 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "Views/Patient/Message.cshtml",
+      "TargetPath": "Views/Patient/Message.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "Views/Doctor/Profile.cshtml",
+      "TargetPath": "Views/Doctor/Profile.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views/_ViewImports.cshtml",
       "TargetPath": "Views/_ViewImports.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "Views/Doctor/Message.cshtml",
+      "TargetPath": "Views/Doctor/Message.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -2912,13 +2932,28 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "Views/Patient/Login.cshtml",
+      "TargetPath": "Views/Patient/Login.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views/_ViewStart.cshtml",
       "TargetPath": "Views/_ViewStart.cshtml",
       "FileKind": "mvc"
     },
     {
+      "FilePath": "Views/Doctor/Login.cshtml",
+      "TargetPath": "Views/Doctor/Login.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views/Doctor/SubmitDoctorAccount.cshtml",
       "TargetPath": "Views/Doctor/SubmitDoctorAccount.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "Views/Doctor/DoctorList.cshtml",
+      "TargetPath": "Views/Doctor/DoctorList.cshtml",
       "FileKind": "mvc"
     },
     {

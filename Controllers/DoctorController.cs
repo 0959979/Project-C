@@ -74,10 +74,6 @@ namespace zorgapp.Controllers{
             return View();
         }
 
-        public ActionResult Profile()
-        {
-            return View();
-        }
 
         public ActionResult Message(string sendto, string message) //Send a message to a doctor
         {
@@ -104,6 +100,10 @@ namespace zorgapp.Controllers{
             {
                 ViewBag.emptyfield = "User not found.";
             }
+            return View();
+        }
+        public ActionResult Profile()
+        {
             return View();
         }
     }
