@@ -1,0 +1,46 @@
+﻿@model IEnumerable<zorgapp.Models.Doctor>
+@{
+    ViewData["Title"] = "Doctor list";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Doctor Contact page</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Email)
+            </th>
+        </tr>
+        }
+    </tbody>
+</table>
