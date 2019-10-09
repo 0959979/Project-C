@@ -19,7 +19,7 @@ namespace zorgapp.Controllers{
         {
             _context = context;
         }
-        [Authorize(Roles = "Patient")]
+
         public IActionResult CreateAccount() => View();
 
         [Route("Patient/SubmitPatientAccount")]
@@ -33,7 +33,7 @@ namespace zorgapp.Controllers{
                 PhoneNumber = phonenumber,
                 UserName = username,
                 Password = password,
-                Messages = { }
+                Messages = new List<string>()
             };
             _context.Patients.Add(patient);
             _context.SaveChanges();

@@ -32,7 +32,8 @@ namespace zorgapp.Controllers{
                 PhoneNumber = phonenumber,
                 Specialism = specialism,
                 UserName = username,
-                Password = password
+                Password = password,
+                Messages = new List<string>()
             };
             _context.Doctors.Add(doctor);
             _context.SaveChanges();
