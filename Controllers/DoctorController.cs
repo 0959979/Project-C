@@ -46,7 +46,7 @@ namespace zorgapp.Controllers{
         }
 
         //Doctorlist Page
-        //Authorizes the page so only users with the role Patient can view it
+        //Authorizes the page so only users with the role Doctor can view it
         [Authorize(Roles = "Doctor")]
         public IActionResult DoctorList()
         {
