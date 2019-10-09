@@ -10,7 +10,12 @@ namespace zorgapp.Controllers
 {
     public class HomeController : Controller
     {
-        private DatabaseContext _context;
+        private readonly DatabaseContext _context;
+
+        public HomeController(DatabaseContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
             return View();

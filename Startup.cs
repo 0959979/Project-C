@@ -35,6 +35,11 @@ namespace zorgapp
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("PatientsOnly", policy => policy.RequireClaim("PatientId"));
+                options.AddPolicy("DoctorsOnly", policy => policy.RequireClaim("DoctorId"));
+            });
             services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DatabaseContext")));
         }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using zorgapp.Models;
@@ -66,6 +67,13 @@ namespace zorgapp.Controllers{
             {
                 if (user.Password == password)
                 {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, username, ClaimValueTypes.String),
+                        new Claim(ClaimTypes.NameIdentifier, user.PatientId.ToString(), ClaimValueTypes.String)
+                    };
+                    var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
+                    var userPrincipal = new ClaimsPrincipal(userIdentity);
                     return RedirectToAction("Profile", "Patient");
                 }
                 else

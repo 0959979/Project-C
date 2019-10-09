@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using zorgapp.Models;
@@ -27,7 +28,7 @@ namespace zorgapp.Controllers{
                 Email = email,
                 PhoneNumber = phonenumber,
                 Specialism = specialism,
-                Username = username,
+                UserName = username,
                 Password = password
             };
             _context.Doctors.Add(doctor);
@@ -55,11 +56,12 @@ namespace zorgapp.Controllers{
             //string Username = username;
             //string Password = password;
             //var UserL = from u in _context.Patients where u.UserName == Username select u;
-            Doctor user = _context.Doctors.FirstOrDefault(u => u.Username == username);
+            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
             if (user != null)
             {
                 if (user.Password == password)
                 {
+                   
                     return RedirectToAction("Profile", "Doctor");
                 }
                 else
@@ -79,7 +81,7 @@ namespace zorgapp.Controllers{
         {
             //string Sendto = sendto; //recipient name
             //string Message = message;
-            Doctor user = _context.Doctors.FirstOrDefault(u => u.Username == sendto);
+            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == sendto);
             if (user != null)
             {
                 if (message != null && message != "")
