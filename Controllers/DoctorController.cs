@@ -71,7 +71,7 @@ namespace zorgapp.Controllers{
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, "Doctor", ClaimValueTypes.String),
-                        new Claim(ClaimTypes.NameIdentifier, user.DoctorId.ToString(), ClaimValueTypes.String),
+                        new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString(), ClaimValueTypes.String),
                         new Claim(ClaimTypes.Role, "Doctor", ClaimValueTypes.String)
                     };
                     var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
