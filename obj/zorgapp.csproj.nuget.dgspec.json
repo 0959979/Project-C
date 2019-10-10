@@ -1,28 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj": {}
+    "C:\\Users\\keesd\\source\\repos\\0959979\\Project-C\\zorgapp.csproj": {}
   },
   "projects": {
-    "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj": {
+    "C:\\Users\\keesd\\source\\repos\\0959979\\Project-C\\zorgapp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj",
+        "projectUniqueName": "C:\\Users\\keesd\\source\\repos\\0959979\\Project-C\\zorgapp.csproj",
         "projectName": "zorgapp",
-        "projectPath": "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj",
-        "packagesPath": "/Users/yaseminsnoek/.nuget/packages/",
-        "outputPath": "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/",
+        "projectPath": "C:\\Users\\keesd\\source\\repos\\0959979\\Project-C\\zorgapp.csproj",
+        "packagesPath": "C:\\Users\\keesd\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\keesd\\source\\repos\\0959979\\Project-C\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/Users/yaseminsnoek/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\keesd\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -55,10 +57,13 @@
               "version": "[2.1.2, )"
             },
             "Microsoft.NETCore.App": {
-              "suppressParent": "All",
               "target": "Package",
               "version": "[2.1.0, )",
               "autoReferenced": true
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[2.1.9, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",

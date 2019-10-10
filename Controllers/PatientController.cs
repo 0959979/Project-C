@@ -107,6 +107,15 @@ namespace zorgapp.Controllers{
             }
             return View();
         }
+
+        public ActionResult Inbox()
+        {
+            return View();
+        }
+        public ActionResult MessageDisplay()
+        {
+            return View();
+        }
         public ActionResult Profile()
         {
             return View();

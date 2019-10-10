@@ -1,0 +1,72 @@
+﻿@model zorgapp.Models.Patient
+<!DOCTYPE html>
+@{
+    ViewData["Title"] = "Inbox";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Inbox</h2>
+<div class="container">
+    <button onclick="window.location = '../Patient/Message';">+ New</button>
+</div>
+<div>
+  
+    <style style="tablestyle">
+        .hoverTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .hoverTable td {
+                padding: 9px;
+                border: #ffffff 1px solid;
+            }
+            
+            .hoverTable tr {
+                background: #ffffff;
+            }
+            .hoverTable th {
+                    background: #ffffff;
+                }
+                
+                .hoverTable tr:hover  {
+                    background-color: #cdb9b9;
+                }
+                
+    </style>
+
+    <table class="hoverTable" >
+        <tr>
+            <th>From</th>
+            <th>Subject</th>
+
+
+        </tr>
+        <tr onclick="window.location = '../Patient/MessageDisplay';">
+            <td>Maria Anders</td>
+            <td>Fietsen</td>
+        </tr>
+        <tr onclick="window.location = '../Patient/MessageDisplay';">
+            <td>henk</td>
+            <td>Rotterdamse haven</td>
+
+        </tr>
+        <tr onclick="window.location = '../Patient/MessageDisplay';">
+            <td>wesley</td>
+            <td>test 123</td>
+        </tr>
+        <tr onclick="window.location = '../Patient/MessageDisplay';">
+            <td>kees</td>
+            <td></td>
+        </tr>
+        <tr onclick="window.location = '../Patient/MessageDisplay';">
+            <td>Laughing Bacchus Winecellars</td>
+            <td>Yoshi Tannamuri</td>
+        </tr>
+        <tr onclick="window.location = '../Patient/MessageDisplay';">
+            <td>Magazzini Alimentari Riuniti</td>
+            <td>Giovanni Rovelli</td>
+        </tr>
+    </table>
+</div>
+
