@@ -27,8 +27,8 @@ namespace zorgapp.Controllers{
                 Email = email,
                 PhoneNumber = phonenumber,
                 UserName = username,
-                Password = password
-            };
+                Password = Program.Hash256bits(password)
+        };
             _context.Patients.Add(patient);
             _context.SaveChanges();
 
@@ -64,7 +64,8 @@ namespace zorgapp.Controllers{
             Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
             if (user != null)
             {
-                if (user.Password == password)
+                string pwhash = Program.Hash256bits(password);
+                if (user.Password == pwhash) //password is hashed in the db, so no need to hash again.
                 {
                     return RedirectToAction("Profile", "Patient");
                 }
