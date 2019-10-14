@@ -20,29 +20,51 @@ namespace zorgapp.Controllers{
             _context = context;
         }
 
-      public IActionResult CreateAccount() => View();
-       
-        public IActionResult SubmitDoctorAccount(string firstname, string lastname, string email,int phonenumber,string specialism, string username, string password)
+        public IActionResult CreateAccount(string firstname, string lastname, string email, int phonenumber, string specialism, string username, string password)
         {
-            Doctor doctor = new Doctor()
+            if (username != null && password != null)
             {
-                FirstName = firstname,
-                LastName = lastname,
-                Email = email,
-                PhoneNumber = phonenumber,
-                Specialism = specialism,
-                UserName = username,
-                Password = password,
-                Messages = new List<string>()
-            };
-            _context.Doctors.Add(doctor);
-            _context.SaveChanges();
+                var USERNAME = _context.Doctors.FirstOrDefault(u => u.UserName == username);
+                var EMAIL = _context.Doctors.FirstOrDefault(u => u.Email == email);
+                if (USERNAME != null)
+                {
+                    ViewBag.username = "Username is already used";
+                }
+                else if (EMAIL != null)
+                {
+                    ViewBag.email = "Email is already in use";
+                }
+                else
+                {
+                    Doctor doctor = new Doctor()
+                    {
+                        FirstName = firstname,
+                        LastName = lastname,
+                        Email = email,
+                        PhoneNumber = phonenumber,
+                        Specialism = specialism,
+                        UserName = username,
+                        Password = password
+                    };
+                    _context.Doctors.Add(doctor);
+                    _context.SaveChanges();
 
-            ViewData["FirstName"] = doctor.FirstName;
-            ViewData["LastName"] = doctor.LastName;
+                    TempData.Add("MyTempData", doctor.FirstName);
 
+                    return RedirectToAction("SubmitDoctorAccount", "Doctor");
+                }
+            }
+            
+            return View();
+        }
+       
+        public IActionResult SubmitDoctorAccount()
+        {
+            string firstname = TempData["MyTempData"].ToString();
+            ViewData["FirstName"] = firstname;
+            //ViewData["LastName"] = lastname;
 
-            return View("SubmitDoctorAccount");
+            return View();
 
         }
 

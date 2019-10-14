@@ -20,31 +20,45 @@ namespace zorgapp.Controllers{
             _context = context;
         }
 
-        public IActionResult CreateAccount() => View();
+        public IActionResult CreateAccount()
+        {           
+            return View();
+        }
 
         [Route("Patient/SubmitPatientAccount")]
         public IActionResult SubmitPatientAccount(string firstname, string lastname, string email,int phonenumber, string username, string password)
-        {
-            Patient patient = new Patient()
+        {          
+            var USERNAME = _context.Patients.FirstOrDefault(u => u.UserName == username);
+            var EMAIL = _context.Patients.FirstOrDefault(u => u.Email == email);
+            if (USERNAME != null)
             {
-                FirstName = firstname,
-                LastName = lastname,
-                Email = email,
-                PhoneNumber = phonenumber,
-                UserName = username,
-                Password = password,
-                Messages = new List<string>()
-            };
-            _context.Patients.Add(patient);
-            _context.SaveChanges();
+                ViewBag.username = "Username is already used";
+                RedirectToAction("CreateAccount", "Patient");                    
+            }
+            else if (EMAIL != null)
+            {
+                ViewBag.email = "Email is already in use";
+                RedirectToAction("CreateAccount", "Patient");
+            }
+            else
+            {
+                Patient patient = new Patient()
+                {
+                    FirstName = firstname,
+                    LastName = lastname,
+                    Email = email,
+                    PhoneNumber = phonenumber,
+                    UserName = username,
+                    Password = password,
+                    Messages = new List<string>()
+                };
+                _context.Patients.Add(patient);
+                _context.SaveChanges();
 
-
-            ViewData["FirstName"] = patient.FirstName;
-            ViewData["LastName"] = patient.LastName;
-
-
+                ViewData["FirstName"] = patient.FirstName;
+                ViewData["LastName"] = patient.LastName;
+            }
             return View("SubmitPatientAccount");
-
         }
 
         
