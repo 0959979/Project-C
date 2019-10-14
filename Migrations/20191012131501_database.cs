@@ -19,7 +19,7 @@ namespace zorgapp.Migrations
                     Email = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<int>(nullable: false),
                     Specialism = table.Column<string>(nullable: true),
-                    Username = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Messages = table.Column<List<string>>(nullable: true)
                 },

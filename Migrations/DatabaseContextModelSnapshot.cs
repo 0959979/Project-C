@@ -38,7 +38,7 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("Specialism");
 
-                    b.Property<string>("Username");
+                    b.Property<string>("UserName");
 
                     b.HasKey("DoctorId");
 

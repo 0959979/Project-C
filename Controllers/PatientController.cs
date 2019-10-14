@@ -1,12 +1,15 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using zorgapp.Models;
 
-namespace zorgapp.Controllers{
+namespace zorgapp.Controllers
+{
 
     public class PatientController : Controller{
         private readonly DatabaseContext _context;
@@ -27,7 +30,8 @@ namespace zorgapp.Controllers{
                 Email = email,
                 PhoneNumber = phonenumber,
                 UserName = username,
-                Password = password
+                Password = password,
+                Messages = new List<string>()
             };
             _context.Patients.Add(patient);
             _context.SaveChanges();
@@ -41,10 +45,12 @@ namespace zorgapp.Controllers{
 
         }
 
-        
 
-        //PatientList Page
-        public IActionResult PatientList() 
+
+        //PatientList Page
+        //Authorizes the page so only users with the role Patient can view it
+        [Authorize(Roles = "Patient")]
+        public IActionResult PatientList() 
         {
             var patients = from p in _context.Patients select p;
 
@@ -66,6 +72,25 @@ namespace zorgapp.Controllers{
             {
                 if (user.Password == password)
                 {
+                    //Creates a new Identity of the user
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, "Patient", ClaimValueTypes.String),
+                        new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString(), ClaimValueTypes.String),
+                        new Claim(ClaimTypes.Role, "Patient", ClaimValueTypes.String)
+                    };
+                    var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
+                    var userPrincipal = new ClaimsPrincipal(userIdentity);
+
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                        userPrincipal,
+                        new AuthenticationProperties
+                        {
+                            ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                            IsPersistent = true,
+                            AllowRefresh = false
+                        });
+
                     return RedirectToAction("Profile", "Patient");
                 }
                 else
@@ -110,6 +135,8 @@ namespace zorgapp.Controllers{
 
         public ActionResult Inbox()
         {
+            
+            
             return View();
         }
         public ActionResult MessageDisplay()
@@ -118,7 +145,17 @@ namespace zorgapp.Controllers{
         }
         public ActionResult Profile()
         {
+            //Gets the username of the logged in user and sends it to the view
+            var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            ViewBag.username = username;
+
             return View();
+        }
+
+        public ActionResult Logout()
+        {
+            HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
     }

@@ -10,7 +10,7 @@ using zorgapp.Models;
 namespace zorgapp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191011090412_database")]
+    [Migration("20191012131501_database")]
     partial class database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,7 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("Specialism");
 
-                    b.Property<string>("Username");
+                    b.Property<string>("UserName");
 
                     b.HasKey("DoctorId");
 

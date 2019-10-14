@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using zorgapp.Models;
 
@@ -27,8 +31,9 @@ namespace zorgapp.Controllers{
                 Email = email,
                 PhoneNumber = phonenumber,
                 Specialism = specialism,
-                Username = username,
-                Password = password
+                UserName = username,
+                Password = password,
+                Messages = new List<string>()
             };
             _context.Doctors.Add(doctor);
             _context.SaveChanges();
@@ -42,6 +47,8 @@ namespace zorgapp.Controllers{
         }
 
         //Doctorlist Page
+        //Authorizes the page so only users with the role Doctor can view it
+        [Authorize(Roles = "Doctor")]
         public IActionResult DoctorList()
         {
             var doctors = from p in _context.Doctors select p;
@@ -55,11 +62,30 @@ namespace zorgapp.Controllers{
             //string Username = username;
             //string Password = password;
             //var UserL = from u in _context.Patients where u.UserName == Username select u;
-            Doctor user = _context.Doctors.FirstOrDefault(u => u.Username == username);
+            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
             if (user != null)
             {
                 if (user.Password == password)
                 {
+                    //Creates a new Identity of the user
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, "Doctor", ClaimValueTypes.String),
+                        new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString(), ClaimValueTypes.String),
+                        new Claim(ClaimTypes.Role, "Doctor", ClaimValueTypes.String)
+                    };
+                    var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
+                    var userPrincipal = new ClaimsPrincipal(userIdentity);
+
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                        userPrincipal,
+                        new AuthenticationProperties
+                        {
+                            ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                            IsPersistent = true,
+                            AllowRefresh = false
+                        });
+
                     return RedirectToAction("Profile", "Doctor");
                 }
                 else
@@ -79,7 +105,7 @@ namespace zorgapp.Controllers{
         {
             //string Sendto = sendto; //recipient name
             //string Message = message;
-            Doctor user = _context.Doctors.FirstOrDefault(u => u.Username == sendto);
+            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == sendto);
             if (user != null)
             {
                 if (message != null && message != "")
@@ -103,6 +129,10 @@ namespace zorgapp.Controllers{
         }
         public ActionResult Profile()
         {
+
+            //Gets the username of the logged in user and sends it to the view
+            var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            ViewBag.username = username;
             return View();
         }
     }
