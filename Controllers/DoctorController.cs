@@ -57,7 +57,8 @@ namespace zorgapp.Controllers{
                 PhoneNumber = phonenumber,
                 Specialism = specialism,
                 Username = username,
-                Password = Program.Hash256bits(password)
+                Password = Program.Hash256bits(password),
+                Messages = new List<string> { }
             };
             _context.Doctors.Add(doctor);
             _context.SaveChanges();

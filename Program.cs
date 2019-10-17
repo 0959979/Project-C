@@ -19,7 +19,7 @@ namespace zorgapp
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static string Hash256bits(string rawData) //komt van https://www.c-sharpcorner.com/article/compute-sha256-hash-in-c-sharp/
+        public static string Hash256bits(string rawData)
         {
             // Create a SHA256   
             using (SHA256 sha256Hash = SHA256.Create())
