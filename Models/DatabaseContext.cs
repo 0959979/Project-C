@@ -10,8 +10,8 @@ namespace zorgapp.Models
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
         public DbSet<Patient> Patients { get; set; }
-        public DbSet<Appointment> Appointments { get; set; }
-        public DbSet<Document> Documents { get; set; }
-        public DbSet<Medicine> Medicines { get; set; }       
+
+        public DbSet<Doctor> Doctors { get; set; }
+
     }
 }
