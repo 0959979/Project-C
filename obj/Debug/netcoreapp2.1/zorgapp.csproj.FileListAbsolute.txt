@@ -197,3 +197,9 @@ C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/Profile.g.cshtml.cs
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/Link.g.cshtml.cs
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/SubmitLink.g.cshtml.cs
+/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/Link.g.cshtml.cs
+/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/Login.g.cshtml.cs
+/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/Profile.g.cshtml.cs
+/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/SubmitLink.g.cshtml.cs
+/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Profile.g.cshtml.cs
+/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Profile.g.cshtml.cs

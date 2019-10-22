@@ -1,5 +1,7 @@
+@model zorgapp.Models.Admin
 <h2>Link</h2>
 <p>Here you can link doctors to patients</p>
+
 
 <form asp-action="SubmitLink" method="post">
     Patient id:<br>
@@ -7,4 +9,6 @@
     Doctor id:<br>
   <input type="string" required name = doctorid id="doctorid"><br>
   <input type="submit" value = "Submit" id="submit">
-</form>
+</form><br>
+
+<h4>@ViewBag.message</h4>

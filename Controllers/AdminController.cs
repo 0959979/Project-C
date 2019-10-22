@@ -19,6 +19,10 @@ namespace zorgapp.Controllers{
             return View();
         }
         public ActionResult Link(){
+            if (TempData["message"]!= null){
+            ViewBag.Message = TempData["message"].ToString();
+            TempData.Remove("message");
+            }
             return View();
         }
         //links patient with doctor but does not check if already linked yet
@@ -30,20 +34,22 @@ namespace zorgapp.Controllers{
             string docName = doctor.FirstName;
             string patName = patient.FirstName;
 
-           // doctor.PatientIds.Add(patient.PatientId);
-            //patient.DoctorIds.Add(doctor.DoctorId);
-          //  doctor.Patients.Add(patient.PatientId);
-           // patient.Doctors.Add(doctor);
-           doctor.PatientIds.Add(patientid_);
-           patient.DoctorIds.Add(doctorid_);
+            bool DocContains = doctor.PatientIds.Contains(patientid_);
+            bool PatContains = patient.DoctorIds.Contains(doctorid_);
 
+            if(!DocContains){
+                doctor.PatientIds.Add(patientid_);
+                patient.DoctorIds.Add(doctorid_);
+                _context.SaveChanges();
+            }
+            else if(DocContains){
+                TempData["message"] = "Link has already been made";
+                return RedirectToAction("Link","Admin");
+            }
 
-
-            _context.SaveChanges();
             ViewData["Doctor"] = docName;
             ViewData["Patient"] = patName;
 
-            
             return View();
         }
 
