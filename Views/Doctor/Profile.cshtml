@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html>
 <body>
 
@@ -26,10 +25,10 @@
 
 
 <html>
-<head>
+@*<head>
 	<style>
 		table, th, td {
-			border: 2px solid black;
+			border: 0.1px solid black;
 			border-collapse: collapse;
 		}
 
@@ -41,23 +40,41 @@
 			text-align: left;
 		}
 	</style>
-</head>
+</head>*@
 <body>
-	<h2>My information</h2>
-	<table style="width:25%" id=Firstname>
-		<tr>
-			<th>Name doctor: @ViewBag.username</th>
-		</tr>
-		
-		<tr>
-			<th>Email: @ViewBag.Email </th>
-		</tr>
-		<tr>
-			<th>Age:</th>
-		</tr>
-		<tr>
-			<th>Specialization:</th>
-		</tr>
+	<h3>My information</h3>
+	@*<table style="width:25%" id= DoInfo>
+			<tr>
+				<th>Name doctor: @ViewBag.username</th>
+			</tr>
+
+			<tr>
+				<th>Email: @ViewBag.Email </th>
+			</tr>
+			<tr>
+				<th>Age:</th>
+			</tr>
+			<tr>
+				<th>Specialization:</th>
+			</tr>
+		</table>*@
+	<table width=10% class="table table-bordered table-hover" id="_addFiveTable">
+		<thead>
+			<tr>
+				<th>Name doctor</th>
+				<th>Specialization</th>
+				<th>Email</th>
+				<th>Age</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td contenteditable="false">@ViewBag.username</td>
+				<td contenteditable="false"><input id="specialization" type="text" /></td>
+				<td contenteditable="false"><input id="email" type="text" /></td>
+				<td contenteditable="false"><input id="age" type="text" /></td>
+			</tr>
+		</tbody>
 	</table>
 </body>
 </html>
