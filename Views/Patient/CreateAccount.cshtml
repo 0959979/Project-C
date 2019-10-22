@@ -1,0 +1,34 @@
+@model zorgapp.Models.Patient
+<!DOCTYPE html>
+
+
+<!-- @{
+    ViewData["Title"] = "CreateAccount";
+} -->
+
+<h2>Create a patient account</h2>
+<p>Enter all fields and press submit</p>
+
+<form method = "post">
+  First name:<br>
+  <input type="string" required name = firstname id="firstname"><br>
+  Last name:<br>
+  <input  type="string" required name = lastname id="lastname"><br>
+  Email:<br>
+  <input type="email" required name = email id="email"><br>
+  <p>@ViewBag.email</p>
+  Phone number:<br>
+  <input type="int" required name = phonenumber id="phonenumber"><br>
+  Username:<br>
+  <input type="string" required name = username id="username"><br>
+  <p>@ViewBag.username</p>
+  Password:<br>
+  <input type= "password" minlength="8" required name = password id="password"> <br><br>
+  
+  <input type="submit" value="Submit" id="submit" asp-controller="Patient" asp-action="SubmitPatientAccount">
+  </form>
+
+
+
+
+</html>

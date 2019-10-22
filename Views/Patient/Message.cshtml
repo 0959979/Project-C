@@ -1,0 +1,49 @@
+﻿@model zorgapp.Models.Patient
+<!DOCTYPE html>
+
+
+<!-- @{
+    ViewData["Title"] = "Message";
+} -->
+
+<h2>Send Message</h2>
+<p>Enter all fields and press send</p>
+
+<form asp-action="Message" method="post">
+    Recipient username:<br>
+    <input type="string" required name=sendto id="sendto"><br>
+    Message:<br>
+    <textarea type="string" required name=message id="message" rows="15" cols="30" placeholder="Message"></textarea> <br><br>
+    <input type="submit" value="Send" id="submit">
+</form>
+
+<h4>@ViewBag.emptyfield</h4>
+
+</html>
+@*<!DOCTYPE html>
+
+    <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8" />
+        <title>
+
+        </title>
+    </head>
+    <body>
+
+        <form id="Message" method="post" runat="server">
+            <textarea type="string" id="sendto" rows="2" cols="40" placeholder=" Naam patient"></textarea>
+            <br>
+            <textarea type="string" id="message" rows="15" cols="40" align="center" placeholder=" Schrijf uw bericht hier"></textarea>
+            <br>
+            <input id="Message" type="submit" value="Send" />
+        </form>
+        @*<form id="message" runat="server">
+                        <textarea id="message" rows="15" cols="40" align="center" placeholder=" Schrijf uw bericht hier"></textarea>
+                    </form>
+                    <form id="Message" runat="server">
+                        <input id="Message" type="submit" value="Send" />
+                    </form>
+
+            </body>
+            </html>*@

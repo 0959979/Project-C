@@ -26,13 +26,30 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">zorgapp</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Home</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    @if (User.Identity.Name == "Patient")
+                    {
+                        <li><a asp-area="" asp-controller="Patient" asp-action="PatientList">Patient List</a></li>
+                        <li><a asp-area="" asp-controller="Patient" asp-action="Logout">Logout</a></li>
+                    }
+                    else if (User.Identity.Name == "Doctor")
+                    {
+                        <li><a asp-area="" asp-controller="Doctor" asp-action="DoctorList">Doctor List</a></li>
+                        <li><a asp-area="" asp-controller="Patient" asp-action="Logout">Logout</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Patient" asp-action="CreateAccount">Create Patient Account</a></li>
+                        <li><a asp-area="" asp-controller="Doctor" asp-action="CreateAccount">Create Doctor Account</a></li>
+                        <li><a asp-area="" asp-controller="Patient" asp-action="Login">Login Patient</a></li>
+                        <li><a asp-area="" asp-controller="Doctor" asp-action="Login">Login Doctor</a></li>
+                    }
+
+
+
                 </ul>
             </div>
         </div>
@@ -48,7 +65,7 @@
         </footer>
     </div>
 
-    <environment include="Development">
+    <!-- <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -69,6 +86,6 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
-    @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false) -->
 </body>
 </html>
