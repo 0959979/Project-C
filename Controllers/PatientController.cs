@@ -149,8 +149,11 @@ namespace zorgapp.Controllers{
             //Gets the username of the logged in user and sends it to the view
             var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             ViewBag.username = username;
+			var user = _context.Patients.FirstOrDefault(u => u.UserName == username);
+			string email = user.Email.ToString();
+			ViewBag.email = email;
 
-            return View();
+			return View();
         }
 
         public ActionResult Logout()
