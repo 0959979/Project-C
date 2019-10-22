@@ -9,6 +9,20 @@ namespace zorgapp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Admins",
+                columns: table => new
+                {
+                    AdminId = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Password = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admins", x => x.AdminId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Doctors",
                 columns: table => new
                 {
@@ -21,7 +35,8 @@ namespace zorgapp.Migrations
                     Specialism = table.Column<string>(nullable: true),
                     Username = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
-                    Messages = table.Column<List<string>>(nullable: true)
+                    Messages = table.Column<List<string>>(nullable: true),
+                    PatientIds = table.Column<List<int>>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,7 +55,8 @@ namespace zorgapp.Migrations
                     LastName = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<int>(nullable: false),
                     Email = table.Column<string>(nullable: true),
-                    Messages = table.Column<List<string>>(nullable: true)
+                    Messages = table.Column<List<string>>(nullable: true),
+                    DoctorIds = table.Column<List<int>>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -50,6 +66,9 @@ namespace zorgapp.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Admins");
+
             migrationBuilder.DropTable(
                 name: "Doctors");
 

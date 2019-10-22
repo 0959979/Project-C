@@ -92,7 +92,12 @@ namespace zorgapp.Controllers{
                 {
                     //_context.Patients.Update(user); niet nodig
                     //add the Message to the List<string> of messages
+                    if (user.Messages == null)
+                    {
+                        user.Messages = new List<string> { };
+                    }
                     user.Messages.Add(message);
+                    
                     //send the new List<string> into the Database
                     _context.SaveChanges();
                 }

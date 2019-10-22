@@ -75,17 +75,20 @@ namespace zorgapp.Controllers{
         }
 
 
-        public ActionResult Message(string sendto, string message) //Send a message to a doctor
+              public ActionResult Message(string sendto, string message) //Send a message to a doctor
         {
-            //string Sendto = sendto; //recipient name
-            //string Message = message;
+
             Doctor user = _context.Doctors.FirstOrDefault(u => u.Username == sendto);
             if (user != null)
             {
                 if (message != null && message != "")
                 {
-                    //mark for updating, is dit nodig? idk. blijkbaar niet
+
                     //add the Message to the List<string> of messages
+                    if (user.Messages == null)
+                    {
+                        user.Messages = new List<string> { };
+                    }
                     user.Messages.Add(message);
                     //send the new List<string> into the Database
                     _context.SaveChanges();

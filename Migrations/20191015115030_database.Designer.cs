@@ -10,7 +10,7 @@ using zorgapp.Models;
 namespace zorgapp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191005182111_database")]
+    [Migration("20191015115030_database")]
     partial class database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,8 +18,22 @@ namespace zorgapp.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            modelBuilder.Entity("zorgapp.Models.Admin", b =>
+                {
+                    b.Property<int>("AdminId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Password");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("AdminId");
+
+                    b.ToTable("Admins");
+                });
 
             modelBuilder.Entity("zorgapp.Models.Doctor", b =>
                 {
@@ -36,6 +50,8 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("Password");
 
+                    b.Property<List<int>>("PatientIds");
+
                     b.Property<int>("PhoneNumber");
 
                     b.Property<string>("Specialism");
@@ -51,6 +67,8 @@ namespace zorgapp.Migrations
                 {
                     b.Property<int>("PatientId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<List<int>>("DoctorIds");
 
                     b.Property<string>("Email");
 
