@@ -57,8 +57,43 @@ namespace zorgapp.Controllers{
             
             return View();
         }
-       
-        public IActionResult SubmitDoctorAccount()
+
+		public IActionResult UpdateAccount(string firstname, string lastname, string email, int phonenumber, string specialism, string username, string password) {
+
+			if (username != null && password != null)
+			{
+				var USERNAME = _context.Doctors.FirstOrDefault(u => u.UserName == username);
+				var EMAIL = _context.Doctors.FirstOrDefault(u => u.Email == email);
+				if (USERNAME != null)
+				{
+					ViewBag.username = "Username is already used";
+				}
+				else if (EMAIL != null)
+				{
+					ViewBag.email = "Email is already in use";
+				}
+				else
+				{
+					Doctor doctor = new Doctor()
+					{
+						FirstName = firstname,
+						LastName = lastname,
+						Email = email,
+						PhoneNumber = phonenumber,
+						Specialism = specialism,
+						UserName = username,
+						Password = password
+					};
+					_context.Doctors.Update(doctor);
+					_context.SaveChanges();
+					return RedirectToAction("UpdateDoctorAccount", "Doctor");
+					TempData.Add("MyTempData", doctor.FirstName);
+				}
+			}
+			return View();}
+
+	
+		public IActionResult SubmitDoctorAccount()
         {
             string firstname = TempData["MyTempData"].ToString();
             ViewData["FirstName"] = firstname;
@@ -67,10 +102,18 @@ namespace zorgapp.Controllers{
             return View();
 
         }
+		public IActionResult UpdateDoctorAccount()
+		{
+			string firstname = TempData["MyTempData"].ToString();
+			ViewData["FirstName"] = firstname;
+			//ViewData["LastName"] = lastname;
 
-        //Doctorlist Page
-        //Authorizes the page so only users with the role Doctor can view it
-        [Authorize(Roles = "Doctor")]
+			return View();
+
+		}
+		//Doctorlist Page
+		//Authorizes the page so only users with the role Doctor can view it
+		[Authorize(Roles = "Doctor")]
         public IActionResult DoctorList()
         {
             var doctors = from d in _context.Doctors select d;

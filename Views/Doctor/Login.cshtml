@@ -29,7 +29,6 @@
 
 <h2>Login</h2>
 <p>Enter all fields and press submit</p>
-
 <form asp-action="Login" method="post">
 	Username:<br>
 	<input type="string" required name=username id="username"><br>
@@ -37,6 +36,11 @@
 	<input type="password" required name=password id="password"> <br><br>
 	<input type="submit" value="Login" id="submit">
 </form>
+<form action="https://localhost:44303/Doctor/CreateAccount">
+	<input type="submit" value="Go to Google" />
+</form>
+
+	
 
 <h4>@ViewBag.emptyfield</h4>
 
