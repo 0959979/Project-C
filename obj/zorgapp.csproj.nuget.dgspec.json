@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj": {}
+    "C:\\Users\\saade\\Desktop\\Git repos\\git\\zorgapp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj": {
+    "C:\\Users\\saade\\Desktop\\Git repos\\git\\zorgapp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj",
+        "projectUniqueName": "C:\\Users\\saade\\Desktop\\Git repos\\git\\zorgapp.csproj",
         "projectName": "zorgapp",
-        "projectPath": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj",
+        "projectPath": "C:\\Users\\saade\\Desktop\\Git repos\\git\\zorgapp.csproj",
         "packagesPath": "C:\\Users\\saade\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\obj\\",
+        "outputPath": "C:\\Users\\saade\\Desktop\\Git repos\\git\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\saade\\AppData\\Roaming\\NuGet\\NuGet.Config",

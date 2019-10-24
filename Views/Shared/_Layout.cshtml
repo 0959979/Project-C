@@ -29,28 +29,33 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Home</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @if (User.Identity.Name == "Patient")
-                    {
-                        <li><a asp-area="" asp-controller="Patient" asp-action="PatientList">Patient List</a></li>
-                        <li><a asp-area="" asp-controller="Patient" asp-action="Logout">Logout</a></li>
-                    }
-                    else if (User.Identity.Name == "Doctor")
-                    {
-                        <li><a asp-area="" asp-controller="Doctor" asp-action="DoctorList">Doctor List</a></li>
-                        <li><a asp-area="" asp-controller="Patient" asp-action="Logout">Logout</a></li>
-                    }
-                    else
-                    {
-                        <li><a asp-area="" asp-controller="Patient" asp-action="CreateAccount">Create Patient Account</a></li>
-                        <li><a asp-area="" asp-controller="Doctor" asp-action="CreateAccount">Create Doctor Account</a></li>
-                        <li><a asp-area="" asp-controller="Patient" asp-action="Login">Login Patient</a></li>
-                        <li><a asp-area="" asp-controller="Doctor" asp-action="Login">Login Doctor</a></li>
-                    }
+				<ul class="nav navbar-nav">
+					@if (User.Identity.Name == "Patient")
+					{
+						<li><a asp-area="" asp-controller="Patient" asp-action="PatientList">Patient List</a></li>
+						<li><a asp-area="" asp-controller="Patient" asp-action="Logout">Logout</a></li>
+					}
+					else if (User.Identity.Name == "Doctor")
+					{
+						<li><a asp-area="" asp-controller="Doctor" asp-action="DoctorList">Doctor List</a></li>
+						<li><a asp-area="" asp-controller="Doctor" asp-action="Log Out">My Patients</a></li>
+						<li><a asp-area="" asp-controller="Doctor" asp-action="Logout">My Appointments</a></li>
+						<li><a asp-area="" asp-controller="Patient" asp-action="Logout">Inbox</a></li>
+						<li><a asp-area="" asp-controller="Patient" asp-action="Logout">Logout</a></li>
+
+
+					}
+					else
+					{
+						<li><a asp-area="" asp-controller="Patient" asp-action="CreateAccount">Create Patient Account</a></li>
+						<li><a asp-area="" asp-controller="Doctor" asp-action="CreateAccount">Create Doctor Account</a></li>
+						<li><a asp-area="" asp-controller="Patient" asp-action="Login">Login Patient</a></li>
+						<li><a asp-area="" asp-controller="Doctor" asp-action="Login">Login Doctor</a></li>
+					}
 
 
 
-                </ul>
+				</ul>
             </div>
         </div>
     </nav>

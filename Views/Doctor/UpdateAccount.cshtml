@@ -35,7 +35,7 @@
 	ViewData["Title"] = "UpdateAccount";
 } -->
 
-<h2>Create a doctor account</h2>
+<h2>Update a doctor account</h2>
 <p>Enter all fields and press submit</p>
 
 <form method="post">
@@ -55,7 +55,7 @@
 	<p>@ViewBag.username</p>
 	Password:<br>
 	<input type="password" minlength="8" required name=password id="password"> <br><br>
-	<input type="submit" value="Submit" id="submit" asp-controller="Doctor" asp-action="CreateAccount">
+	<input type="submit" value="Update" id="submit" asp-controller="Doctor" asp-action="UpdateAccount">
 </form>
 
 
