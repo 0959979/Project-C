@@ -41,3 +41,4 @@ C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\zorgapp.cs
 C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csprojAssemblyReference.cache
 C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Inbox.g.cshtml.cs
 C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\MessageDisplay.g.cshtml.cs
+C:\Users\keesd\source\repos\0959979\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Inbox.g.cshtml.cs

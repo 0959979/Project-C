@@ -1,4 +1,4 @@
-﻿@model IEnumerable<zorgapp.Models.Patient>
+﻿@model IEnumerable<zorgapp.Models.Doctor>
 <!DOCTYPE html>
 @{
     ViewData["Title"] = "Inbox";
@@ -7,7 +7,7 @@
 
 <h2>Inbox</h2>
 <div class="container">
-    <button onclick="window.location = '../Patient/Message';">+ New</button>
+    <button onclick="window.location = '../Doctor/Message';">+ New</button>
 </div>
 <div>
 
@@ -51,22 +51,22 @@
         }
         @for (int x = data.Count - 3; x > -2; x = x - 3)
         {
-    <tr onclick=""  id=x  >
-        <td>@Html.DisplayName(ViewBag.message[x]) </td>
-        <td>@Html.DisplayName(ViewBag.message[x + 1])</td>
-        <td>@Html.DisplayName(ViewBag.message[x + 2])</td>
+            <tr onclick="" id=x>
+                <td>@Html.DisplayName(ViewBag.message[x]) </td>
+                <td>@Html.DisplayName(ViewBag.message[x + 1])</td>
+                <td>@Html.DisplayName(ViewBag.message[x + 2])</td>
 
 
-    </tr>
-           
+            </tr>
+
         }
-        
+
     </table>
 
 </div>
 <script>
     function display(int x) {
-        
+
     }
 </script>
 

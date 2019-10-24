@@ -106,17 +106,22 @@ namespace zorgapp.Controllers
         }
 
 
-        public ActionResult Message(string sendto, string message) //Send a message to a patient
+        public ActionResult Message(string sendto, string subject, string message) //Send a message to a patient
         {
             //string Sendto = sendto; //recipient name
             //string Message = message;
-            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == sendto);
+
+            
+            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == sendto);
             if (user != null)
             {
                 if (message != null && message != "")
                 {
+                    var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
                     //_context.Patients.Update(user); niet nodig
                     //add the Message to the List<string> of messages
+                    user.Messages.Add(username);
+                    user.Messages.Add(subject);
                     user.Messages.Add(message);
                     //send the new List<string> into the Database
                     _context.SaveChanges();
@@ -136,11 +141,13 @@ namespace zorgapp.Controllers
         public ActionResult Inbox()
         {
             
-            
+            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            ViewBag.message = user.Messages;
             return View();
         }
-        public ActionResult MessageDisplay()
+        public ActionResult MessageDisplay(int index)
         {
+
             return View();
         }
         public ActionResult Profile()
@@ -157,6 +164,7 @@ namespace zorgapp.Controllers
             HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+        
 
     }
     }

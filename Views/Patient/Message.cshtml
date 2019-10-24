@@ -12,6 +12,9 @@
 <form asp-action="Message" method="post">
     Recipient username:<br>
     <input type="string" required name=sendto id="sendto"><br>
+    subject:<br>
+    <input type="string" required name=subject id="subject"><br>
+
     Message:<br>
     <textarea type="string" required name=message id="message" rows="15" cols="30" placeholder="Message"></textarea> <br><br>
     <input type="submit" value="Send" id="submit">

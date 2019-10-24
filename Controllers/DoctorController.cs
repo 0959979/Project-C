@@ -10,19 +10,21 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using zorgapp.Models;
 
-namespace zorgapp.Controllers{
+namespace zorgapp.Controllers
+{
 
-    public class DoctorController : Controller{
-        private readonly DatabaseContext _context;
+    public class DoctorController : Controller
+    {
+        private readonly DatabaseContext _context;
 
-        public DoctorController(DatabaseContext context)
-        {
-            _context = context;
-        }
+        public DoctorController(DatabaseContext context)
+        {
+            _context = context;
+        }
 
-      public IActionResult CreateAccount() => View();
-       
-        public IActionResult SubmitDoctorAccount(string firstname, string lastname, string email,int phonenumber,string specialism, string username, string password)
+        public IActionResult CreateAccount() => View();
+
+        public IActionResult SubmitDoctorAccount(string firstname, string lastname, string email, int phonenumber, string specialism, string username, string password)
         {
             Doctor doctor = new Doctor()
             {
@@ -101,17 +103,22 @@ namespace zorgapp.Controllers{
         }
 
 
-        public ActionResult Message(string sendto, string message) //Send a message to a doctor
+        public ActionResult Message(string sendto, string subject, string message) //Send a message to a doctor
         {
             //string Sendto = sendto; //recipient name
             //string Message = message;
-            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == sendto);
+            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == sendto);
             if (user != null)
             {
                 if (message != null && message != "")
                 {
                     //mark for updating, is dit nodig? idk. blijkbaar niet
                     //add the Message to the List<string> of messages
+                    var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+                    //_context.Patients.Update(user); niet nodig
+                    //add the Message to the List<string> of messages
+                    user.Messages.Add(username);
+                    user.Messages.Add(subject);
                     user.Messages.Add(message);
                     //send the new List<string> into the Database
                     _context.SaveChanges();
@@ -133,6 +140,13 @@ namespace zorgapp.Controllers{
             //Gets the username of the logged in user and sends it to the view
             var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             ViewBag.username = username;
+            return View();
+        }
+        public ActionResult Inbox()
+        {
+
+            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            ViewBag.message = user.Messages;
             return View();
         }
     }
