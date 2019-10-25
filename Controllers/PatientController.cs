@@ -279,3 +279,34 @@ namespace zorgapp.Controllers{
         }
     }
     }
+        public ActionResult Profile()
+        {
+            //Gets the username of the logged in user and sends it to the view
+            var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            ViewBag.username = username;
+			string email = user.Email.ToString();
+			var user = _context.Patients.FirstOrDefault(u => u.UserName == username);
+			ViewBag.email = email;
+			var phonenumber = user.PhoneNumber.ToString();
+			ViewBag.phonenumber = phonenumber;
+			var firstname = user.FirstName.ToString();
+			ViewBag.firstname = firstname;
+			var lastname = user.LastName.ToString();
+			ViewBag.lastname = lastname;
+			return View();
+        }
+		public IActionResult UpdateAccount(string firstname, string lastname, string email, int phonenumber)
+		{
+			if (firstname != null)
+			{
+				var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+				var USER = _context.Patients.FirstOrDefault(u => u.UserName == USERNAME);
+				USER.FirstName = firstname;
+				USER.LastName = lastname;
+				USER.Email = email;
+				USER.PhoneNumber = phonenumber;
+				_context.SaveChanges();
+				return RedirectToAction("Profile", "Patient");
+			}
+			return View();
+		}
