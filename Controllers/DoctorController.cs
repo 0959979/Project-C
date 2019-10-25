@@ -222,15 +222,8 @@ namespace zorgapp.Controllers{
             }
             return View();
         }
-        public ActionResult Profile()
-        {
-            //Gets the username of the logged in user and sends it to the view
-            ViewBag.username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+    
 
-            return View();
-        }
-    }
-}
 
         public ActionResult Profile()
         {
@@ -272,3 +265,5 @@ namespace zorgapp.Controllers{
 			ViewData["FirstName"] = firstname;
 			return View();
 		}
+}
+}

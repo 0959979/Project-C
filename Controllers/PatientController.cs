@@ -263,29 +263,21 @@ namespace zorgapp.Controllers{
             }
             return View();
         }
-        public ActionResult Profile()
-        {
-            //Gets the username of the logged in user and sends it to the view
-            var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            ViewBag.username = username;
 
-            return View();
-        }
 
         public ActionResult Logout()
         {
             HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-    }
-    }
+    
         public ActionResult Profile()
         {
             //Gets the username of the logged in user and sends it to the view
             var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             ViewBag.username = username;
+            var user = _context.Patients.FirstOrDefault(u => u.UserName == username);
 			string email = user.Email.ToString();
-			var user = _context.Patients.FirstOrDefault(u => u.UserName == username);
 			ViewBag.email = email;
 			var phonenumber = user.PhoneNumber.ToString();
 			ViewBag.phonenumber = phonenumber;
@@ -310,3 +302,5 @@ namespace zorgapp.Controllers{
 			}
 			return View();
 		}
+    }
+}

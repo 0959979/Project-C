@@ -4214,14 +4214,14 @@
     "Microsoft.Data.Sqlite/2.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-IkvEdQdq/BIqLA1ucaECU02D/r39CrKJaAJQrIEAIbjacppIp5omL3349nlEyrhPsCG52aCm3C8jGyi8ivAQDA==",
+      "sha512": "sha512-9zw3cOfLaPkskrXRik3XxVhHbjUc3lkS68pExvZ/kBRXKo5g2kH+SDyLYyJoxii4ENXaaPL0U/juGmA030lIRg==",
       "path": "microsoft.data.sqlite/2.0.0",
       "hashPath": "microsoft.data.sqlite.2.0.0.nupkg.sha512"
     },
     "Microsoft.Data.Sqlite.Core/2.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-EVeZo+18ZIXtgPjc372JEHMF2TU663VPJA2E/Nk04YelWpyHU2OTLOBNZFafLHvBDgqBz5wLAZRXiT/XzA1XFQ==",
+      "sha512": "sha512-PBA2ay1gc4mMzLuBU4VfpZ2mjQOMaqCzwmwj+15FWNC33tFuOS6pSfH7MlV/Ql8wRKXBi/7yH6PqK9jm8JkvfA==",
       "path": "microsoft.data.sqlite.core/2.0.0",
       "hashPath": "microsoft.data.sqlite.core.2.0.0.nupkg.sha512"
     },
@@ -4242,21 +4242,21 @@
     "Microsoft.Extensions.Caching.Redis/2.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-d4+pxQ78NGanabvVXiwukJ8nBwZEWDD2r+SqK4efNvo8XsbrNdAXG6eeE7JkGhbYrmcOjfWWDz5eOz0cbZecmQ==",
+      "sha512": "sha512-FWKu406Tb/muSY6y9Zy9G2IwKOkN/8gsLhz/iUUyovY6t/6iK+IOza5enKPv7KgaY1kgSuxPD22tWlXLV5GmIQ==",
       "path": "microsoft.extensions.caching.redis/2.0.0",
       "hashPath": "microsoft.extensions.caching.redis.2.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration.AzureKeyVault/2.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-yRhWzJCrxuTl9n/AHqJqvmQif0b5IojjP+/uTIgYntxejMrVVqgUYFJHua+guFFIRg2wUNff+dNZO/Rlo2hV/Q==",
+      "sha512": "sha512-HjuOFvIz9xtzfg9AddX9pjFvghpYKxDwUleLfPORT5Pm7YO1RTq2uN9uc1TxhMglDabkpSuwlfWG1BN64fOHQQ==",
       "path": "microsoft.extensions.configuration.azurekeyvault/2.0.0",
       "hashPath": "microsoft.extensions.configuration.azurekeyvault.2.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Logging.AzureAppServices/2.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-U2z+Dw+nKpRTELOEr4GL8BgJek8ZroAGbKcAmzKyepO0+BqJfQPREJvvBpY6T/Shn/GgB5BA+80uLivAS1EPAA==",
+      "sha512": "sha512-cxfmUAnNsETcGHlGFpaihN/wILPDD+4p4VrFzcskvOquwMSxt6O6SmPLybnbbvUvs26SCmP7Y4eptjO2ehfduA==",
       "path": "microsoft.extensions.logging.azureappservices/2.0.0",
       "hashPath": "microsoft.extensions.logging.azureappservices.2.0.0.nupkg.sha512"
     },
@@ -4270,7 +4270,7 @@
     "Microsoft.IdentityModel.Clients.ActiveDirectory/3.14.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-A4MCkz8IWOSEGt51YwlGrQW/sualR4KnGsH+Z1wg5JARYrLzOQ0gb3qou7Yma2p6iSZuJn7h2gJrOSLoBpMAgA==",
+      "sha512": "sha512-GlyzF4FWsn3LXC6rrzw6Yg2nMbGLx+7JS9a6Z8n7jhqPa5cMiNEX01tBUO1v3A9p1mk+gQzHWJheAsSpOLp/ew==",
       "path": "microsoft.identitymodel.clients.activedirectory/3.14.1",
       "hashPath": "microsoft.identitymodel.clients.activedirectory.3.14.1.nupkg.sha512"
     },
@@ -4375,42 +4375,42 @@
     "SQLitePCLRaw.bundle_green/1.1.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ndZplZhKILwXTlM3v4EYQlJqTJ4OFoOoGDIk9w1a6Qv4x1lnUyM0CPnHGBzh3jnmHpUYeVCqTDwFQ9zyHZDOGQ==",
+      "sha512": "sha512-Kw+n4CUhQ8S4YAPmpRUldO8S7c4LU7HHukJF0v5Sfggf8Ia9YVdIh0dYkMvKvS+DTX+OBORSMqPM0CGfAzFtVA==",
       "path": "sqlitepclraw.bundle_green/1.1.7",
       "hashPath": "sqlitepclraw.bundle_green.1.1.7.nupkg.sha512"
     },
     "SQLitePCLRaw.core/1.1.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-OwSVeqJVN2M0eU7h6Xw4S8BvzNde9T1o8vP9a7OBGBC4CXBa1ePBjo7tq6gkF6yIdcDxkqLbOraHBxdLrvMq2g==",
+      "sha512": "sha512-u9k9ZFkyTU6CVyXWpRuuXOvKi/cy/xt1oGKVSW8aUKcTL4RdH34yFNtVykEeiR68ojIEvmoZfL51h/xx2IQk5g==",
       "path": "sqlitepclraw.core/1.1.7",
       "hashPath": "sqlitepclraw.core.1.1.7.nupkg.sha512"
     },
     "SQLitePCLRaw.lib.e_sqlite3.linux/1.1.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-LWxJ0JhP6+FeiKadmlve/5zfdgACoUCqjbYGD2TDGpBUrHC0v+RdjZhXi48sTnkVW5fn+TtA37WV02LSMFJH3w==",
+      "sha512": "sha512-KRqMd1qLwJ4pzPybj8q95s+wV6jby5F0O/rp0vw3wa2Z2wHxRm0VqxS2Sejlr7Ctz+LxSr8DpNg1l1u6n/PAPA==",
       "path": "sqlitepclraw.lib.e_sqlite3.linux/1.1.7",
       "hashPath": "sqlitepclraw.lib.e_sqlite3.linux.1.1.7.nupkg.sha512"
     },
     "SQLitePCLRaw.lib.e_sqlite3.osx/1.1.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-LnEgt++nwP2KnoFYIKdAXPjS9W8ZGU1DfL/PHyAqLBQQlfG5V0H/HHiVJOh5B6XQ4Jf0AdJQphtkVG4u2V3mYQ==",
+      "sha512": "sha512-hdZx1DKHbDi4li6abmJ+A29mxY8D6BcM0s8VMT8p4MWEyrj54CZFUm402jTV6OgZCsFGkbRFnuFdBXf4vSDO7g==",
       "path": "sqlitepclraw.lib.e_sqlite3.osx/1.1.7",
       "hashPath": "sqlitepclraw.lib.e_sqlite3.osx.1.1.7.nupkg.sha512"
     },
     "SQLitePCLRaw.lib.e_sqlite3.v110_xp/1.1.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-M1WskZ/7pOTLCwdPgvrK4YGx+pJoT5cISUs8G8O68Wr+yLUBnz4BhnS+suhUiD1W/UAkFev/MnbeCiQj87VaTQ==",
+      "sha512": "sha512-roIdTH4a4iFa08HOwTWnzj2QYBIpSZRYfLSvHjtbH67I4DSWregrd4jkSnoOuwC5GHG08FNahBfEx3HAsVqW+g==",
       "path": "sqlitepclraw.lib.e_sqlite3.v110_xp/1.1.7",
       "hashPath": "sqlitepclraw.lib.e_sqlite3.v110_xp.1.1.7.nupkg.sha512"
     },
     "SQLitePCLRaw.provider.e_sqlite3.netstandard11/1.1.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-J81nAWSiEJK8agJR/r9uRy+0SGmsFq3GmSMu4QS0Jzr+OQDAjLVZ/qNhUF1Q15p/h/NR5/o0HyzVHPofcxEyvA==",
+      "sha512": "sha512-Zdug2wETm6847337EtD8MoCAtOdwM6prEXL/UsJ97Zxvoeyk/gUpdtuFNBxgJzceuty0jymjxm5yur5QajdApg==",
       "path": "sqlitepclraw.provider.e_sqlite3.netstandard11/1.1.7",
       "hashPath": "sqlitepclraw.provider.e_sqlite3.netstandard11.1.1.7.nupkg.sha512"
     },
