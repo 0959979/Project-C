@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using zorgapp.Models;
 
@@ -16,11 +20,13 @@ namespace zorgapp.Controllers{
             _context = context;
         }
 
-      public IActionResult CreateAccount() => View();
-       
-        public IActionResult SubmitDoctorAccount(string firstname, string lastname, string email,int phonenumber,string specialism, string username, string password)
+        public IActionResult CreateAccount() => View();
+
+        public IActionResult SubmitDoctorAccount(string firstname, string lastname, string email, int phonenumber, string specialism, string username, string password)
         {
-            bool valid = true;
+            if (username != null && password != null)
+            {
+    bool valid = true;
             {
                 Doctor user = _context.Doctors.FirstOrDefault(u => u.Email == email);
                 if (user != null)
@@ -29,16 +35,9 @@ namespace zorgapp.Controllers{
                     valid = false;
                 }
             }
-            /*{
-                Doctor user = _context.Doctors.FirstOrDefault(u => u.PhoneNumber == phonenumber);
-                if (user != null)
-                {
-                    ViewBag.emptyfield2 = "this phone number is already in use";
-                    valid = false;
-                }
-            }*/
+
             {
-                Doctor user = _context.Doctors.FirstOrDefault(u => u.Username == username);
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
                 if (user != null)
                 {
                     ViewBag.emptyfield3 = "this username is already in use";
@@ -49,57 +48,140 @@ namespace zorgapp.Controllers{
             {
                 return View("CreateAccount"); //moet de data in de fields nog bewaren?
             }
-            Doctor doctor = new Doctor()
-            {
-                FirstName = firstname,
-                LastName = lastname,
-                Email = email,
-                PhoneNumber = phonenumber,
-                Specialism = specialism,
-                Username = username,
-                Password = Program.Hash256bits(password),
-                Messages = new List<string> { }
-            };
-            _context.Doctors.Add(doctor);
-            _context.SaveChanges();
+                    Doctor doctor = new Doctor()
+                    {
+                        FirstName = firstname,
+                        LastName = lastname,
+                        Email = email,
+                        PhoneNumber = phonenumber,
+                        Specialism = specialism,
+                        UserName = username,
+                        Password = Program.Hash256bits(password),
+                        Messages = new List<string>(),
+                        PatientIds = new List<int>()
+                    };
+                    _context.Doctors.Add(doctor);
+                    _context.SaveChanges();
+    
+                    ViewData["FirstName"] = doctor.FirstName;
+                    ViewData["LastName"] = doctor.LastName;
 
-            ViewData["FirstName"] = doctor.FirstName;
-            ViewData["LastName"] = doctor.LastName;
-
-            return View("SubmitDoctorAccount");
-
+                    return RedirectToAction("SubmitDoctorAccount", "Doctor");
+                
+            }
+            
+            return View();
         }
+       
+        // public IActionResult SubmitDoctorAccount()
+        // {
+        //     string firstname = TempData["MyTempData"].ToString();
+        //     ViewData["FirstName"] = firstname;
+        //     //ViewData["LastName"] = lastname;
+
+        //     return View("SubmitDoctorAccount");
+
+        // }
 
         //Doctorlist Page
+        //Authorizes the page so only users with the role Doctor can view it
+        [Authorize(Roles = "Doctor")]
         public IActionResult DoctorList()
         {
-            var doctors = from p in _context.Doctors select p;
+            var doctors = from d in _context.Doctors select d;
 
             return View(doctors);
         }
 
 
-        public ActionResult Login(string username, string password)
+        public ActionResult Login(string username, string password, bool staylogged)
+        {
+            //string Username = username;
+            string Password = password;
+            var UserL = from u in _context.Patients where u.UserName == Username select u;
+            if (username != null)
+            {
+                username = username.ToLower();
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == username);
+                if (user != null)
+                {
+                    string pwhash = Program.Hash256bits(password);
+                    if (user.Password == pwhash)                  
+                     {
+                        var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, "Doctor", ClaimValueTypes.String),
+                        new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString(), ClaimValueTypes.String),
+                        new Claim(ClaimTypes.Role, "Doctor", ClaimValueTypes.String)
+                    };
+                        var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
+                        var userPrincipal = new ClaimsPrincipal(userIdentity);
+        public ActionResult Login(string username, string password, bool staylogged)
         {
             //string Username = username;
             //string Password = password;
             //var UserL = from u in _context.Patients where u.UserName == Username select u;
-            Doctor user = _context.Doctors.FirstOrDefault(u => u.Username == username);
-            if (user != null)
+            if (username != null)
             {
-                string pwhash = Program.Hash256bits(password);
-                if (user.Password == pwhash) //password is hashed in the db, so no need to hash again.
+                username = username.ToLower();
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == username);
+                if (user != null)
+
                 {
-                    return RedirectToAction("Profile", "Doctor");
+                    string pwhash = Program.Hash256bits(password);
+                    if (user.Password == pwhash)                  
+                     {
+                        var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, "Doctor", ClaimValueTypes.String),
+                        new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString(), ClaimValueTypes.String),
+                        new Claim(ClaimTypes.Role, "Doctor", ClaimValueTypes.String)
+                    };
+                        var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
+                        var userPrincipal = new ClaimsPrincipal(userIdentity);
+
+                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                            userPrincipal,
+                            new AuthenticationProperties
+                            {
+                                ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                                IsPersistent = true,
+                                AllowRefresh = false
+                            });
+                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                            userPrincipal,
+                            new AuthenticationProperties
+                            {
+                                ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                                IsPersistent = true,
+                                AllowRefresh = false
+                            });
+
+                        return RedirectToAction("Profile", "Doctor");
+                    }
+                    else
+                    {
+                        ViewBag.emptyfield = "Username or Password is incorrect";
+                    }
                 }
                 else
                 {
                     ViewBag.emptyfield = "Username or Password is incorrect";
                 }
             }
-            else if (username != null)
-            {
-                ViewBag.emptyfield = "Username or Password is incorrect";
+            return View();
+        }
+                        return RedirectToAction("Profile", "Doctor");
+                    }
+                    else
+                    {
+                        ViewBag.emptyfield = "Username or Password is incorrect";
+                    }
+                }
+                else
+                {
+                    ViewBag.emptyfield = "Username or Password is incorrect";
+                }
             }
             return View();
         }
@@ -107,8 +189,9 @@ namespace zorgapp.Controllers{
 
               public ActionResult Message(string sendto, string message) //Send a message to a doctor
         {
-
-            Doctor user = _context.Doctors.FirstOrDefault(u => u.Username == sendto);
+            //string Sendto = sendto; //recipient name
+            //string Message = message;
+            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == sendto);
             if (user != null)
             {
                 if (message != null && message != "")
@@ -136,6 +219,9 @@ namespace zorgapp.Controllers{
         }
         public ActionResult Profile()
         {
+            //Gets the username of the logged in user and sends it to the view
+            ViewBag.username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+
             return View();
         }
     }
