@@ -43,22 +43,28 @@
 </head>
 <body>
 	<h3>My information</h3>
-	<table style="width:25%" id= DoInfo>
-			<tr>
-				<th>Name doctor: @ViewBag.username</th>
-			</tr>
+	<table style="width:25%" id=DoInfo>
+		<tr>
+			<th>Username: @ViewBag.username</th>
+		</tr>
+		<tr>
+			<th>First name: @ViewBag.firstname</th>
+		</tr>
+		<tr>
+			<th>Last name: @ViewBag.lastname</th>
+		</tr>
 
-			<tr>
-				<th>Email: @ViewBag.email </th>
-			</tr>
-			<tr>
-				<th>Telephone number:</th>
-			</tr>
-			<tr>
-				<th>Specialization:</th>
-			</tr>
-		</table>
-	<form action="https://localhost:44303/Doctor/Login">
+		<tr>
+			<th>Email: @ViewBag.email </th>
+		</tr>
+		<tr>
+			<th>Telephone number: @ViewBag.phonenumber</th>
+		</tr>
+		<tr>
+			<th>Specialization: @ViewBag.specialism</th>
+		</tr>
+	</table>
+	<form action="https://localhost:44303/Doctor/UpdateAccount">
 		<input type="submit" value="Edit" />
 	</form>
 	

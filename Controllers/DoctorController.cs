@@ -24,6 +24,7 @@ namespace zorgapp.Controllers{
         }
 
         public IActionResult CreateAccount(string firstname, string lastname, string email, int phonenumber, string specialism, string username, string password)
+
         {
             if (username != null && password != null)
             {
@@ -60,32 +61,33 @@ namespace zorgapp.Controllers{
             return View();
         }
 
-		public IActionResult UpdateAccount(string firstname, string lastname, string email, int phonenumber, string specialism, string username, string password) {
-           NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;User ID=postgres;" + 
-            "Password=SAAD;Database=zorg;");
+		
+		
+//           NpgsqlConnection conn = new NpgsqlConnection("Server=localhost;User ID=postgres;" + 
+//            "Password=SAAD;Database=zorg;");
             
-            NpgsqlCommand command = new NpgsqlCommand("UPDATE public.\"Doctors\" SET \"UserName\" = '" + username + "' WHERE \"DoctorId\" = '" + DoctorId + "'", conn);
-            // command.Parameters.Add(new NpgsqlParameter("UserName", NpgsqlTypes.NpgsqlDbType.Text));
-            // command.Parameters[0].Value = username;
-            conn.Open();
-            command.ExecuteNonQuery();
-            conn.Close();
-            // NpgsqlCommand cmd = new NpgsqlCommand("update Doctors set \"UserName\" = :username, where \"DoctorId\" = '" + DoctorId + " ' ;", conn);
+//            NpgsqlCommand command = new NpgsqlCommand("UPDATE public.\"Doctors\" SET \"UserName\" = '" + username + "' WHERE \"DoctorId\" = '" + DoctorId + "'", conn);
+//            // command.Parameters.Add(new NpgsqlParameter("UserName", NpgsqlTypes.NpgsqlDbType.Text));
+//            // command.Parameters[0].Value = username;
+//            conn.Open();
+//            command.ExecuteNonQuery();
+//            conn.Close();
+//            // NpgsqlCommand cmd = new NpgsqlCommand("update Doctors set \"UserName\" = :username, where \"DoctorId\" = '" + DoctorId + " ' ;", conn);
 
-            // NpgsqlCommand cmd = new NpgsqlCommand("update info set \"UserName\" = :username,  \"Password\" = :password,  \"Email\" = :email, where \"DoctorId\" = id'" + "' ;", conn);
-;
-            // cmd.Parameters.Add(new NpgsqlParameter("Password", NpgsqlTypes.NpgsqlDbType.Text));
-            // cmd.Parameters.Add(new NpgsqlParameter("Email", NpgsqlTypes.NpgsqlDbType.Text));
+//            // NpgsqlCommand cmd = new NpgsqlCommand("update info set \"UserName\" = :username,  \"Password\" = :password,  \"Email\" = :email, where \"DoctorId\" = id'" + "' ;", conn);
+//;
+//            // cmd.Parameters.Add(new NpgsqlParameter("Password", NpgsqlTypes.NpgsqlDbType.Text));
+//            // cmd.Parameters.Add(new NpgsqlParameter("Email", NpgsqlTypes.NpgsqlDbType.Text));
  
-            // cmd.Parameters[1].Value = password;
-            // cmd.Parameters[2].Value = email;
+//            // cmd.Parameters[1].Value = password;
+//            // cmd.Parameters[2].Value = email;
 
-            		// // _context.Doctors.Update(doctor);
-					// _context.SaveChanges();
-					// return RedirectToAction("UpdateDoctorAccount", "Doctor");
-                    return View();
+//            		// // _context.Doctors.Update(doctor);
+//					// _context.SaveChanges();
+//					// return RedirectToAction("UpdateDoctorAccount", "Doctor");
+//                    return View();
        
-            }
+           // }
 			// if (username != null && password != null)
 			// {ik
 			// 	var USERNAME = _context.Doctors.FirstOrDefault(u => u.UserName == username);
@@ -153,13 +155,14 @@ namespace zorgapp.Controllers{
             //string Username = username;
             //string Password = password;
             //var UserL = from u in _context.Patients where u.UserName == Username select u;
-            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
+            //Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
             
-            if (user != null)
+            if (username != null)
             {
-                if (user.Password == password)
+				Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
+				if (user.Password == password)
                 {
-                    DoctorId = user.DoctorId;
+                    //DoctorId = user.DoctorId;
                     //Creates a new Identity of the user
                     var claims = new List<Claim>
                     {
@@ -193,8 +196,29 @@ namespace zorgapp.Controllers{
             return View();
         }
 
+		public IActionResult UpdateAccount(string firstname, string lastname, string email, int phonenumber, string specialism)
+		{
+			if (firstname != null)
+			{
+				var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+				var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME);
+				USER.FirstName = firstname;
+				USER.LastName = lastname;
+				USER.Email = email;
+				USER.PhoneNumber = phonenumber;
+				USER.Specialism = specialism;
+				//USER.UserName = username;
+				//USER.Password = password;
 
-        public ActionResult Message(string sendto, string message) //Send a message to a doctor
+				_context.SaveChanges();
+				return RedirectToAction("Profile", "Doctor");
+			}
+
+
+			return View();
+		}
+
+		public ActionResult Message(string sendto, string message) //Send a message to a doctor
         {
             //string Sendto = sendto; //recipient name
             //string Message = message;
@@ -228,6 +252,20 @@ namespace zorgapp.Controllers{
 			var user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
 			string email = user.Email.ToString();
 			ViewBag.email = email;
+			var specialism = user.Specialism.ToString();
+			ViewBag.specialism = specialism;
+			var phonenumber = user.PhoneNumber;
+			ViewBag.phonenumber = phonenumber;
+			var firstname = user.FirstName.ToString();
+			ViewBag.firstname = firstname;
+			var lastname = user.LastName.ToString();
+			ViewBag.lastname = lastname;
+
+
+
+
+
+
 
 			return View();
         }

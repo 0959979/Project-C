@@ -8,8 +8,8 @@
 <head>
 	<style>
 		table, th, td {
-			border: 1px solid black;
-			border-collapse: collapse;
+			border: 0.1px solid black;
+			border-collapse: separate;
 		}
 
 		th, td {
@@ -17,37 +17,32 @@
 		}
 
 		th {
-			text-align: middle;
+			text-align: left;
 		}
 	</style>
 </head>
 <body>
-
-	<h2>Left-align Headings</h2>
-	<p>To left-align the table headings, use the CSS text-align property.</p>
-
-	<table style="width:50%" id=Firstname>
+	<h3>My information</h3>
+	<table style="width:25%" id=DoInfo>
 		<tr>
-			<th>Firstname</th>
-
+			<th>Username: @ViewBag.username</th>
 		</tr>
 		<tr>
-			<td></td>
-
+			<th>First name: @ViewBag.firstname</th>
 		</tr>
-		<tr1>
-			<td>Eve</td>
-
-		</tr1>
 		<tr>
-			<td>John</td>
+			<th>Last name: @ViewBag.lastname</th>
+		</tr>
 
+		<tr>
+			<th>Email: @ViewBag.email </th>
+		</tr>
+		<tr>
+			<th>Telephone number: @ViewBag.phonenumber</th>
 		</tr>
 	</table>
-
-
-
+	<form action="https://localhost:44303/Patient/UpdateAccount">
+		<input type="submit" value="Edit" />
+	</form>
 </body>
-
-
 </html>

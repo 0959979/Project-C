@@ -116,9 +116,31 @@ namespace zorgapp.Controllers{
             }
             return View();
         }
+		public IActionResult UpdateAccount(string firstname, string lastname, string email, int phonenumber)
+		{
+			if (firstname != null)
+			{
+				var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+				var USER = _context.Patients.FirstOrDefault(u => u.UserName == USERNAME);
+				USER.FirstName = firstname;
+				USER.LastName = lastname;
+				USER.Email = email;
+				USER.PhoneNumber = phonenumber;
+				
+				//USER.UserName = username;
+				//USER.Password = password;
+			
+				_context.SaveChanges();
+				return RedirectToAction("Profile", "Patient");
+			}
 
 
-        public ActionResult Message(string sendto, string message) //Send a message to a patient
+			return View();
+		}
+
+
+
+		public ActionResult Message(string sendto, string message) //Send a message to a patient
         {
             //string Sendto = sendto; //recipient name
             //string Message = message;
@@ -152,6 +174,14 @@ namespace zorgapp.Controllers{
 			var user = _context.Patients.FirstOrDefault(u => u.UserName == username);
 			string email = user.Email.ToString();
 			ViewBag.email = email;
+			var phonenumber = user.PhoneNumber.ToString();
+			ViewBag.phonenumber = phonenumber;
+			var firstname = user.FirstName.ToString();
+			ViewBag.firstname = firstname;
+			var lastname = user.LastName.ToString();
+			ViewBag.lastname = lastname;
+
+
 
 			return View();
         }
