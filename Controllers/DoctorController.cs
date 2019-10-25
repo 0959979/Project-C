@@ -20,6 +20,35 @@ namespace zorgapp.Controllers{
        
         public IActionResult SubmitDoctorAccount(string firstname, string lastname, string email,int phonenumber,string specialism, string username, string password)
         {
+            bool valid = true;
+            {
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.Email == email);
+                if (user != null)
+                {
+                    ViewBag.emptyfield1 = "this E-mail is already in use";
+                    valid = false;
+                }
+            }
+            /*{
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.PhoneNumber == phonenumber);
+                if (user != null)
+                {
+                    ViewBag.emptyfield2 = "this phone number is already in use";
+                    valid = false;
+                }
+            }*/
+            {
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.Username == username);
+                if (user != null)
+                {
+                    ViewBag.emptyfield3 = "this username is already in use";
+                    valid = false;
+                }
+            }
+            if (!valid)
+            {
+                return View("CreateAccount"); //moet de data in de fields nog bewaren?
+            }
             Doctor doctor = new Doctor()
             {
                 FirstName = firstname,
@@ -28,14 +57,14 @@ namespace zorgapp.Controllers{
                 PhoneNumber = phonenumber,
                 Specialism = specialism,
                 Username = username,
-                Password = password
+                Password = Program.Hash256bits(password),
+                Messages = new List<string> { }
             };
             _context.Doctors.Add(doctor);
             _context.SaveChanges();
 
             ViewData["FirstName"] = doctor.FirstName;
             ViewData["LastName"] = doctor.LastName;
-
 
             return View("SubmitDoctorAccount");
 
@@ -58,7 +87,8 @@ namespace zorgapp.Controllers{
             Doctor user = _context.Doctors.FirstOrDefault(u => u.Username == username);
             if (user != null)
             {
-                if (user.Password == password)
+                string pwhash = Program.Hash256bits(password);
+                if (user.Password == pwhash) //password is hashed in the db, so no need to hash again.
                 {
                     return RedirectToAction("Profile", "Doctor");
                 }
