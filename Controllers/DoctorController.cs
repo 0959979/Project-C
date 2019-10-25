@@ -44,7 +44,8 @@ namespace zorgapp.Controllers{
                         PhoneNumber = phonenumber,
                         Specialism = specialism,
                         UserName = username,
-                        Password = password
+                        Password = password,
+                        Messages = new List<string>()
                     };
                     _context.Doctors.Add(doctor);
                     _context.SaveChanges();
@@ -79,45 +80,49 @@ namespace zorgapp.Controllers{
         }
 
 
-        public ActionResult Login(string username, string password)
+        public ActionResult Login(string username, string password, bool staylogged)
         {
             //string Username = username;
             //string Password = password;
             //var UserL = from u in _context.Patients where u.UserName == Username select u;
-            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
-            if (user != null)
+            if (username != null)
             {
-                if (user.Password == password)
+                username = username.ToLower();
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == username);
+                if (user != null)
                 {
-                    //Creates a new Identity of the user
-                    var claims = new List<Claim>
+                    if (user.Password == password)
+                    {
+                        //Creates a new Identity of the user
+                        var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, "Doctor", ClaimValueTypes.String),
                         new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString(), ClaimValueTypes.String),
                         new Claim(ClaimTypes.Role, "Doctor", ClaimValueTypes.String)
                     };
-                    var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
-                    var userPrincipal = new ClaimsPrincipal(userIdentity);
+                        var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
+                        var userPrincipal = new ClaimsPrincipal(userIdentity);
 
-                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                        userPrincipal,
-                        new AuthenticationProperties
-                        {
-                            ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
-                            IsPersistent = true,
-                            AllowRefresh = false
-                        });
+                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                            userPrincipal,
+                            new AuthenticationProperties
+                            {
+                                ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                                IsPersistent = true,
+                                AllowRefresh = false
+                            });
 
-                    return RedirectToAction("Profile", "Doctor");
+                        return RedirectToAction("Profile", "Doctor");
+                    }
+                    else
+                    {
+                        ViewBag.emptyfield = "Username or Password is incorrect";
+                    }
                 }
                 else
                 {
                     ViewBag.emptyfield = "Username or Password is incorrect";
                 }
-            }
-            else if (username != null)
-            {
-                ViewBag.emptyfield = "Username or Password is incorrect";
             }
             return View();
         }
