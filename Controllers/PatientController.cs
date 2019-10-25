@@ -28,20 +28,28 @@ namespace zorgapp.Controllers{
         [Route("Patient/SubmitPatientAccount")]
         public IActionResult SubmitPatientAccount(string firstname, string lastname, string email,int phonenumber, string username, string password)
         {          
-            var USERNAME = _context.Patients.FirstOrDefault(u => u.UserName == username);
-            var EMAIL = _context.Patients.FirstOrDefault(u => u.Email == email);
-            if (USERNAME != null)
+            bool valid = true;
             {
-                ViewBag.username = "Username is already used";
-                RedirectToAction("CreateAccount", "Patient");                    
+                Patient user = _context.Patients.FirstOrDefault(u => u.Email == email);
+                if (user != null)
+                {
+                    ViewBag.emptyfield1 = "this E-mail is already in use";
+                    valid = false;
+                }
             }
-            else if (EMAIL != null)
             {
-                ViewBag.email = "Email is already in use";
-                RedirectToAction("CreateAccount", "Patient");
+                Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
+                if (user != null)
+                {
+                    ViewBag.emptyfield3 = "this username is already in use";
+                    valid = false;
+                }
             }
-            else
+            if (!valid)
             {
+                return View("CreateAccount"); //moet de data in de fields nog bewaren?
+            }
+            
                 Patient patient = new Patient()
                 {
                     FirstName = firstname,
@@ -50,14 +58,15 @@ namespace zorgapp.Controllers{
                     PhoneNumber = phonenumber,
                     UserName = username.ToLower(),
                     Password = Program.Hash256bits(password),
-                    Messages = new List<string>()
+                    Messages = new List<string>(),
+                    DoctorIds = new List<int>()
                 };
                 _context.Patients.Add(patient);
                 _context.SaveChanges();
 
                 ViewData["FirstName"] = patient.FirstName;
                 ViewData["LastName"] = patient.LastName;
-            }
+            
             return View("SubmitPatientAccount");
         }
 

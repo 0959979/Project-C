@@ -20,22 +20,34 @@ namespace zorgapp.Controllers{
             _context = context;
         }
 
-        public IActionResult CreateAccount(string firstname, string lastname, string email, int phonenumber, string specialism, string username, string password)
+        public IActionResult CreateAccount() => View();
+
+        public IActionResult SubmitDoctorAccount(string firstname, string lastname, string email, int phonenumber, string specialism, string username, string password)
         {
             if (username != null && password != null)
             {
-                var USERNAME = _context.Doctors.FirstOrDefault(u => u.UserName == username);
-                var EMAIL = _context.Doctors.FirstOrDefault(u => u.Email == email);
-                if (USERNAME != null)
+    bool valid = true;
+            {
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.Email == email);
+                if (user != null)
                 {
-                    ViewBag.username = "Username is already used";
+                    ViewBag.emptyfield1 = "this E-mail is already in use";
+                    valid = false;
                 }
-                else if (EMAIL != null)
+            }
+
+            {
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
+                if (user != null)
                 {
-                    ViewBag.email = "Email is already in use";
+                    ViewBag.emptyfield3 = "this username is already in use";
+                    valid = false;
                 }
-                else
-                {
+            }
+            if (!valid)
+            {
+                return View("CreateAccount"); //moet de data in de fields nog bewaren?
+            }
                     Doctor doctor = new Doctor()
                     {
                         FirstName = firstname,
@@ -45,30 +57,31 @@ namespace zorgapp.Controllers{
                         Specialism = specialism,
                         UserName = username,
                         Password = Program.Hash256bits(password),
-                        Messages = new List<string>()
+                        Messages = new List<string>(),
+                        PatientIds = new List<int>()
                     };
                     _context.Doctors.Add(doctor);
                     _context.SaveChanges();
     
-
-                    TempData.Add("MyTempData", doctor.FirstName);
+                    ViewData["FirstName"] = doctor.FirstName;
+                    ViewData["LastName"] = doctor.LastName;
 
                     return RedirectToAction("SubmitDoctorAccount", "Doctor");
-                }
+                
             }
             
             return View();
         }
        
-        public IActionResult SubmitDoctorAccount()
-        {
-            string firstname = TempData["MyTempData"].ToString();
-            ViewData["FirstName"] = firstname;
-            //ViewData["LastName"] = lastname;
+        // public IActionResult SubmitDoctorAccount()
+        // {
+        //     string firstname = TempData["MyTempData"].ToString();
+        //     ViewData["FirstName"] = firstname;
+        //     //ViewData["LastName"] = lastname;
 
-            return View("SubmitDoctorAccount");
+        //     return View("SubmitDoctorAccount");
 
-        }
+        // }
 
         //Doctorlist Page
         //Authorizes the page so only users with the role Doctor can view it

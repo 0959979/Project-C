@@ -41,7 +41,7 @@
                     {
                         <li><a asp-area="" asp-controller="Doctor" asp-action="DoctorList">Doctor List</a></li>
                         <li><a asp-area="" asp-controller="Doctor" asp-action="Profile">@User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value's profile</a></li>
-                        <li><a asp-area="" asp-controller="Doctor" asp-action="Logout">Logout</a></li>
+                        <li><a asp-area="" asp-controller="Patient" asp-action="Logout">Logout</a></li>
                     }
                     else
                     {
