@@ -74,7 +74,7 @@ namespace zorgapp.Controllers{
 
         //PatientList Page
         //Authorizes the page so only users with the role Patient can view it
-        [Authorize(Roles = "Patient")]
+        [Authorize(Roles = "Admin")]
         public IActionResult PatientList() 
         {
             var patients = from p in _context.Patients select p;
@@ -87,9 +87,22 @@ namespace zorgapp.Controllers{
         {
             //string Username = username;
             //string Password = password;
-            //var UserL = from u in _context.Patients where u.UserName == Username select u;            
+            //var UserL = from u in _context.Patients where u.UserName == Username select u;   
+            
+            var adminexists = _context.Admins.Any(x => x.UserName == "admin");
+            if(!adminexists){
+            Admin admin = new Admin(){
+                UserName = "admin",
+                Password = Program.Hash256bits("password")
+            };
+
+            _context.Admins.Add(admin);
+            _context.SaveChanges();
+            }
+
+                     
             if (username != null && password != null)
-            {
+            {    string pwhash = Program.Hash256bits(password);
                 if (type == null)
                 {
                     ViewBag.emptyfield = "Please select an account type";
@@ -102,7 +115,6 @@ namespace zorgapp.Controllers{
                         Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
                         if (user != null)
                         {
-                                    string pwhash = Program.Hash256bits(password);
                                   if (user.Password == pwhash) 
                             {
                                 //Creates a new Identity of the user
@@ -141,7 +153,7 @@ namespace zorgapp.Controllers{
                         Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
                         if (user != null)
                         {
-                            if (user.Password == password)
+                            if (user.Password == pwhash) 
                             {
                                 //Creates a new Identity of the user
                                 var claims = new List<Claim>
@@ -176,47 +188,48 @@ namespace zorgapp.Controllers{
                     }
                     if (type == "admin")
                     {
-                        ViewBag.emptyfield = "Sorry admin is not in this version yet";
-                        //Admin user = _context.Admins.FirstOrDefault(u => u.UserName == username);
-                        //if (user != null)
-                        //{
-                        //    if (user.Password == password)
-                        //    {
-                        //        //Creates a new Identity of the user
-                        //        var claims = new List<Claim>
-                        //        {
-                        //            new Claim(ClaimTypes.Name, "Admin", ClaimValueTypes.String),
-                        //            new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString(), ClaimValueTypes.String),
-                        //            new Claim(ClaimTypes.Role, "Admin", ClaimValueTypes.String)
-                        //        };
-                        //        var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
-                        //        var userPrincipal = new ClaimsPrincipal(userIdentity);
+                       
+                        Admin user = _context.Admins.FirstOrDefault(u => u.UserName == username);
+                        if (user != null)
+                        {
+                           if (user.Password == pwhash) 
+                           {
+                               //Creates a new Identity of the user
+                               var claims = new List<Claim>
+                               {
+                                   new Claim(ClaimTypes.Name, "Admin", ClaimValueTypes.String),
+                                   new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString(), ClaimValueTypes.String),
+                                   new Claim(ClaimTypes.Role, "Admin", ClaimValueTypes.String)
+                               };
+                               var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
+                               var userPrincipal = new ClaimsPrincipal(userIdentity);
 
-                        //        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                        //            userPrincipal,
-                        //            new AuthenticationProperties
-                        //            {
-                        //                ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
-                        //                IsPersistent = true,
-                        //                AllowRefresh = false
-                        //            });
+                               HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                                   userPrincipal,
+                                   new AuthenticationProperties
+                                   {
+                                       ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                                       IsPersistent = true,
+                                       AllowRefresh = false
+                                   });
 
-                        //        return RedirectToAction("CreateAccount", "Doctor");
-                        //    }
-                        //    else
-                        //    {
-                        //        ViewBag.emptyfield = "Username or Password is incorrect";
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    ViewBag.emptyfield = "Username or Password is incorrect";
-                        //}
+                               return RedirectToAction("Link", "Admin");
+                           }
+                           else
+                           {
+                               ViewBag.emptyfield = "Username or Password is incorrect";
+                           }
+                        }
+                        else
+                        {
+                           ViewBag.emptyfield = "Username or Password is incorrect";
+                        }
                     }                    
                 }               
             }
             return View();
         }
+        
 
 
         public ActionResult Message(string sendto, string message) //Send a message to a patient
