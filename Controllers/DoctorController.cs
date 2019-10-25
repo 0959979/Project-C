@@ -66,7 +66,7 @@ namespace zorgapp.Controllers{
                     ViewData["FirstName"] = doctor.FirstName;
                     ViewData["LastName"] = doctor.LastName;
 
-                    return RedirectToAction("SubmitDoctorAccount", "Doctor");
+                    return View("SubmitDoctorAccount");
                 
             }
             
