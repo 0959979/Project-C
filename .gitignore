@@ -1,5 +1,18 @@
 
 .vs/zorgapp/v15/Server/sqlite3/db.lock
+.vs/zorgapp/v15/.suo
+.vs/zorgapp/v15/Server/sqlite3/storage.ide-shm
+.vs/zorgapp/v15/Server/sqlite3/storage.ide-wal
+.vs/zorgapp/DesignTimeBuild/.dtbcache
+.vs/zorgapp/v15/Server/sqlite3/storage.ide-shm
+*.ide-shm
+*.ide-wal
+.vs/zorgapp/v15/Server/sqlite3/storage.ide-wal
+.vs/zorgapp/v15/Server/sqlite3/storage.ide
+bin/Debug/netcoreapp2.1/zorgapp.dll
+bin/Debug/netcoreapp2.1/zorgapp.pdb
+obj/Debug/netcoreapp2.1/zorgapp.dll
+obj/Debug/netcoreapp2.1/zorgapp.pdb
 .vs/zorgapp/v15/Server/sqlite3/storage.ide
 .vs/zorgapp/v15/Server/sqlite3/storage.ide-shm
 .vs/zorgapp/v15/Server/sqlite3/storage.ide-wal
