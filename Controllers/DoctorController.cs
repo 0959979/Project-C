@@ -20,13 +20,15 @@ namespace zorgapp.Controllers{
             _context = context;
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateAccount() => View();
 
+        [Authorize(Roles = "Admin")]
         public IActionResult SubmitDoctorAccount(string firstname, string lastname, string email, int phonenumber, string specialism, string username, string password)
         {
             if (username != null && password != null)
             {
-    bool valid = true;
+                bool valid = true;
             {
                 Doctor user = _context.Doctors.FirstOrDefault(u => u.Email == email);
                 if (user != null)
@@ -68,8 +70,7 @@ namespace zorgapp.Controllers{
 
                     return View("SubmitDoctorAccount");
                 
-            }
-            
+            }          
             return View();
         }
        
@@ -119,8 +120,8 @@ namespace zorgapp.Controllers{
         //              }
         //         }
         //         }    
-                     
-            
+
+
         //     public ActionResult Login(string username, string password, bool staylogged)
         // {
         //     //string Username = username;
@@ -191,25 +192,27 @@ namespace zorgapp.Controllers{
         //     return View();
         // }
 
-
-              public ActionResult Message(string sendto, string message) //Send a message to a doctor
+        [Authorize(Roles = "Doctor")]
+        public ActionResult Message(string sendto, string subject, string message) //Send a message to a doctor
         {
             //string Sendto = sendto; //recipient name
             //string Message = message;
-            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == sendto);
+            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == sendto);
             if (user != null)
             {
                 if (message != null && message != "")
                 {
-
+                    //mark for updating, is dit nodig? idk. blijkbaar niet
                     //add the Message to the List<string> of messages
-                    if (user.Messages == null)
-                    {
-                        user.Messages = new List<string> { };
-                    }
+                    var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+                    //_context.Patients.Update(user); niet nodig
+                    //add the Message to the List<string> of messages
+                    user.Messages.Add(username);
+                    user.Messages.Add(subject);
                     user.Messages.Add(message);
                     //send the new List<string> into the Database
                     _context.SaveChanges();
+                    return RedirectToAction("MessageSend", "Doctor");
                 }
                 else
                 {
@@ -222,9 +225,23 @@ namespace zorgapp.Controllers{
             }
             return View();
         }
-    
 
+        [Authorize(Roles = "Doctor")]
+        public ActionResult Inbox()
+        {
 
+            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            ViewBag.message = user.Messages;
+            return View();
+        }
+
+        [Authorize(Roles = "Doctor")]
+        public ActionResult MessageSend()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Doctor")]
         public ActionResult Profile()
         {
             //Gets the username of the logged in user and sends it to the view
@@ -243,7 +260,9 @@ namespace zorgapp.Controllers{
 			ViewBag.lastname = lastname;
 			return View();
         }
-		public IActionResult UpdateAccount(string firstname, string lastname, string email, int phonenumber, string specialism)
+
+        [Authorize(Roles = "Doctor")]
+        public IActionResult UpdateAccount(string firstname, string lastname, string email, int phonenumber, string specialism)
 		{
 			if (firstname != null)
 			{
@@ -259,11 +278,13 @@ namespace zorgapp.Controllers{
 			}
 			return View();
 		}
-		public IActionResult UpdateDoctorAccount()
+
+        [Authorize(Roles = "Doctor")]
+        public IActionResult UpdateDoctorAccount()
 		{
 			string firstname = TempData["MyTempData"].ToString();
 			ViewData["FirstName"] = firstname;
 			return View();
 		}
-}
+    }
 }

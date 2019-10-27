@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using zorgapp.Models;
 
@@ -15,9 +16,12 @@ namespace zorgapp.Controllers{
             _context = context;
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Profile(){
             return View();
         }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Link(){
             if (TempData["message"]!= null){
             ViewBag.Message = TempData["message"].ToString();
@@ -25,6 +29,8 @@ namespace zorgapp.Controllers{
             }
             return View();
         }
+
+        [Authorize(Roles = "Admin")]
         //links patient with doctor but does not check if already linked yet
         public ActionResult SubmitLink(int patientid, int doctorid){
             Doctor doctor = _context.Doctors.FirstOrDefault(m => m.DoctorId == doctorid);
