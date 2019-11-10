@@ -1,0 +1,70 @@
+﻿@model IEnumerable<zorgapp.Models.Doctor>
+<!DOCTYPE html>
+@{
+    ViewData["Title"] = "Inbox";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Inbox</h2>
+<div class="container">
+    <button onclick="window.location = '../Doctor/Message';">+ New</button>
+</div>
+<div>
+
+    <style style="tablestyle">
+        .hoverTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .hoverTable td {
+                padding: 9px;
+                border: #ffffff 0px solid;
+            }
+
+            .hoverTable tr {
+                background: #ffffff;
+            }
+
+            .hoverTable th {
+                background: #ffffff;
+            }
+
+            .hoverTable tr:hover {
+                background-color: #cdb9b9;
+            }
+    </style>
+
+
+
+    <table class="hoverTable">
+        <tr>
+            <th>From</th>
+            <th>Subject</th>
+            <th>Message </th>
+
+
+        </tr>
+        @{
+            var data = ViewBag.message;
+
+        }
+        @for (int x = data.Count - 3; x > -2; x = x - 3)
+        {
+            <tr onclick="" id=x>
+                <td>@Html.DisplayName(ViewBag.message[x]) </td>
+                <td>@Html.DisplayName(ViewBag.message[x + 1])</td>
+                <td>@Html.DisplayName(ViewBag.message[x + 2])</td>
+
+
+            </tr>
+
+        }
+
+    </table>
+
+</div>
+<script>
+    function display(int x) {
+    }
+</script>

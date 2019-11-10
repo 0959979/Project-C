@@ -20,10 +20,12 @@ namespace zorgapp.Controllers{
             _context = context;
         }
 
+
         public IActionResult CreateAccount()
         {           
             return View();
         }
+
 
         [Route("Patient/SubmitPatientAccount")]
         public IActionResult SubmitPatientAccount(string firstname, string lastname, string email,int phonenumber, string username, string password)
@@ -71,7 +73,6 @@ namespace zorgapp.Controllers{
         }
 
         
-
         //PatientList Page
         //Authorizes the page so only users with the role Patient can view it
         [Authorize(Roles = "Admin")]
@@ -229,28 +230,28 @@ namespace zorgapp.Controllers{
             }
             return View();
         }
-        
 
-
-        public ActionResult Message(string sendto, string message) //Send a message to a patient
+        [Authorize(Roles = "Patient")]
+        public ActionResult Message(string sendto, string subject, string message) //Send a message to a patient
         {
             //string Sendto = sendto; //recipient name
             //string Message = message;
-            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == sendto);
+
+
+            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == sendto);
             if (user != null)
             {
                 if (message != null && message != "")
                 {
+                    var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
                     //_context.Patients.Update(user); niet nodig
                     //add the Message to the List<string> of messages
-                    if (user.Messages == null)
-                    {
-                        user.Messages = new List<string> { };
-                    }
+                    user.Messages.Add(username);
+                    user.Messages.Add(subject);
                     user.Messages.Add(message);
-                    
                     //send the new List<string> into the Database
                     _context.SaveChanges();
+                    return RedirectToAction("MessageSend", "Patient");
                 }
                 else
                 {
@@ -264,13 +265,36 @@ namespace zorgapp.Controllers{
             return View();
         }
 
+        [Authorize(Roles = "Patient")]
+        public ActionResult Inbox()
+        {
+
+            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            ViewBag.message = user.Messages;
+            return View();
+        }
+
+        [Authorize(Roles = "Patient")]
+        public ActionResult MessageDisplay(int index)
+        {
+
+            return View();
+        }
+
+        [Authorize(Roles = "Patient")]
+        public ActionResult MessageSend()
+        {
+            return View();
+        }
+
 
         public ActionResult Logout()
         {
             HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-    
+
+        [Authorize(Roles = "Patient")]
         public ActionResult Profile()
         {
             //Gets the username of the logged in user and sends it to the view
@@ -287,7 +311,9 @@ namespace zorgapp.Controllers{
 			ViewBag.lastname = lastname;
 			return View();
         }
-		public IActionResult UpdateAccount(string firstname, string lastname, string email, int phonenumber)
+
+        [Authorize(Roles = "Patient")]
+        public IActionResult UpdateAccount(string firstname, string lastname, string email, int phonenumber)
 		{
 			if (firstname != null)
 			{
