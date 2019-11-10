@@ -54,3 +54,6 @@ B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Inbox
 B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\MessageSend.g.cshtml.cs
 B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\MessageSend.g.cshtml.cs
 B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\MessageDisplay.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\CreateCase.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\CreateAppointment.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\AppointmentList.g.cshtml.cs

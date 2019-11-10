@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using zorgapp.Models;
+using zorgapp.ViewModels;
 
 namespace zorgapp.Controllers{
 
@@ -191,6 +192,108 @@ namespace zorgapp.Controllers{
         //     }
         //     return View();
         // }
+        public ActionResult CreateCase(string caseid, string casename, int patientid)
+        {
+            if (caseid != null)
+            {
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                int doctorid = user.DoctorId;
+                Case newcase = new Case()
+                {
+                    Id = caseid,
+                    Name = casename,
+                    DoctorId = doctorid,
+                    PatientId = patientid
+                };
+                _context.Cases.Add(newcase);
+                _context.SaveChanges();
+
+                return RedirectToAction("Profile", "Doctor");
+            }
+
+            return View();
+        }
+
+        public ActionResult CreateAppointment(string caseid, string info)
+        {
+            if (caseid != null)
+            {               
+                Appointment appointment = new Appointment()
+                {
+                    CaseId = caseid,
+                    Date = DateTime.Now,
+                    Info = info
+                };
+                _context.Appointments.Add(appointment);
+                _context.SaveChanges();
+
+                return RedirectToAction("Profile", "Doctor");
+            }
+            return View();
+        }
+
+        public ActionResult AppointmentList(string caseid)
+        {
+            if (caseid != null)
+            {
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                int doctorid = user.DoctorId;
+
+                var cases = from c in _context.Cases where c.DoctorId == doctorid select c;
+                var Case = new List<Case>();
+
+                var Appointment = new List<Appointment>();
+                var appointments = from a in _context.Appointments where a.CaseId == caseid select a;
+
+                ViewBag.ID = caseid;
+
+                foreach (var item in cases)
+                {
+                    Case.Add(item);
+                }
+                foreach (var item in appointments)
+                {
+                    Appointment.Add(item);
+                }
+
+                AppointmentViewModel caseappointments = new AppointmentViewModel
+                {
+                    Cases = Case,
+                    Appointments = Appointment
+                };
+
+                return View(caseappointments);
+            }
+            else
+            {
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                int doctorid = user.DoctorId;
+
+                var cases = from c in _context.Cases where c.DoctorId == doctorid select c;
+                var Case = new List<Case>();
+
+                var Appointment = new List<Appointment>();
+                var appointments = from a in _context.Appointments where a.CaseId == caseid select a;
+
+                foreach (var item in cases)
+                {
+                    Case.Add(item);
+                }
+                foreach (var item in appointments)
+                {
+                    Appointment.Add(item);
+                }
+
+                AppointmentViewModel caseappointments = new AppointmentViewModel
+                {
+                    Cases = Case,
+                    Appointments = Appointment
+                };
+
+                return View(caseappointments);
+            }
+                                 
+        }
 
         [Authorize(Roles = "Doctor")]
         public ActionResult Message(string sendto, string subject, string message) //Send a message to a doctor

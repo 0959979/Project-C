@@ -24,7 +24,7 @@ using zorgapp.Models;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2e8f6fd520721ced89bfc1345f395ec114494779", @"/Views/Doctor/SubmitDoctorAccount.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"c778459967e0a9d176c534a519b6905fd65746fe", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"9fb9c266c6f46fd0d0d62b48ce0943fbf90530da", @"/Views/_ViewImports.cshtml")]
     public class Views_Doctor_SubmitDoctorAccount : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<zorgapp.Models.Doctor>
     {
         #pragma warning disable 1998
