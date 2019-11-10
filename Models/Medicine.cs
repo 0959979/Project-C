@@ -12,6 +12,5 @@ namespace zorgapp.Models
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
         public int Amount { get; set; }
-        public int PatientID { get; set; }
     }
 }

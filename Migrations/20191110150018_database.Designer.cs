@@ -10,7 +10,7 @@ using zorgapp.Models;
 namespace zorgapp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191025121825_database")]
+    [Migration("20191110150018_database")]
     partial class database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace zorgapp.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("zorgapp.Models.Admin", b =>
@@ -54,6 +54,8 @@ namespace zorgapp.Migrations
 
                     b.Property<int>("PhoneNumber");
 
+                    b.Property<List<int>>("PracticeIds");
+
                     b.Property<string>("Specialism");
 
                     b.Property<string>("UserName");
@@ -80,13 +82,37 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("Password");
 
+                    b.Property<List<int>>("PatientPracticeIds");
+
                     b.Property<int>("PhoneNumber");
+
+                    b.Property<List<int>>("PracticeIds");
 
                     b.Property<string>("UserName");
 
                     b.HasKey("PatientId");
 
                     b.ToTable("Patients");
+                });
+
+            modelBuilder.Entity("zorgapp.Models.Practice", b =>
+                {
+                    b.Property<int>("PracticeId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
+
+                    b.Property<List<int>>("DoctorIds");
+
+                    b.Property<string>("Name");
+
+                    b.Property<List<int>>("PatientIds");
+
+                    b.Property<List<int>>("PatientPracticeIds");
+
+                    b.HasKey("PracticeId");
+
+                    b.ToTable("Practices");
                 });
 #pragma warning restore 612, 618
         }

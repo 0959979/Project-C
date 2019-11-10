@@ -72,7 +72,40 @@ namespace zorgapp.Controllers{
             
             return View();
         }
-       
+            public ActionResult Link(){
+            if (TempData["message"]!= null){
+            ViewBag.Message = TempData["message"].ToString();
+            TempData.Remove("message");
+            }
+            return View();
+        }
+        //links patient with doctor 
+        public ActionResult SubmitLink(int patientid, int doctorid){
+            Doctor doctor = _context.Doctors.FirstOrDefault(m => m.DoctorId == doctorid);
+            Patient patient = _context.Patients.FirstOrDefault(y => y.PatientId == patientid);
+            int patientid_ = patientid;
+            int doctorid_ = doctorid;
+            string docName = doctor.FirstName;
+            string patName = patient.FirstName;
+
+            bool DocContains = doctor.PatientIds.Contains(patientid_);
+            bool PatContains = patient.DoctorIds.Contains(doctorid_);
+
+            if(!DocContains){
+                doctor.PatientIds.Add(patientid_);
+                patient.DoctorIds.Add(doctorid_);
+                _context.SaveChanges();
+            }
+            else if(DocContains){
+                TempData["message"] = "Link has already been made";
+                return RedirectToAction("Link","Admin");
+            }
+
+            ViewData["Doctor"] = docName;
+            ViewData["Patient"] = patName;
+
+            return View();
+        }
         // public IActionResult SubmitDoctorAccount()
         // {
         //     string firstname = TempData["MyTempData"].ToString();
@@ -92,104 +125,6 @@ namespace zorgapp.Controllers{
 
             return View(doctors);
         }
-
-
-        // public ActionResult Login(string username, string password, bool staylogged)
-        // {
-        //     //string Username = username;
-        //     string Password = password;
-        //     var UserL = from u in _context.Patients where u.UserName == username select u;
-        //     if (username != null)
-        //     {
-        //         username = username.ToLower();
-        //         Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == username);
-        //         if (user != null)
-        //         {
-        //             string pwhash = Program.Hash256bits(password);
-        //             if (user.Password == pwhash)                  
-        //              {
-        //                 var claims = new List<Claim>
-        //             {
-        //                 new Claim(ClaimTypes.Name, "Doctor", ClaimValueTypes.String),
-        //                 new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString(), ClaimValueTypes.String),
-        //                 new Claim(ClaimTypes.Role, "Doctor", ClaimValueTypes.String)
-        //             };
-        //                 var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
-        //                 var userPrincipal = new ClaimsPrincipal(userIdentity);
-        //              }
-        //         }
-        //         }    
-                     
-            
-        //     public ActionResult Login(string username, string password, bool staylogged)
-        // {
-        //     //string Username = username;
-        //     //string Password = password;
-        //     //var UserL = from u in _context.Patients where u.UserName == Username select u;
-        //     if (username != null)
-        //     {
-        //         username = username.ToLower();
-        //         Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == username);
-        //         if (user != null)
-
-        //         {
-        //             string pwhash = Program.Hash256bits(password);
-        //             if (user.Password == pwhash)                  
-        //              {
-        //                 var claims = new List<Claim>
-        //             {
-        //                 new Claim(ClaimTypes.Name, "Doctor", ClaimValueTypes.String),
-        //                 new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString(), ClaimValueTypes.String),
-        //                 new Claim(ClaimTypes.Role, "Doctor", ClaimValueTypes.String)
-        //             };
-        //                 var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
-        //                 var userPrincipal = new ClaimsPrincipal(userIdentity);
-
-        //                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-        //                     userPrincipal,
-        //                     new AuthenticationProperties
-        //                     {
-        //                         ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
-        //                         IsPersistent = true,
-        //                         AllowRefresh = false
-        //                     });
-        //                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-        //                     userPrincipal,
-        //                     new AuthenticationProperties
-        //                     {
-        //                         ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
-        //                         IsPersistent = true,
-        //                         AllowRefresh = false
-        //                     });
-
-        //                 return RedirectToAction("Profile", "Doctor");
-        //             }
-        //             else
-        //             {
-        //                 ViewBag.emptyfield = "Username or Password is incorrect";
-        //             }
-        //         }
-        //         else
-        //         {
-        //             ViewBag.emptyfield = "Username or Password is incorrect";
-        //         }
-        //     }
-        //     return View();
-        // }
-        //                 return RedirectToAction("Profile", "Doctor");
-        //             }
-        //             else
-        //             {
-        //                 ViewBag.emptyfield = "Username or Password is incorrect";
-        //             }
-        //         }
-        //         else
-        //         {
-        //             ViewBag.emptyfield = "Username or Password is incorrect";
-        //         }
-        //     }
-        //     return View();
-        // }
 
 
               public ActionResult Message(string sendto, string message) //Send a message to a doctor

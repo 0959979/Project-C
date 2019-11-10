@@ -36,7 +36,8 @@ namespace zorgapp.Migrations
                     UserName = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Messages = table.Column<List<string>>(nullable: true),
-                    PatientIds = table.Column<List<int>>(nullable: true)
+                    PatientIds = table.Column<List<int>>(nullable: true),
+                    PracticeIds = table.Column<List<int>>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,11 +57,30 @@ namespace zorgapp.Migrations
                     PhoneNumber = table.Column<int>(nullable: false),
                     Email = table.Column<string>(nullable: true),
                     Messages = table.Column<List<string>>(nullable: true),
-                    DoctorIds = table.Column<List<int>>(nullable: true)
+                    DoctorIds = table.Column<List<int>>(nullable: true),
+                    PracticeIds = table.Column<List<int>>(nullable: true),
+                    PatientPracticeIds = table.Column<List<int>>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Patients", x => x.PatientId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Practices",
+                columns: table => new
+                {
+                    PracticeId = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    DoctorIds = table.Column<List<int>>(nullable: true),
+                    PatientIds = table.Column<List<int>>(nullable: true),
+                    PatientPracticeIds = table.Column<List<int>>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Practices", x => x.PracticeId);
                 });
         }
 
@@ -74,6 +94,9 @@ namespace zorgapp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Patients");
+
+            migrationBuilder.DropTable(
+                name: "Practices");
         }
     }
 }

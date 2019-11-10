@@ -33,6 +33,9 @@ namespace zorgapp.Models
         public DbSet<Doctor> Doctors { get; set; }
 
         public DbSet<Admin> Admins { get; set; }
+        
+        public DbSet<Practice> Practices { get; set; }
+
 
         // public DbSet<Linked> linkeds { get; set; }
         

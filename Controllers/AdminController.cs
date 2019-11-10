@@ -25,7 +25,7 @@ namespace zorgapp.Controllers{
             }
             return View();
         }
-        //links patient with doctor but does not check if already linked yet
+        //links patient with doctor 
         public ActionResult SubmitLink(int patientid, int doctorid){
             Doctor doctor = _context.Doctors.FirstOrDefault(m => m.DoctorId == doctorid);
             Patient patient = _context.Patients.FirstOrDefault(y => y.PatientId == patientid);

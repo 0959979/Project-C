@@ -17,6 +17,10 @@ namespace zorgapp.Models
         public string Email {get; set; }
         public List<string> Messages { get; set; }
         public List<int> DoctorIds{ get; set; }
+        public List<int> PracticeIds{ get; set; }
+        public List<int> PatientPracticeIds{ get; set; }
+
+
       //  public ICollection<Doctor> Doctors {get;set;}
 
 
