@@ -94,6 +94,26 @@ namespace zorgapp.Migrations
                     b.ToTable("Doctors");
                 });
 
+            modelBuilder.Entity("zorgapp.Models.Medicine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Amount");
+
+                    b.Property<DateTime>("DateEnd");
+
+                    b.Property<DateTime>("DateStart");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("PatientID");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Medicines");
+                });
+
             modelBuilder.Entity("zorgapp.Models.Patient", b =>
                 {
                     b.Property<int>("PatientId")

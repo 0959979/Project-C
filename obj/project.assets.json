@@ -14808,23 +14808,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\School\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\saade\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\School\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
+      "projectUniqueName": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj",
       "projectName": "zorgapp",
-      "projectPath": "C:\\Users\\School\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
-      "packagesPath": "C:\\Users\\School\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\School\\Documents\\GitHub\\Project-C\\obj\\",
+      "projectPath": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj",
+      "packagesPath": "C:\\Users\\saade\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\School\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\saade\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -14864,6 +14860,7 @@
             "version": "[2.1.2, )"
           },
           "Microsoft.NETCore.App": {
+            "suppressParent": "All",
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true
@@ -14878,10 +14875,16 @@
           }
         },
         "imports": [
-          "net461"
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
         ],
         "assetTargetFallback": true,
-        "warn": true
+        "warn": true,
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

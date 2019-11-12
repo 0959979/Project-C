@@ -37,6 +37,7 @@ namespace zorgapp.Models
         public DbSet<Appointment> Appointments { get; set; }
 
         public DbSet<Case> Cases { get; set; }
+		public DbSet<Medicine> Medicines { get; set; }
 
         // public DbSet<Linked> linkeds { get; set; }
 
