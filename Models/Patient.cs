@@ -17,10 +17,15 @@ namespace zorgapp.Models
         public string Email {get; set; }
         public List<string> Messages { get; set; }
         public List<int> DoctorIds{ get; set; }
+        public string linkcode { get; set; }
+        public int linkuses { get; set; }
+        public List<int> CanSeeMeId { get; set; }
+        public List<int> ICanSeeId { get; set; }
+
       //  public ICollection<Doctor> Doctors {get;set;}
 
 
-        
+
 
         // public Patient(int patientId, string firstname, string lastName, int phoneNumber, string userName, string password, string email){
         //     patientId = PatientId;
@@ -34,7 +39,7 @@ namespace zorgapp.Models
 
 
 
-        
+
     }
 
 }

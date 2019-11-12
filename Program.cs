@@ -37,6 +37,31 @@ namespace zorgapp
             }
         }
 
+        public static string GenerateLinkCode()
+        {
+            Random rd = new Random();
+            string code;
+            code = "";
+            int intcode;
+            intcode = rd.Next(999999); //generates a random number (1 000 000 possible values)
+            byte[] bytecode = BitConverter.GetBytes(intcode); //turns the random number into a bytelist to use as input for the hash
+
+            using (MD5 MD5HASH = MD5.Create())
+            {
+                // ComputeHash - returns byte array
+                byte[] bytes = MD5HASH.ComputeHash(bytecode);
+
+                // Convert byte array to a string   
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    code += bytes[i].ToString("x2");
+                }
+            }
+            //System.Diagnostics.Debug.WriteLine("Input int is: " + intcode.ToString());
+            //System.Diagnostics.Debug.WriteLine("Output is: " + code);
+            return code;
+        }
+
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();

@@ -16,7 +16,7 @@ namespace zorgapp.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("zorgapp.Models.Admin", b =>
@@ -66,11 +66,15 @@ namespace zorgapp.Migrations
                     b.Property<int>("PatientId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<List<int>>("CanSeeMeId");
+
                     b.Property<List<int>>("DoctorIds");
 
                     b.Property<string>("Email");
 
                     b.Property<string>("FirstName");
+
+                    b.Property<List<int>>("ICanSeeId");
 
                     b.Property<string>("LastName");
 
@@ -81,6 +85,10 @@ namespace zorgapp.Migrations
                     b.Property<int>("PhoneNumber");
 
                     b.Property<string>("UserName");
+
+                    b.Property<string>("linkcode");
+
+                    b.Property<int>("linkuses");
 
                     b.HasKey("PatientId");
 
