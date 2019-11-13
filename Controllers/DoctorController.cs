@@ -293,5 +293,23 @@ namespace zorgapp.Controllers{
 			ViewData["FirstName"] = firstname;
 			return View();
 		}
-    }
+
+		public ActionResult AddMedicines(string name, DateTime date_start, DateTime date_end, int amount, int patient_id, float mg)
+		{
+			Medicine medicine_ = new Medicine()
+			{
+				Name = name,
+				Date_start = date_start,
+				Date_end = date_end,
+				Amount = amount,
+				Patient_id = patient_id,
+				Mg = mg
+			};
+			_context.Medicines.Add(medicine_);
+			_context.SaveChanges();
+
+
+			return View();
+		}
+	}
 }

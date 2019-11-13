@@ -38,11 +38,12 @@ namespace zorgapp.Models
 
         public DbSet<Case> Cases { get; set; }
 		public DbSet<Medicine> Medicines { get; set; }
+		public object Claims { get; internal set; }
 
-        // public DbSet<Linked> linkeds { get; set; }
+		// public DbSet<Linked> linkeds { get; set; }
 
 
 
-    }
+	}
     
 }

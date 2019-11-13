@@ -61,7 +61,7 @@ namespace zorgapp.Controllers{
 
     //    public ActionResult Login(string username, string password)
     //     {
-    //         var adminexists = _context.Admins.Any(x => x.UserName == "admin");
+      //  var adminexists = _context.Admins.Any(x => x.UserName == "admin");
     //         if(!adminexists){
     //         Admin admin = new Admin(){
     //             UserName = "admin",

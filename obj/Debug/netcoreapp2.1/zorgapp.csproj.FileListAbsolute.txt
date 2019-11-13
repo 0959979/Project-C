@@ -178,3 +178,4 @@ C:\Users\saade\Desktop\Git repos\Project-C\obj\Debug\netcoreapp2.1\zorgapp.Views
 C:\Users\saade\Desktop\Git repos\Project-C\obj\Debug\netcoreapp2.1\zorgapp.dll
 C:\Users\saade\Desktop\Git repos\Project-C\obj\Debug\netcoreapp2.1\zorgapp.pdb
 C:\Users\saade\Desktop\Git repos\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CopyComplete
+C:\Users\saade\Desktop\Git repos\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\AddMedicines.cshtml.g.cs
