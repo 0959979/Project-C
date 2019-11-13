@@ -21,7 +21,6 @@ namespace zorgapp.Controllers{
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Link(){
             if (TempData["message"]!= null){
             ViewBag.Message = TempData["message"].ToString();
@@ -32,7 +31,6 @@ namespace zorgapp.Controllers{
     
 
 
-        [Authorize(Roles = "Admin")]
       //  links patient with doctor 
  
         public ActionResult SubmitLink(int patientid, int doctorid){

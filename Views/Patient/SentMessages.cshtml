@@ -1,4 +1,4 @@
-﻿@model IEnumerable<zorgapp.Models.Message>
+@model IEnumerable<zorgapp.Models.Message>
 <!DOCTYPE html>
 @{
     ViewData["Title"] = "Inbox";
@@ -43,7 +43,7 @@
         <thead>
             <tr>
                 <th>
-                    Sender
+                    Sent to:
                 </th>
                 <th>
                     Subject
@@ -62,7 +62,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Sender)
+                        @Html.DisplayFor(modelItem => item.Receiver)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Subject)

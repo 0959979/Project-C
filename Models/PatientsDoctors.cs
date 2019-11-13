@@ -13,9 +13,5 @@ namespace zorgapp.Models
         public Doctor Doctor {get; set;}
         public Patient Patient {get; set;}
 
-        // public ICollection<Patient> Patients {get; set;}
-        // public ICollection<Doctor> Doctors {get; set;}
-
-
     }
 }

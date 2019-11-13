@@ -1,4 +1,4 @@
-﻿@model IEnumerable<zorgapp.Models.Message>
+@model IEnumerable<zorgapp.Models.Message>
 <!DOCTYPE html>
 @{
     ViewData["Title"] = "Inbox";
@@ -7,13 +7,13 @@
 
 <h2>Inbox</h2>
 <class ="container">
-    <button onclick="window.location = '../Patient/Message';">New Message</button>
+    <button onclick="window.location = '../Doctor/Message';">New Message</button>
 </class> <br /> <br />
 <class ="container">
-    <button onclick="window.location = '../Patient/Inbox';">Recieved Messages</button>
+    <button onclick="window.location = '../Doctor/Inbox';">Recieved Messages</button>
 </class>
 <class ="container">
-    <button onclick="window.location = '../Patient/SentMessages';">Sent Messages</button>
+    <button onclick="window.location = '../Doctor/SentMessages';">Sent Messages</button>
 </class> <br />
 <div>
 
@@ -43,7 +43,7 @@
         <thead>
             <tr>
                 <th>
-                    Sender
+                    Sent to:
                 </th>
                 <th>
                     Subject
@@ -62,7 +62,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Sender)
+                        @Html.DisplayFor(modelItem => item.Receiver)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Subject)
@@ -79,3 +79,7 @@
     </table>
 
 </div>
+<script>
+    function display(int x) {
+    }
+</script>
