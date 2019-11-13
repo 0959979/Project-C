@@ -7,12 +7,13 @@ namespace zorgapp.Models
 {
     public class Appointment
     {
-        public int Id { get; set; }
+        public int AppointmentId { get; set; }
         public DateTime Date { get; set; }
         public string Info { get; set; }
 
         public string CaseId { get; set; }
         //public int PatientId { get; set; }
         //public int DoctorId { get; set;}
+
     }
 }

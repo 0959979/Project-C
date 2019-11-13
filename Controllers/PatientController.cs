@@ -55,13 +55,14 @@ namespace zorgapp.Controllers{
                 Patient patient = new Patient()
                 {
                     FirstName = firstname,
+                    LocalId = "LocalPat",
                     LastName = lastname,
                     Email = email,
-                    PhoneNumber = phonenumber,
+                    PhoneNumber = phonenumber.ToString(),//DIT NIET MERGEN, IS TIJDELIJK
                     UserName = username.ToLower(),
                     Password = Program.Hash256bits(password),
-                    Messages = new List<string>(),
-                    DoctorIds = new List<int>()
+                    //Messages = new List<string>(),//DIT NIET MERGEN, IS TIJDELIJK
+                    //DoctorIds = new List<int>()//DIT NIET MERGEN, IS TIJDELIJK
                 };
                 _context.Patients.Add(patient);
                 _context.SaveChanges();
@@ -246,9 +247,9 @@ namespace zorgapp.Controllers{
                     var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
                     //_context.Patients.Update(user); niet nodig
                     //add the Message to the List<string> of messages
-                    user.Messages.Add(username);
-                    user.Messages.Add(subject);
-                    user.Messages.Add(message);
+                    //user.Messages.Add(username)//DIT NIET MERGEN, IS TIJDELIJK;
+                    //user.Messages.Add(subject);
+                    //user.Messages.Add(message);
                     //send the new List<string> into the Database
                     _context.SaveChanges();
                     return RedirectToAction("MessageSend", "Patient");
@@ -270,7 +271,7 @@ namespace zorgapp.Controllers{
         {
 
             Patient user = _context.Patients.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
-            ViewBag.message = user.Messages;
+            ViewBag.message = "";//user.Messages;
             return View();
         }
 
@@ -322,8 +323,8 @@ namespace zorgapp.Controllers{
 				USER.FirstName = firstname;
 				USER.LastName = lastname;
 				USER.Email = email;
-				USER.PhoneNumber = phonenumber;
-				_context.SaveChanges();
+				USER.PhoneNumber = phonenumber.ToString();//DIT NIET MERGEN, IS TIJDELIJK
+                _context.SaveChanges();
 				return RedirectToAction("Profile", "Patient");
 			}
 			return View();

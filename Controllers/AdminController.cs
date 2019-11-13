@@ -40,7 +40,7 @@ namespace zorgapp.Controllers{
             string docName = doctor.FirstName;
             string patName = patient.FirstName;
 
-            bool DocContains = doctor.PatientIds.Contains(patientid_);
+            /*bool DocContains = doctor.PatientIds.Contains(patientid_);//DIT NIET MERGEN, IS TIJDELIJK
             bool PatContains = patient.DoctorIds.Contains(doctorid_);
 
             if(!DocContains){
@@ -52,7 +52,7 @@ namespace zorgapp.Controllers{
                 TempData["message"] = "Link has already been made";
                 return RedirectToAction("Link","Admin");
             }
-
+            */
             ViewData["Doctor"] = docName;
             ViewData["Patient"] = patName;
 
