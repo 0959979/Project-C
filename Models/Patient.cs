@@ -9,7 +9,7 @@ namespace zorgapp.Models
     public class Patient{
 
         public int PatientId { get; set; }
-        public int LocalId {get;set;}
+        public string LocalId {get;set;}
         public string Password { get; set;}      
         public string UserName { get; set; }
         public string FirstName { get; set; }

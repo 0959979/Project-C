@@ -10,7 +10,7 @@ using zorgapp.Models;
 namespace zorgapp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191113143437_database")]
+    [Migration("20191113145350_database")]
     partial class database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,7 @@ namespace zorgapp.Migrations
                     b.Property<int>("AppointmentId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CaseId");
+                    b.Property<string>("CaseId");
 
                     b.Property<DateTime>("Date");
 
@@ -53,7 +53,7 @@ namespace zorgapp.Migrations
 
             modelBuilder.Entity("zorgapp.Models.Case", b =>
                 {
-                    b.Property<int>("CaseId")
+                    b.Property<string>("CaseId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CaseInfo");
@@ -80,7 +80,7 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<int>("LocalId");
+                    b.Property<string>("LocalId");
 
                     b.Property<string>("Password");
 
@@ -160,7 +160,7 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("LinkUses");
 
-                    b.Property<int>("LocalId");
+                    b.Property<string>("LocalId");
 
                     b.Property<string>("Password");
 

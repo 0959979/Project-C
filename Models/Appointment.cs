@@ -9,7 +9,7 @@ namespace zorgapp.Models
     {
         public int AppointmentId {get;set;}
         public DateTime Date {get;set;}
-        public int CaseId {get;set;}
+        public string CaseId {get;set;}
         public string Info {get;set;}
      
     }

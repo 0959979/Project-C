@@ -29,7 +29,7 @@ namespace zorgapp.Migrations
                     AppointmentId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Date = table.Column<DateTime>(nullable: false),
-                    CaseId = table.Column<int>(nullable: false),
+                    CaseId = table.Column<string>(nullable: true),
                     Info = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -41,8 +41,7 @@ namespace zorgapp.Migrations
                 name: "Cases",
                 columns: table => new
                 {
-                    CaseId = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    CaseId = table.Column<string>(nullable: false),
                     CaseInfo = table.Column<string>(nullable: true),
                     CaseName = table.Column<string>(nullable: true),
                     PatientId = table.Column<int>(nullable: false),
@@ -59,7 +58,7 @@ namespace zorgapp.Migrations
                 {
                     DoctorId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    LocalId = table.Column<int>(nullable: false),
+                    LocalId = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -115,7 +114,7 @@ namespace zorgapp.Migrations
                 {
                     PatientId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    LocalId = table.Column<int>(nullable: false),
+                    LocalId = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
