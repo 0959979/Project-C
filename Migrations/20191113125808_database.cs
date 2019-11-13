@@ -15,8 +15,8 @@ namespace zorgapp.Migrations
                 {
                     AdminId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Password = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(nullable: false)
+                    Password = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,9 +29,9 @@ namespace zorgapp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Date = table.Column<DateTime>(nullable: true),
-                    Info = table.Column<string>(nullable: false),
-                    CaseId = table.Column<string>(nullable: false)
+                    Date = table.Column<DateTime>(nullable: false),
+                    Info = table.Column<string>(nullable: true),
+                    CaseId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -43,7 +43,7 @@ namespace zorgapp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
                     DoctorId = table.Column<int>(nullable: false),
                     PatientId = table.Column<int>(nullable: false)
                 },
@@ -61,16 +61,35 @@ namespace zorgapp.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<int>(nullable: true),
+                    PhoneNumber = table.Column<int>(nullable: false),
                     Specialism = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
-                    Messages = table.Column<List<string>>(nullable: true),
+                    SendMessages = table.Column<List<int>>(nullable: true),
+                    RecievedMessages = table.Column<List<int>>(nullable: true),
                     PatientIds = table.Column<List<int>>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Doctors", x => x.DoctorId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Sender = table.Column<string>(nullable: true),
+                    Reciever = table.Column<string>(nullable: true),
+                    Subject = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    DoctorToPatient = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,9 +102,10 @@ namespace zorgapp.Migrations
                     UserName = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<int>(nullable: true),
+                    PhoneNumber = table.Column<int>(nullable: false),
                     Email = table.Column<string>(nullable: true),
-                    Messages = table.Column<List<string>>(nullable: true),
+                    SendMessages = table.Column<List<int>>(nullable: true),
+                    RecievedMessages = table.Column<List<int>>(nullable: true),
                     DoctorIds = table.Column<List<int>>(nullable: true)
                 },
                 constraints: table =>
@@ -107,6 +127,9 @@ namespace zorgapp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Doctors");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "Patients");

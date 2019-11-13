@@ -59,8 +59,7 @@ namespace zorgapp.Controllers{
                     Email = email,
                     PhoneNumber = phonenumber,
                     UserName = username.ToLower(),
-                    Password = Program.Hash256bits(password),
-                    Messages = new List<string>(),
+                    Password = Program.Hash256bits(password),                   
                     DoctorIds = new List<int>()
                 };
                 _context.Patients.Add(patient);
@@ -232,24 +231,26 @@ namespace zorgapp.Controllers{
         }
 
         [Authorize(Roles = "Patient")]
-        public ActionResult Message(string sendto, string subject, string message) //Send a message to a patient
+        public ActionResult Message(string reciever, string subject, string text)
         {
-            //string Sendto = sendto; //recipient name
-            //string Message = message;
-
-
-            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == sendto);
-            if (user != null)
+            Doctor doctor = _context.Doctors.FirstOrDefault(u => u.UserName == reciever);
+            if (doctor != null)
             {
-                if (message != null && message != "")
+                if (text != null && text != "")
                 {
                     var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-                    //_context.Patients.Update(user); niet nodig
-                    //add the Message to the List<string> of messages
-                    user.Messages.Add(username);
-                    user.Messages.Add(subject);
-                    user.Messages.Add(message);
-                    //send the new List<string> into the Database
+                    Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == username);
+                    Message message = new Message()
+                    {
+                        Sender = username,
+                        Reciever = reciever,
+                        Subject = subject,
+                        Text = text,
+                        Date = DateTime.Now,
+                        DoctorToPatient = false
+                    };
+
+                    _context.Messages.Add(message);
                     _context.SaveChanges();
                     return RedirectToAction("MessageSend", "Patient");
                 }
@@ -258,7 +259,7 @@ namespace zorgapp.Controllers{
                     ViewBag.emptyfield = "You need to type in a message to send it.";
                 }
             }
-            else if (sendto != null)
+            else if (reciever != null)
             {
                 ViewBag.emptyfield = "User not found";
             }
@@ -268,10 +269,28 @@ namespace zorgapp.Controllers{
         [Authorize(Roles = "Patient")]
         public ActionResult Inbox()
         {
-
             Patient user = _context.Patients.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
-            ViewBag.message = user.Messages;
-            return View();
+            var message = from m in _context.Messages where m.Text == "" select m;
+            var check = from m in _context.Messages where m.DoctorToPatient == true && m.Reciever == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value select m;
+            if (message != check)
+            {
+                message = from m in _context.Messages where m.DoctorToPatient == true && m.Reciever == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value orderby m.Date descending select m;
+            }
+            return View(message);
+        }
+
+
+        [Authorize(Roles = "Patient")]
+        public ActionResult SentMessages()
+        {
+            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            var message = from m in _context.Messages where m.Text == "" select m;
+            var check = from m in _context.Messages where m.DoctorToPatient == false && m.Sender == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value select m;
+            if (message != check)
+            {
+                message = from m in _context.Messages where m.DoctorToPatient == false && m.Sender == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value orderby m.Date descending select m;
+            }
+            return View(message);
         }
 
         [Authorize(Roles = "Patient")]

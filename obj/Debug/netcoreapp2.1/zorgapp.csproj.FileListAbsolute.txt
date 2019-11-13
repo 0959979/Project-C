@@ -64,7 +64,6 @@ C:\Users\School\Documents\GitHub\Project-C\bin\Debug\netcoreapp2.1\zorgapp.dll
 C:\Users\School\Documents\GitHub\Project-C\bin\Debug\netcoreapp2.1\zorgapp.pdb
 C:\Users\School\Documents\GitHub\Project-C\bin\Debug\netcoreapp2.1\zorgapp.Views.dll
 C:\Users\School\Documents\GitHub\Project-C\bin\Debug\netcoreapp2.1\zorgapp.Views.pdb
-C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csprojAssemblyReference.cache
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CoreCompileInputs.cache
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorAssemblyInfo.cache
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorAssemblyInfo.cs
@@ -82,7 +81,6 @@ C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\D
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\CreateAppointment.g.cshtml.cs
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\CreateCase.g.cshtml.cs
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\DoctorList.g.cshtml.cs
-C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Inbox.g.cshtml.cs
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Login.g.cshtml.cs
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Message.g.cshtml.cs
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\MessageSend.g.cshtml.cs
@@ -94,7 +92,6 @@ C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\H
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.g.cshtml.cs
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\Privacy.g.cshtml.cs
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\CreateAccount.g.cshtml.cs
-C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Inbox.g.cshtml.cs
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Login.g.cshtml.cs
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Message.g.cshtml.cs
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\MessageDisplay.g.cshtml.cs
@@ -116,3 +113,8 @@ C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.Views
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.dll
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.pdb
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CopyComplete
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csprojAssemblyReference.cache
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\SentMessages.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\SentMessages.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Inbox.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Inbox.g.cshtml.cs

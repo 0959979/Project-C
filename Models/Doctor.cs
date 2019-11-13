@@ -18,7 +18,8 @@ namespace zorgapp.Models
         public string Specialism { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public List<string> Messages { get; set; }
+        public List<int> SendMessages { get; set; }
+        public List<int> RecievedMessages { get; set; }
         public List<int> PatientIds { get; set; }
       // public ICollection<Patient> Patients {get;set;}
 

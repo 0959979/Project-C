@@ -38,6 +38,8 @@ namespace zorgapp.Models
 
         public DbSet<Case> Cases { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         // public DbSet<Linked> linkeds { get; set; }
 
 

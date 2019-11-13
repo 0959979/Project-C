@@ -11,7 +11,7 @@ using zorgapp.Models;
 namespace zorgapp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191110182846_database")]
+    [Migration("20191113125808_database")]
     partial class database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,13 +79,15 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<List<string>>("Messages");
-
                     b.Property<string>("Password");
 
                     b.Property<List<int>>("PatientIds");
 
                     b.Property<int>("PhoneNumber");
+
+                    b.Property<List<int>>("RecievedMessages");
+
+                    b.Property<List<int>>("SendMessages");
 
                     b.Property<string>("Specialism");
 
@@ -94,6 +96,28 @@ namespace zorgapp.Migrations
                     b.HasKey("DoctorId");
 
                     b.ToTable("Doctors");
+                });
+
+            modelBuilder.Entity("zorgapp.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<bool>("DoctorToPatient");
+
+                    b.Property<string>("Reciever");
+
+                    b.Property<string>("Sender");
+
+                    b.Property<string>("Subject");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("zorgapp.Models.Patient", b =>
@@ -109,11 +133,13 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<List<string>>("Messages");
-
                     b.Property<string>("Password");
 
                     b.Property<int>("PhoneNumber");
+
+                    b.Property<List<int>>("RecievedMessages");
+
+                    b.Property<List<int>>("SendMessages");
 
                     b.Property<string>("UserName");
 
