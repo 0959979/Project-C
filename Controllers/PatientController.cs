@@ -28,7 +28,7 @@ namespace zorgapp.Controllers{
 
 
         [Route("Patient/SubmitPatientAccount")]
-        public IActionResult SubmitPatientAccount(string firstname, string lastname, string email,int phonenumber, string username, string password)
+        public IActionResult SubmitPatientAccount(string firstname, string lastname, string email,string phonenumber, string username, string password)
         {          
             bool valid = true;
             {
@@ -331,7 +331,7 @@ namespace zorgapp.Controllers{
         }
 
         [Authorize(Roles = "Patient")]
-        public IActionResult UpdateAccount(string firstname, string lastname, string email, int phonenumber)
+        public IActionResult UpdateAccount(string firstname, string lastname, string email, string phonenumber)
 		{
 			if (firstname != null)
 			{

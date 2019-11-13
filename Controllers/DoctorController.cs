@@ -24,7 +24,7 @@ namespace zorgapp.Controllers{
         public IActionResult CreateAccount() => View();
 
         [Authorize(Roles = "Admin")]
-        public IActionResult SubmitDoctorAccount(string firstname, string lastname, string email, int phonenumber, string specialism, string localid, string username, string password)
+        public IActionResult SubmitDoctorAccount(string firstname, string lastname, string email, string phonenumber, string specialism, string localid, string username, string password)
         {
             if (username != null && password != null)
             {
@@ -212,7 +212,7 @@ namespace zorgapp.Controllers{
         }
 
         [Authorize(Roles = "Doctor")]
-        public IActionResult UpdateAccount(string firstname, string lastname, string email, int phonenumber, string specialism)
+        public IActionResult UpdateAccount(string firstname, string lastname, string email, string phonenumber, string specialism)
 		{
 			if (firstname != null)
 			{

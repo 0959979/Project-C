@@ -82,7 +82,7 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("Password");
 
-                    b.Property<int>("PhoneNumber");
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<string>("Specialism");
 
@@ -162,7 +162,7 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("Password");
 
-                    b.Property<int>("PhoneNumber");
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<string>("UserName");
 
