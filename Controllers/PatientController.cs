@@ -61,7 +61,7 @@ namespace zorgapp.Controllers{
                     UserName = username.ToLower(),
                     Password = Program.Hash256bits(password),
                     Messages = new List<string>(),
-                    DoctorIds = new List<int>()
+                   // DoctorIds = new List<int>()
                 };
                 _context.Patients.Add(patient);
                 _context.SaveChanges();
@@ -74,7 +74,7 @@ namespace zorgapp.Controllers{
 
         
         //PatientList Page
-        //Authorizes the page so only users with the role Patient can view it
+     //   Authorizes the page so only users with the role Patient can view it
         [Authorize(Roles = "Admin")]
         public IActionResult PatientList() 
         {
