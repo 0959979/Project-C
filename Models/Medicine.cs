@@ -7,7 +7,7 @@ namespace zorgapp.Models
 {
     public class Medicine
     {
-		public static object Claims { get; internal set; }
+		//public static object Claims { get; internal set; }
 		public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Date_start { get; set; }

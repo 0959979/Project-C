@@ -11,7 +11,7 @@ using zorgapp.Models;
 namespace zorgapp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191112110500_database")]
+    [Migration("20191113131702_database")]
     partial class database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,13 +103,15 @@ namespace zorgapp.Migrations
 
                     b.Property<int>("Amount");
 
-                    b.Property<DateTime>("DateEnd");
+                    b.Property<DateTime>("Date_end");
 
-                    b.Property<DateTime>("DateStart");
+                    b.Property<DateTime>("Date_start");
+
+                    b.Property<float>("Mg");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("PatientID");
+                    b.Property<int>("Patient_id");
 
                     b.HasKey("Id");
 

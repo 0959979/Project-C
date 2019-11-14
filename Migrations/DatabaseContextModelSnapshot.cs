@@ -101,13 +101,15 @@ namespace zorgapp.Migrations
 
                     b.Property<int>("Amount");
 
-                    b.Property<DateTime>("DateEnd");
+                    b.Property<DateTime>("Date_end");
 
-                    b.Property<DateTime>("DateStart");
+                    b.Property<DateTime>("Date_start");
+
+                    b.Property<float>("Mg");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("PatientID");
+                    b.Property<int>("Patient_id");
 
                     b.HasKey("Id");
 

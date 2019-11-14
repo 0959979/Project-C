@@ -80,10 +80,11 @@ namespace zorgapp.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Name = table.Column<string>(nullable: true),
-                    DateStart = table.Column<DateTime>(nullable: false),
-                    DateEnd = table.Column<DateTime>(nullable: false),
+                    Date_start = table.Column<DateTime>(nullable: false),
+                    Date_end = table.Column<DateTime>(nullable: false),
                     Amount = table.Column<int>(nullable: false),
-                    PatientID = table.Column<int>(nullable: false)
+                    Patient_id = table.Column<int>(nullable: false),
+                    Mg = table.Column<float>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -1,26 +1,46 @@
-﻿<h2>Add medicine</h2>
-
+﻿<!DOCTYPE html>
 @model zorgapp.Models.Medicine
-<!DOCTYPE html>
+<html>
 <head>
-	Add medicine
+<title>Add medicine</title>
+	<link rel="stylesheet" type="text/css" herf="style.css"
 </head>
 <body>
-	<table style="width:100%;">
-	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		</tr>
-		<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		</tr>
-		<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		</tr></table>
-
+<div class="Midicines">
+	<h2>Add medicines</h2>
+	<form>
+		<input type="string" name="name" placeholder="Name medicine">
+		<input type="datetime" name="start_date" placeholder="Date of start">
+		<input type="datetime" name="end_date" placeholder="Date of end">
+		<input type="int" name="amount" placeholder="Amount">
+		<input type="int" name="patient_id" placeholder="ID of the patient">
+		<input type="float" name="mg" placeholder="Mg">
+	</form>
+</div>
 </body>
+</html>
+@*<!DOCTYPE html>
+@model zorgapp.Models.Medicine
+<h2>Add medicine</h2>
+<form method="post">
+	<table style="width:100%">
+		<tr>
+			<th>Name</th>
+			<th>Start date</th>
+			<th>End date</th>
+			<th>Amount</th>
+			<th>Patient ID</th>
+			<th>Mg</th>
+		</tr>
+		<tr>
+			<td><input type="string" required name= name id="name"><br></td>
+			<td><input type="datetime" required name=start_date id="start_date"><br></td>
+			<td><input type="datetime" required name=end_date id="end_date"><br></td>
+			<td><input type="number" required name=amount id="amount"><br></td>
+			<td><input type="number" required name=patient_id id="patient_id"><br></td>
+			<td><input type="number"  name=mg id="mg"><br></td>
+		</tr>
+	</table>
+	<input type="submit" value="Add medicine" id="submit" asp-controller="Doctor" asp-action="AddMedicines">
+
+	</form>*@
