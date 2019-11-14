@@ -240,7 +240,7 @@ namespace zorgapp.Controllers{
                     }
                 }
                 //The appointments of that week
-                { //al door Pelle geschreven
+                { //query door Pelle geschreven
                     Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
                     int doctorid = user.DoctorId;
 
@@ -304,8 +304,95 @@ namespace zorgapp.Controllers{
             }
 
         }
+        [Authorize(Roles= "Doctor")]
+        public IActionResult EditCase(string caseId, string caseNotes, string Save, string Load)
+        {
+            if (!string.IsNullOrEmpty(Save))
+            {
+                ViewBag.SaveText = " Changes Saved";
+                var CaseQ = from c in _context.Cases where c.CaseId == caseId select c;
+                Case curCase = CaseQ.FirstOrDefault();
+                if (curCase == null)
+                {
+                    ViewBag.SaveText = " Could not find case with caseId: " + caseId;
+                }
+                else
+                {
+                    curCase.CaseInfo = caseNotes;
+                    _context.Update(curCase);
+                    _context.SaveChanges();
+                }
+                //save case in db
+            }
+            Case currentCase;
+            List<Case> caseList = new List<Case>();
+            List<Appointment> appointments = new List<Appointment>();
+            List<Appointment> upcomingAppointments = new List<Appointment>();
+            List<Appointment> passedAppointments = new List<Appointment>();
+            DateTime today = DateTime.Now;
+            Appointment nextAppointment;
 
-        private List<Appointment> FilterWeek(List<Appointment> List, DateTime dateTime, int Days)
+            //get the logged in doctor
+            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            int doctorId = user.DoctorId;
+
+            //get the case
+            var CaseList = from l in _context.Cases where l.DoctorId == doctorId select l;
+            var currentCaseList = from c in CaseList where c.CaseId == caseId.ToString() select c;
+            currentCase = currentCaseList.FirstOrDefault();
+            if (currentCase == null)
+            {
+                return RedirectToAction("Doctor","CreateCase");
+            }
+            foreach (Case c in CaseList)
+            {
+                caseList.Add(c);
+            }
+
+            //get the appointments of that case
+            var AppointmentL = from a in _context.Appointments where a.CaseId == currentCase.CaseId orderby a.Date ascending select a;
+            foreach(Appointment app in AppointmentL)
+            {
+                appointments.Add(app);
+            }
+            if (appointments.Count() <= 0)
+            {
+                return RedirectToAction("Doctor", "CreateAppointment");
+            }
+
+            //find which appointment is next
+            nextAppointment = appointments.First();
+            foreach (Appointment app in appointments)
+            {
+                if (DateTime.Compare(today,app.Date) <= 0) //if true, then app is at a DateTime later than or the same as today, and thus eligeble to be in upcomingAppointments
+                {
+                    upcomingAppointments.Add(app);
+                }
+                else
+                {
+                    passedAppointments.Add(app);
+                }
+            }
+
+            //ViewBag.emptyfield = caseId.ToString();
+
+            //upcomingAppointments = OrderByDate(upcomingAppointments);
+            //passedAppointments = OrderByDate(passedAppointments);
+
+            CaseViewModel casemodel = new CaseViewModel
+            {
+                CurrentCase = currentCase,
+                CaseList = caseList,
+                //Appointments = appointments,
+                UpcomingAppointments = upcomingAppointments,
+                PassedAppointments = passedAppointments,
+                Today = today
+            };
+
+            return View(casemodel);
+        }
+
+        public List<Appointment> FilterWeek(List<Appointment> List, DateTime dateTime, int Days)
         {
             List<Appointment> NewList = new List<Appointment>();
             foreach (var app in List)
@@ -396,6 +483,38 @@ namespace zorgapp.Controllers{
             return (Day1 == Day2);
         }
 
+        public List<Appointment> OrderByDate(List<Appointment> List) //Sorts the appointments based on their Date. Earliest to Latest. Does not work for same day
+        {
+            List<Appointment> newList = new List<Appointment>();
+            foreach(Appointment app in List)
+            {
+                if (List.Count == 0)
+                {
+                    newList.Add(app);
+                }
+                else
+                {
+                    int e = 0;
+                    bool added;
+                    added = false;
+                    while(e < List.Count())
+                    {
+                        if (DateTime.Compare(app.Date,List[e].Date) < 0)
+                        {
+                            newList.Insert(e, app);
+                            added = true;
+                            break;
+                        }
+                        e++;
+                    }
+                    if (!added)
+                    {
+                        newList.Add(app);
+                    }
+                }
+            }
+            return newList;
+        }
         [Authorize(Roles = "Doctor")]
         public ActionResult CreateAppointment(string caseid, string info)
         {

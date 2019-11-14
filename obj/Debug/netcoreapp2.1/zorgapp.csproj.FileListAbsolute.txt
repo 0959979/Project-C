@@ -61,3 +61,4 @@ C:\Users\santa\OneDrive\Documents\GitHub\Project-C\bin\Debug\netcoreapp2.1\zorga
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\bin\Debug\netcoreapp2.1\zorgapp.Views.pdb
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.Views.pdb
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CopyComplete
+C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\EditCase.cshtml.g.cs

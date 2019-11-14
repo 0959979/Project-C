@@ -13,10 +13,10 @@ namespace zorgapp.Models
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public int CanSeeMeId { get; set; }
-        public int ICanSeeId { get; set; }
+        public int CanSeeMeId { get; set; } //moet een list<int> zijn
+        public int ICanSeeId { get; set; } //moet een list<int> zijn
         public string LinkCode { get; set; }
-        public string LinkUses { get; set; }
+        public string LinkUses { get; set; } //moet een int zijn
         public Doctor Doctor { get; set; }
         public ICollection<PatientsDoctors> PatientsDoctorss { get; set; }
 
