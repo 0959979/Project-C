@@ -117,23 +117,40 @@ namespace zorgapp.Controllers{
 
             return View();
         }
+		[Authorize(Roles="Doctor")]
+		public ActionResult CreateAppointment(string caseid,DateTime date, string info)
+		{
+			if (caseid != null)
+			{
+				Appointment appointment = new Appointment()
+				{
+					CaseId = caseid,
+					Date = date,
+					Info = info
+				};
+				_context.Appointments.Add(appointment);
+				_context.SaveChanges();
 
-        public ActionResult CreateAppointment(string caseid, string info)
-        {
-            if (caseid != null)
-            {               
-                Appointment appointment = new Appointment()
-                {
-                    CaseId = caseid,
-                    Date = DateTime.Now,
-                    Info = info
-                };
-                _context.Appointments.Add(appointment);
-                _context.SaveChanges();
+				return RedirectToAction("Inbox", "Doctor");
+			}
+			List<Case> caseList = new List<Case>();
 
-                return RedirectToAction("Profile", "Doctor");
-            }
-            return View();
+			Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+			int doctorid = user.DoctorId;
+
+			var cases = from c in _context.Cases where c.DoctorId == doctorid select c;
+
+			foreach (Case c in cases)
+			{
+				caseList.Add(c);
+			}
+
+			NewAppointmentViewModel model;
+			model = new NewAppointmentViewModel
+			{
+				Cases = caseList
+			};
+            return View(model);
         }
 
         public ActionResult AppointmentList(string caseid)
