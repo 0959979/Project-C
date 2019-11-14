@@ -118,9 +118,12 @@ namespace zorgapp.Controllers{
             return View();
         }
         [Authorize(Roles="Doctor")]
-        public ActionResult Agenda (string Previous, int dayoffset, string Next)
+        public ActionResult Agenda (string Previous, int dayoffset, string Next, int starthour, int endhour, string Apply)
         {
             {
+                System.Diagnostics.Debug.WriteLine("starthour: " + starthour.ToString());
+                System.Diagnostics.Debug.WriteLine("endhour: " + endhour.ToString());
+
                 if (!string.IsNullOrEmpty(Next))
                 {
                     dayoffset += 7;
@@ -131,10 +134,23 @@ namespace zorgapp.Controllers{
                     dayoffset -= 7;
                     //ViewBag.Recieved = "Previous, dayoffset = " + dayoffset.ToString();
                 }
+                else if (!string.IsNullOrEmpty(Apply))
+                {
+                    dayoffset += 0;
+                    //ViewBag.Recieved = "Previous, dayoffset = " + dayoffset.ToString();
+                }
                 else
                 {
+                    dayoffset = 0;
                     //ViewBag.Recieved = "None";
                 }
+                if (endhour <= starthour)
+                {
+                    starthour = 6;
+                    endhour = 20;
+                }
+                System.Diagnostics.Debug.WriteLine("starthour: " + starthour.ToString());
+                System.Diagnostics.Debug.WriteLine("endhour: " + endhour.ToString());
                 bool AmPm = true;
                 List<string> Day = new List<string>();
                 List<string> Date = new List<string>();
@@ -177,6 +193,9 @@ namespace zorgapp.Controllers{
                         case "Sunday":
                             offset = 6;
                             break;
+                        default:
+                            offset = 0;
+                            break;
                     }
                     //offset ensures that the agenda starts at monday. To get it to start at sunday uncomment:
                     //offset += 1; //Higher offset means the first point on the agenda starts earlier
@@ -194,7 +213,7 @@ namespace zorgapp.Controllers{
                 }
                 //The hours and minutes
                 {
-                    for(int h = 6;h<=24;h++)
+                    for(int h = starthour;h<=endhour;h++)
                     {
                         Houri.Add(h);
                         if (AmPm)
