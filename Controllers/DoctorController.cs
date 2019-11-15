@@ -72,31 +72,7 @@ namespace zorgapp.Controllers {
                 return View();
 
             }
-            if (!valid)
-            {
-                return View("CreateAccount"); //moet de data in de fields nog bewaren?
-            }
-                    Doctor doctor = new Doctor()
-                    {
-                        FirstName = firstname,
-                        LastName = lastname,
-                        Email = email,
-                        PhoneNumber = phonenumber,
-                        Specialism = specialism,
-                        LocalId = new List<string>(),
-                        UserName = username,
-                        Password = Program.Hash256bits(password),
-                    };
-                    doctor.LocalId.Add(localid);
-                    _context.Doctors.Add(doctor);
-                    _context.SaveChanges();
-    
-                    ViewData["FirstName"] = doctor.FirstName;
-                    ViewData["LastName"] = doctor.LastName;
-
-                    return View("SubmitDoctorAccount");
-                
-            }          
+  
             return View();
         }
         

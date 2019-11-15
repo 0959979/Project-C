@@ -228,3 +228,14 @@ C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/SentMessages.g.cshtml.cs
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/PatientList.g.cshtml.cs
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/PatProfile.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/AppointmentList.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/CreateAppointment.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/CreateCase.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Reply.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/AuthorizationForm.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/AuthorizationList.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/ConfirmAuthorization.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/GenerateAuthorizeCode.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/GenerateNewCode.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/ProfileVisit.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Reply.g.cshtml.cs
