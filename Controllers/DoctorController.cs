@@ -98,25 +98,45 @@ namespace zorgapp.Controllers {
             return View();
         }
 
-        public ActionResult CreateAppointment(string caseid, string info)
-        {
-            if (caseid != null)
-            {               
-                Appointment appointment = new Appointment()
-                {
-                    CaseId = caseid,
-                    Date = DateTime.Now,
-                    Info = info
-                };
-                _context.Appointments.Add(appointment);
-                _context.SaveChanges();
+ 	    [Authorize(Roles="Doctor")]
+		public ActionResult CreateAppointment(string caseid,DateTime date, string info)
+		{
+			if (caseid != null)
+			{
+				Appointment appointment = new Appointment()
+				{
+					CaseId = caseid,
+					Date = date,
+					Info = info
+				};
+				_context.Appointments.Add(appointment);
+				_context.SaveChanges();
 
-                return RedirectToAction("Profile", "Doctor");
-            }
-            return View();
+				return RedirectToAction("Profile", "Doctor");
+			}
+			List<Case> caseList = new List<Case>();
+
+			Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+			int doctorid = user.DoctorId;
+
+			var cases = from c in _context.Cases where c.DoctorId == doctorid select c;
+
+			foreach (Case c in cases)
+			{
+				caseList.Add(c);
+			}
+
+			NewAppointmentViewModel model;
+			model = new NewAppointmentViewModel
+			{
+				Cases = caseList
+			};
+            return View(model);
         }
 
-        public ActionResult AppointmentList(string caseid)
+        
+        
+      public ActionResult AppointmentList(string caseid)
         {
             if (caseid != null)
             {
@@ -396,6 +416,24 @@ namespace zorgapp.Controllers {
 			string firstname = TempData["MyTempData"].ToString();
 			ViewData["FirstName"] = firstname;
 			return View();
+        }
+		public ActionResult AddMedicines(string name, DateTime date_start, DateTime date_end, int amount, int patient_id, float mg)
+		{
+
+			Medicine medicine_ = new Medicine()
+			{
+				Name = name,
+				Date_start = date_start,
+				Date_end = date_end,
+				Amount = amount,
+				Patient_id = patient_id,
+				Mg = mg
+			};
+			_context.Medicines.Add(medicine_);
+			_context.SaveChanges();
+
+
+			return View();
 		}
-    }
+	}
 }
