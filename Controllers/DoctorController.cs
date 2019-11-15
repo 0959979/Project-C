@@ -423,10 +423,10 @@ namespace zorgapp.Controllers {
 			Medicine medicine_ = new Medicine()
 			{
 				Name = name,
-				Date_start = date_start,
-				Date_end = date_end,
+				DateStart = date_start,
+				DateEnd = date_end,
 				Amount = amount,
-				Patient_id = patient_id,
+				PatientId = patient_id,
 				Mg = mg
 			};
 			_context.Medicines.Add(medicine_);
