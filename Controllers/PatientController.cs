@@ -354,8 +354,8 @@ namespace zorgapp.Controllers{
 				USER.FirstName = firstname;
 				USER.LastName = lastname;
 				USER.Email = email;
-				USER.PhoneNumber = phonenumber;
-				_context.SaveChanges();
+				USER.PhoneNumber = phonenumber.ToString();//DIT NIET MERGEN, IS TIJDELIJK
+                _context.SaveChanges();
 				return RedirectToAction("Profile", "Patient");
 			}
 			return View();

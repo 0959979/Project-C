@@ -76,6 +76,9 @@ namespace zorgapp.Controllers {
             return View();
         }
         
+
+
+        [Authorize(Roles = "Doctor")]
         public ActionResult CreateCase(string caseid, string casename, int patientid)
         {
             if (caseid != null)
@@ -95,6 +98,438 @@ namespace zorgapp.Controllers {
                 return RedirectToAction("Profile", "Doctor");
             }
 
+            return View();
+        }
+[Authorize(Roles="Doctor")]
+        public ActionResult Agenda (string Previous, int dayoffset, string Next, int starthour, int endhour, string Apply)
+        {
+            {
+                System.Diagnostics.Debug.WriteLine("starthour: " + starthour.ToString());
+                System.Diagnostics.Debug.WriteLine("endhour: " + endhour.ToString());
+
+                if (!string.IsNullOrEmpty(Next))
+                {
+                    dayoffset += 7;
+                    //ViewBag.Recieved = "Next, dayoffset = "+dayoffset.ToString();
+                }
+                else if (!string.IsNullOrEmpty(Previous))
+                {
+                    dayoffset -= 7;
+                    //ViewBag.Recieved = "Previous, dayoffset = " + dayoffset.ToString();
+                }
+                else if (!string.IsNullOrEmpty(Apply))
+                {
+                    dayoffset += 0;
+                    //ViewBag.Recieved = "Previous, dayoffset = " + dayoffset.ToString();
+                }
+                else
+                {
+                    dayoffset = 0;
+                    //ViewBag.Recieved = "None";
+                }
+                if (endhour <= starthour)
+                {
+                    starthour = 6;
+                    endhour = 20;
+                }
+                System.Diagnostics.Debug.WriteLine("starthour: " + starthour.ToString());
+                System.Diagnostics.Debug.WriteLine("endhour: " + endhour.ToString());
+                bool AmPm = true;
+                List<string> Day = new List<string>();
+                List<string> Date = new List<string>();
+                List<string> Hour = new List<string>();
+                List<int> Houri = new List<int>();
+                List<int> Minute = new List<int>();
+                List<Case> Case = new List<Case>();
+                List<Appointment> Appointment = new List<Appointment>();
+                //List<List<int>> AppointmentDatesHours = new List<List<int>>();
+                //List<string> AppointmentStrings = new List<string>();
+                DateTime Today = DateTime.Now;//new DateTime(2020, 4, 13);
+                Today = Today.AddDays(dayoffset);
+                DateTime FWeekday;
+                int offset;
+
+                //the days and dates
+                {
+                    DayOfWeek WeekDay = Today.DayOfWeek;
+                    offset = 0;
+                    switch (WeekDay.ToString())
+                    {
+                        case "Monday":
+                            offset = 0;
+                            break;
+                        case "Tuesday":
+                            offset = 1;
+                            break;
+                        case "Wednesday":
+                            offset = 2;
+                            break;
+                        case "Thursday":
+                            offset = 3;
+                            break;
+                        case "Friday":
+                            offset = 4;
+                            break;
+                        case "Saturday":
+                            offset = 5;
+                            break;
+                        case "Sunday":
+                            offset = 6;
+                            break;
+                        default:
+                            offset = 0;
+                            break;
+                    }
+                    //offset ensures that the agenda starts at monday. To get it to start at sunday uncomment:
+                    //offset += 1; //Higher offset means the first point on the agenda starts earlier
+                    int d;
+                    FWeekday = new DateTime(Today.Year,Today.Month,Today.Day);
+                    FWeekday = FWeekday.AddDays(-offset);
+                    for (d = 0; d < 7; d++)
+                    {
+                        DateTime day = Today;//DateTime.Now;
+                        day = day.AddDays(d - offset);
+                        Day.Add(day.DayOfWeek.ToString());
+                        Date.Add(day.Date.ToShortDateString());
+                        //System.Diagnostics.Debug.WriteLine("RonanDayList: " + day.ToString());
+                    }
+                }
+                //The hours and minutes
+                {
+                    for(int h = starthour;h<=endhour;h++)
+                    {
+                        Houri.Add(h);
+                        if (AmPm)
+                        {
+                            if (h > 12)
+                            {
+                                int u;
+                                u = h - 12;
+                                Hour.Add(u.ToString()+" pm");
+                            }
+                            else
+                            {
+                                Hour.Add(h.ToString() + " am");
+                            }
+                        }
+                        else
+                        {
+                            Hour.Add(h.ToString());
+                        }
+                    }
+                    for (int m = 0; m < 60; m += 5)
+                    {
+                        Minute.Add(m);
+                    }
+                }
+                //The appointments of that week
+                { //query door Pelle geschreven
+                    Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                    int doctorid = user.DoctorId;
+
+                    var cases = from c in _context.Cases where c.DoctorId == doctorid select c;
+                    var Tempappointments = new List<Appointment>();
+                    //var appointments = from a in _context.Appointments where a.select a;
+
+                    foreach (var item in cases)
+                    {
+                        Case.Add(item);
+                    }
+                    foreach (var item in cases)
+                    {
+                        var appointment = from c in _context.Appointments where c.CaseId == item.CaseId select c;
+                        foreach (var app in appointment)
+                        {
+                            Tempappointments.Add(app);
+                        }
+                        Tempappointments = FilterWeek(Tempappointments, Today,7);
+                    }
+                    foreach (var item in Tempappointments)
+                    {
+                        string infosub;
+                        infosub = item.Info.Trim();
+                        if (infosub.Length > 18)
+                        {
+                            infosub = infosub.Substring(0, 16) + "...";
+                        }
+                        /*DateTime AppTime = new DateTime();
+                        AppTime.AddHours(item.Date.Hour);
+                        AppTime.AddMinutes(item.Date.Minute);*/
+                        Appointment.Add(new Appointment()
+                        {
+                            AppointmentId = item.AppointmentId,
+                            Date = item.Date,
+                            Info = infosub,
+                            CaseId = item.CaseId,
+                        }
+                        );
+                    }
+                }
+                bool sWeek;
+                DateTime c_date;
+                c_date = DateTime.Now;
+                sWeek = SameWeek(Today,c_date);
+                AgendaViewModel agendamodel = new AgendaViewModel
+                {
+                    Days = Day,
+                    Dates = Date,
+                    Hours = Hour,
+                    Hoursi = Houri,
+                    Minutes = Minute,
+                    CurrentDate = offset,
+                    dayOffset = dayoffset,
+                    sameWeek = sWeek,
+                    Cases = Case,
+                    Appointments = Appointment
+                };
+                
+                return View(agendamodel);
+            }
+
+        }
+        [Authorize(Roles= "Doctor")]
+        public IActionResult EditCase(string caseId, string caseNotes, string Save, string Load)
+        {
+            if (!string.IsNullOrEmpty(Save))
+            {
+
+                //ensure the case belongs to the doctor
+                var CaseQ = from c in _context.Cases where c.CaseId == caseId select c;
+                Case curCase = CaseQ.FirstOrDefault();
+                if (curCase == null)
+                {
+                    ViewBag.SaveText = " Could not find case with caseId: " + caseId;
+                }
+                else
+                {
+                    Doctor doc = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                    int docId = doc.DoctorId;
+                    if (!(curCase.DoctorId == docId))
+                    {
+                        return RedirectToAction("Doctor", "CreateCase");
+                    }
+                    ViewBag.SaveText = " Changes Saved";
+                    curCase.CaseInfo = caseNotes;
+                    _context.Update(curCase);
+                    _context.SaveChanges();
+                }
+                //save case in db
+            }
+            Case currentCase;
+            List<Case> caseList = new List<Case>();
+            List<Medicine> medicineList = new List<Medicine>();
+            List<Appointment> appointments = new List<Appointment>();
+            List<Appointment> upcomingAppointments = new List<Appointment>();
+            List<Appointment> passedAppointments = new List<Appointment>();
+            DateTime today = DateTime.Now;
+            Appointment nextAppointment;
+
+            //get the logged in doctor
+            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            int doctorId = user.DoctorId;
+
+            //get the case
+            var CaseList = from l in _context.Cases where l.DoctorId == doctorId select l;
+            var currentCaseList = from c in CaseList where c.CaseId == caseId.ToString() select c;
+            currentCase = currentCaseList.FirstOrDefault();
+            if (currentCase == null)
+            {
+                return RedirectToAction("Doctor","CreateCase");
+            }
+            foreach (Case c in CaseList)
+            {
+                caseList.Add(c);
+            }
+            //get the medicine from the case's patient
+            var medicineL = from m in _context.Medicines where m.PatientId == currentCase.PatientId select m; //_context.Medicine in ERD
+            foreach(Medicine med in medicineL)
+            {
+                medicineList.Add(med);
+            }
+
+            //get the appointments of that case
+            var AppointmentL = from a in _context.Appointments where a.CaseId == currentCase.CaseId orderby a.Date ascending select a;
+            foreach(Appointment app in AppointmentL)
+            {
+                appointments.Add(app);
+            }
+            if (appointments.Count() <= 0)
+            {
+                return RedirectToAction("Doctor", "CreateAppointment");
+            }
+
+            //find which appointment is next
+            nextAppointment = appointments.First();
+            foreach (Appointment app in appointments)
+            {
+                if (DateTime.Compare(today,app.Date) <= 0) //if true, then app is at a DateTime later than or the same as today, and thus eligeble to be in upcomingAppointments
+                {
+                    upcomingAppointments.Add(app);
+                }
+                else
+                {
+                    passedAppointments.Add(app);
+                }
+            }
+
+            //ViewBag.emptyfield = caseId.ToString();
+
+            //upcomingAppointments = OrderByDate(upcomingAppointments);
+            //passedAppointments = OrderByDate(passedAppointments);
+
+            CaseViewModel casemodel = new CaseViewModel
+            {
+                CurrentCase = currentCase,
+                CaseList = caseList,
+                MedicineList = medicineList,
+                //Appointments = appointments,
+                UpcomingAppointments = upcomingAppointments,
+                PassedAppointments = passedAppointments,
+                Today = today
+            };
+
+            return View(casemodel);
+        }
+
+        public List<Appointment> FilterWeek(List<Appointment> List, DateTime dateTime, int Days)
+        {
+            List<Appointment> NewList = new List<Appointment>();
+            foreach (var app in List)
+            {
+                DateTime day = new DateTime(dateTime.Year,dateTime.Month,dateTime.Day);
+                if (SameWeek(day,app.Date))//(day.AddDays(-(int)day.DayOfWeek) == app.Date.AddDays(-(int)app.Date.DayOfWeek))
+                {
+                    NewList.Add(app);
+                }
+                /*for (int d = 0; d < 7; d++)
+                {
+                    day = day.AddDays(1);
+                    if (day.Year == app.Date)
+                    //System.Diagnostics.Debug.WriteLine("RonanDayList: " + day.ToString());
+                }*/
+            }
+
+            return NewList;
+        }
+        public bool SameWeek(DateTime day1, DateTime day2)
+        {
+            DateTime Day1;
+            DateTime Day2;
+            int offset1;
+            int offset2;
+
+            Day1 = new DateTime(day1.Year, day1.Month, day1.Day);
+            Day2 = new DateTime(day2.Year, day2.Month, day2.Day);
+
+            switch (Day1.DayOfWeek.ToString())//offset to bring the day to monday
+            {
+                case "Monday":
+                    offset1 = 0;
+                    break;
+                case "Tuesday":
+                    offset1 = -1;
+                    break;
+                case "Wednesday":
+                    offset1 = -2;
+                    break;
+                case "Thursday":
+                    offset1 = -3;
+                    break;
+                case "Friday":
+                    offset1 = -4;
+                    break;
+                case "Saturday":
+                    offset1 = -5;
+                    break;
+                case "Sunday":
+                    offset1 = -6;
+                    break;
+                default:
+                    offset1 = 0;
+                    break;
+            }
+
+            switch (Day2.DayOfWeek.ToString())//offset to bring the day to monday
+            {
+                case "Monday":
+                    offset2 = 0;
+                    break;
+                case "Tuesday":
+                    offset2 = -1;
+                    break;
+                case "Wednesday":
+                    offset2 = -2;
+                    break;
+                case "Thursday":
+                    offset2 = -3;
+                    break;
+                case "Friday":
+                    offset2 = -4;
+                    break;
+                case "Saturday":
+                    offset2 = -5;
+                    break;
+                case "Sunday":
+                    offset2 = -6;
+                    break;
+                default:
+                    offset2 = 0;
+                    break;
+            }
+
+            Day1 = Day1.AddDays(offset1);
+            Day2 = Day2.AddDays(offset2);
+            return (Day1 == Day2);
+        }
+
+        public List<Appointment> OrderByDate(List<Appointment> List) //Sorts the appointments based on their Date. Earliest to Latest. Does not work for same day
+        {
+            List<Appointment> newList = new List<Appointment>();
+            foreach(Appointment app in List)
+            {
+                if (List.Count == 0)
+                {
+                    newList.Add(app);
+                }
+                else
+                {
+                    int e = 0;
+                    bool added;
+                    added = false;
+                    while(e < List.Count())
+                    {
+                        if (DateTime.Compare(app.Date,List[e].Date) < 0)
+                        {
+                            newList.Insert(e, app);
+                            added = true;
+                            break;
+                        }
+                        e++;
+                    }
+                    if (!added)
+                    {
+                        newList.Add(app);
+                    }
+                }
+            }
+            return newList;
+        }
+        [Authorize(Roles = "Doctor")]
+        public ActionResult CreateAppointment(string caseid, string info)
+        {
+            if (caseid != null)
+            {               
+                Appointment appointment = new Appointment()
+                {
+                    CaseId = caseid,
+                    Date = DateTime.Now,
+                    Info = info
+                };
+                _context.Appointments.Add(appointment);
+                _context.SaveChanges();
+
+                return RedirectToAction("Profile", "Doctor");
+            }
             return View();
         }
 
@@ -402,8 +837,8 @@ namespace zorgapp.Controllers {
 				USER.FirstName = firstname;
 				USER.LastName = lastname;
 				USER.Email = email;
-				USER.PhoneNumber = phonenumber;
-				USER.Specialism = specialism;
+				USER.PhoneNumber = phonenumber.ToString();//DIT NIET MERGEN, IS TIJDELIJK
+                USER.Specialism = specialism;
 				_context.SaveChanges();
 				return RedirectToAction("Profile", "Doctor");
 			}

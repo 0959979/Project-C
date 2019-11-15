@@ -57,7 +57,7 @@ namespace zorgapp.Controllers{
                 TempData["message"] = "Link has already been made";
                 return RedirectToAction("Link", "Admin");
             }
-
+            */
             ViewData["Doctor"] = docName;
             ViewData["Patient"] = patName;
 
