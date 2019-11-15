@@ -21,7 +21,6 @@ namespace zorgapp.Controllers{
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Link(){
             if (TempData["message"]!= null){
             ViewBag.Message = TempData["message"].ToString();
@@ -32,7 +31,6 @@ namespace zorgapp.Controllers{
     
 
 
-        [Authorize(Roles = "Admin")]
       //  links patient with doctor 
  
         public ActionResult SubmitLink(int patientid, int doctorid){
@@ -57,9 +55,9 @@ namespace zorgapp.Controllers{
             }
             else if(linkmade){
                 TempData["message"] = "Link has already been made";
-                return RedirectToAction("Link","Admin");
+                return RedirectToAction("Link", "Admin");
             }
-
+            
             ViewData["Doctor"] = docName;
             ViewData["Patient"] = patName;
 
@@ -74,29 +72,29 @@ namespace zorgapp.Controllers{
     //             Password = "password"
     //         };
 
-    //         _context.Admins.Add(admin);
-    //         _context.SaveChanges();
-    //         }
+        //         _context.Admins.Add(admin);
+        //         _context.SaveChanges();
+        //         }
 
 
-    //         Admin user = _context.Admins.FirstOrDefault(u => u.UserName == username);
-    //         if (user != null)
-    //         {
-    //             if (user.Password == password)
-    //             {
-    //                 return RedirectToAction("Profile", "Admin");
-    //             }
-    //             else
-    //             {
-    //                 ViewBag.emptyfield = "Username or Password is incorrect";
-    //             }
-    //         }
-    //         else if (username != null)
-    //         {
-    //             ViewBag.emptyfield = "Username or Password is incorrect";
-    //         }
-    //         return View();
-    //     }
+        //         Admin user = _context.Admins.FirstOrDefault(u => u.UserName == username);
+        //         if (user != null)
+        //         {
+        //             if (user.Password == password)
+        //             {
+        //                 return RedirectToAction("Profile", "Admin");
+        //             }
+        //             else
+        //             {
+        //                 ViewBag.emptyfield = "Username or Password is incorrect";
+        //             }
+        //         }
+        //         else if (username != null)
+        //         {
+        //             ViewBag.emptyfield = "Username or Password is incorrect";
+        //         }
+        //         return View();
+        //     }
 
     }
     

@@ -11,11 +11,11 @@
 
 <form asp-action="Message" method="post">
     Recipient username:<br>
-    <input type="string" required name=sendto id="sendto"><br>
+    <input type="text" required name=reciever id="reciever" value="@ViewBag.reply"><br>
     Subject:<br>
     <input type="string" required name=subject id="subject"><br>
     Message:<br>
-    <textarea type="string" required name=message id="message" rows="15" cols="30" placeholder="Message"></textarea> <br><br>
+    <textarea type="string" required name=text id="text" rows="15" cols="30" placeholder="Message"></textarea> <br><br>
     <input type="submit" value="Send" id="submit">
 </form>
 
@@ -23,16 +23,13 @@
 
 </html>
 @*<!DOCTYPE html>
-
     <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="utf-8" />
         <title>
-
         </title>
     </head>
     <body>
-
         <form asp-action="Message" id="Message" method="post" runat="server">
             <input type="string" id="sendto" rows="2" cols="40" placeholder=" Naam doctor"></input>
             <br>

@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using zorgapp.Models;
+using zorgapp.ViewModels;
 
 namespace zorgapp.Controllers{
 
@@ -28,7 +30,7 @@ namespace zorgapp.Controllers{
 
 
         [Route("Patient/SubmitPatientAccount")]
-        public IActionResult SubmitPatientAccount(string firstname, string lastname, string email,int phonenumber, string username, string password)
+        public IActionResult SubmitPatientAccount(string firstname, string lastname, string email,string phonenumber, string username, string password)
         {          
             bool valid = true;
             {
@@ -57,11 +59,14 @@ namespace zorgapp.Controllers{
                     FirstName = firstname,
                     LastName = lastname,
                     Email = email,
+                    LocalId = new List<string>(),
                     PhoneNumber = phonenumber,
                     UserName = username.ToLower(),
                     Password = Program.Hash256bits(password),
-                    Messages = new List<string>(),
-                   // DoctorIds = new List<int>()
+                    LinkCode = null,
+                    LinkUses = 0,
+                    CanSeeMeId = new List<int>(),
+                    ICanSeeId = new List<int>()
                 };
                 _context.Patients.Add(patient);
                 _context.SaveChanges();
@@ -137,7 +142,7 @@ namespace zorgapp.Controllers{
                                         AllowRefresh = false
                                     });
 
-                                return RedirectToAction("Profile", "Patient");
+                                return RedirectToAction("Inbox", "Patient");
                             }
                             else
                             {
@@ -175,7 +180,7 @@ namespace zorgapp.Controllers{
                                         AllowRefresh = false
                                     });
 
-                                return RedirectToAction("Profile", "Doctor");
+                                return RedirectToAction("Inbox", "Doctor");
                             }
                             else
                             {
@@ -214,7 +219,7 @@ namespace zorgapp.Controllers{
                                        AllowRefresh = false
                                    });
 
-                               return RedirectToAction("Link", "Admin");
+                               return RedirectToAction("CreateAccount", "Doctor");
                            }
                            else
                            {
@@ -232,24 +237,26 @@ namespace zorgapp.Controllers{
         }
 
         [Authorize(Roles = "Patient")]
-        public ActionResult Message(string sendto, string subject, string message) //Send a message to a patient
+        public ActionResult Message(string reciever, string subject, string text)
         {
-            //string Sendto = sendto; //recipient name
-            //string Message = message;
-
-
-            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == sendto);
-            if (user != null)
+            Doctor doctor = _context.Doctors.FirstOrDefault(u => u.UserName == reciever);
+            if (doctor != null)
             {
-                if (message != null && message != "")
+                if (text != null && text != "")
                 {
                     var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-                    //_context.Patients.Update(user); niet nodig
-                    //add the Message to the List<string> of messages
-                    user.Messages.Add(username);
-                    user.Messages.Add(subject);
-                    user.Messages.Add(message);
-                    //send the new List<string> into the Database
+                    Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == username);
+                    Message message = new Message()
+                    {
+                        Sender = username,
+                        Receiver = reciever,
+                        Subject = subject,
+                        Text = text,
+                        Date = DateTime.Now,
+                        DoctorToPatient = false
+                    };
+
+                    _context.Messages.Add(message);
                     _context.SaveChanges();
                     return RedirectToAction("MessageSend", "Patient");
                 }
@@ -258,7 +265,7 @@ namespace zorgapp.Controllers{
                     ViewBag.emptyfield = "You need to type in a message to send it.";
                 }
             }
-            else if (sendto != null)
+            else if (reciever != null)
             {
                 ViewBag.emptyfield = "User not found";
             }
@@ -268,9 +275,34 @@ namespace zorgapp.Controllers{
         [Authorize(Roles = "Patient")]
         public ActionResult Inbox()
         {
-
             Patient user = _context.Patients.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
-            ViewBag.message = user.Messages;
+            var message = from m in _context.Messages where m.Text == "" select m;
+            var check = from m in _context.Messages where m.DoctorToPatient == true && m.Receiver == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value select m;
+            if (message != check)
+            {
+                message = from m in _context.Messages where m.DoctorToPatient == true && m.Receiver == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value orderby m.Date descending select m;
+            }
+            return View(message);
+        }
+
+
+        [Authorize(Roles = "Patient")]
+        public ActionResult SentMessages()
+        {
+            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            var message = from m in _context.Messages where m.Text == "" select m;
+            var check = from m in _context.Messages where m.DoctorToPatient == false && m.Sender == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value select m;
+            if (message != check)
+            {
+                message = from m in _context.Messages where m.DoctorToPatient == false && m.Sender == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value orderby m.Date descending select m;
+            }
+            return View(message);
+        }
+
+        public ActionResult Reply(IFormCollection form)
+        {
+            string reply = form["reply"].ToString();
+            ViewBag.reply = reply;
             return View();
         }
 
@@ -313,7 +345,7 @@ namespace zorgapp.Controllers{
         }
 
         [Authorize(Roles = "Patient")]
-        public IActionResult UpdateAccount(string firstname, string lastname, string email, int phonenumber)
+        public IActionResult UpdateAccount(string firstname, string lastname, string email, string phonenumber)
 		{
 			if (firstname != null)
 			{
@@ -322,11 +354,356 @@ namespace zorgapp.Controllers{
 				USER.FirstName = firstname;
 				USER.LastName = lastname;
 				USER.Email = email;
-				USER.PhoneNumber = phonenumber;
-				_context.SaveChanges();
+				USER.PhoneNumber = phonenumber.ToString();//DIT NIET MERGEN, IS TIJDELIJK
+                _context.SaveChanges();
 				return RedirectToAction("Profile", "Patient");
 			}
 			return View();
 		}
+
+        [Authorize(Roles = "Patient")]
+        public IActionResult GenerateAuthorizeCode()
+        {
+            return View();
+        }
+        /*public IActionResult CodeGenerated(int uses)
+        {
+            ViewData["Uses"] = uses;
+            return View();
+        }*/
+        [Authorize(Roles = "Patient")]
+        public IActionResult GenerateNewCode(int Uses)
+        {
+            string code;
+            string username;
+
+            code = Program.GenerateLinkCode(); //generates a new random code
+            username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            DbAddCode(code, Uses);
+            /*switch(Uses)
+            {
+                case "1 use":
+                    usesInt = 1;
+                    break;
+                case "2 uses":
+                    usesInt = 2;
+                    break;
+                case "3 uses":
+                    usesInt = 3;
+                    break;
+            }*/
+            ViewBag.CodeGenerated = code;
+            if (Uses == 1)
+            {
+                ViewBag.UsesMessage = "1 attempt can be made to enter the correct code";
+            }
+            else
+            {
+                ViewBag.UsesMessage = Uses.ToString() + " attempts can be made to enter the correct code";
+            }
+
+            return View();
+        }
+        [Authorize(Roles = "Patient")]
+        public IActionResult AuthorizationForm()
+        {
+            return View();
+        }
+        [Authorize(Roles = "Patient")]
+        public IActionResult ConfirmAuthorization(string Username, string Code)
+        {
+            if (Username == null || Code == null) //als een van deze niet is ingevuld wordt er een melding gegeven in ConfirmAuthorization.cshtml
+            {
+                ViewBag.MessageRed = "You need to enter a Username and Code to proceed";
+                return View();
+                //RedirectToAction("Patient", "AuthorizationForm");
+            }
+            else //username and code are both filled in
+            {
+                {
+                    Patient targetP = _context.Patients.FirstOrDefault(u => u.UserName == Username);
+                    if (targetP == null)
+                    {
+                        ViewBag.MessageRed = "You entered an incorrect code or username.";
+                        ViewBag.Message1 = "One attempt has been removed from the users authorization code.\nIf the code runs out of attempts, the user will have to generate a new code.";
+                        return View();
+                    }
+                    _context.SaveChanges();
+                }
+                {
+                    //_context.SaveChanges();
+                    if (CheckAuthorizeCode(Code, Username))
+                    {
+                        //get the id of the logged in user
+                        string authUsername = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+                        Patient Authorizer = _context.Patients.FirstOrDefault(u => u.UserName == authUsername);
+                        Patient targetNew = _context.Patients.FirstOrDefault(u => u.UserName == Username);
+                        if (Authorizer == null || targetNew == null)
+                        {
+                            throw new Exception("There is not user with name " + authUsername + " in the database");
+                        }
+                        else
+                        {
+                            if (targetNew.CanSeeMeId == null)
+                            {
+                                targetNew.CanSeeMeId = new List<int>();
+                            }
+                            if (!targetNew.CanSeeMeId.Contains(Authorizer.PatientId))
+                            {
+                                targetNew.CanSeeMeId.Add(Authorizer.PatientId);
+                                if (Authorizer.ICanSeeId == null)
+                                {
+                                    Authorizer.ICanSeeId = new List<int>();
+                                }
+                                Authorizer.ICanSeeId.Add(targetNew.PatientId);
+
+                                _context.Update(targetNew);
+                                _context.Update(Authorizer);
+                                _context.SaveChanges();
+                            }
+                            ViewBag.Message1 = "You have succesfully been authorized to view " + targetNew.UserName + "'s profile.\nTheir authorization code has been cleared.";
+                            return View();
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.MessageRed = "You entered an incorrect code or username.";
+                        ViewBag.Message1 = "One attempt has been removed from the users authorization code.\nIf the code runs out of attempts, the user will have to generate a new code.";
+                        return View();
+                    }
+                }
+
+            }
+        }
+        private void DbAddCode(string code, int uses, int patientId)
+        {
+            var patient = _context.Patients.FirstOrDefault(u => u.PatientId == patientId); //get the patient according to the patientId
+            if (patient != null)
+            {
+                if (uses < 1)
+                {
+                    throw new Exception("uses has to be at least 1, but you used: " + uses.ToString());
+                }
+                patient.LinkCode = code;
+                patient.LinkUses = uses;
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Attempted to find patient with non-existing Id: " + patientId.ToString());
+            }
+        }
+        private void DbAddCode(string code, int uses)
+        {
+            var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value; //get the username
+            var patient = _context.Patients.FirstOrDefault(u => u.UserName == username); //get the patient according to the username
+            if (patient != null)
+            {
+                patient.LinkCode = code;
+                patient.LinkUses = uses;
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Attempted to find patient with non-existing username: " + username);
+            }
+        }
+        private void DbAddCode(string code, int uses, string Username)
+        {
+            var patient = _context.Patients.FirstOrDefault(u => u.UserName == Username); //get the patient according to the username
+            if (patient != null)
+            {
+                patient.LinkCode = code;
+                patient.LinkUses = uses;
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Attempted to find patient with non-existing Username: " + Username);
+            }
+        }
+        public bool CheckAuthorizeCode(string code, int patientId)
+        {
+            Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == patientId);
+            if (patient == null)
+            {
+                throw new Exception("Trying to check code for non-existent patient using patientId: " + patientId.ToString());
+                //return false;
+            }
+            else
+            {
+                if (patient.LinkCode == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    if (patient.LinkUses <= 0)
+                    {
+                        patient.LinkCode = null;
+                        _context.SaveChanges();
+                        return false;
+                    }
+                    else
+                    {
+                        patient.LinkUses -= 1;
+                        if (patient.LinkCode == code)
+                        {
+                            if (patient.LinkUses <= 0)
+                            {
+                                patient.LinkCode = null;
+                            }
+                            _context.SaveChanges();
+                            return true;
+                        }
+                        else
+                        {
+                            if (patient.LinkUses <= 0)
+                            {
+                                patient.LinkCode = null;
+                            }
+                            _context.SaveChanges();
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        public bool CheckAuthorizeCode(string code, string username)
+        {
+            Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == username);
+            if (patient == null)
+            {
+                throw new Exception("Trying to check code for non-existent patient using username: " + username);
+                //return false;
+            }
+            else
+            {
+                if (patient.LinkCode == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    if (patient.LinkUses <= 0)
+                    {
+                        patient.LinkCode = null;
+                        _context.SaveChanges();
+                        return false;
+                    }
+                    else
+                    {
+                        patient.LinkUses -= 1;
+                        if (patient.LinkCode == code)
+                        {
+                            patient.LinkCode = null;
+                            patient.LinkUses = 0;
+                            _context.SaveChanges();
+                            return true;
+                        }
+                        else
+                        {
+                            if (patient.LinkUses <= 0)
+                            {
+                                patient.LinkCode = null;
+                            }
+                            _context.SaveChanges();
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        public ActionResult AuthorizationList()
+        {
+            string username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
+            int id = user.PatientId;
+
+            List<int> carerids = user.CanSeeMeId;
+            List<Patient> carers = new List<Patient>();
+
+            List<int> careeids = user.ICanSeeId;
+            List<Patient> carees = new List<Patient>();
+
+            if (carerids != null)
+            {
+                foreach (var item in carerids)
+                {
+                    Patient carer = _context.Patients.FirstOrDefault(u => u.PatientId == item);
+                    carers.Add(carer);
+                }
+            }
+            else
+            {
+                Patient empty = _context.Patients.FirstOrDefault(u => u.UserName == "");
+                carers.Add(empty);
+            }
+
+            
+            if (careeids != null)
+            {
+                foreach (var item in careeids)
+                {
+                    Patient caree = _context.Patients.FirstOrDefault(u => u.PatientId == item);
+                    carees.Add(caree);
+                }
+            }
+            else
+            {
+                Patient empty = _context.Patients.FirstOrDefault(u => u.UserName == "");
+                carees.Add(empty);
+            }
+
+            CareViewModel carelist = new CareViewModel
+            {
+                Carers = carers,
+                Carees = carees
+            };
+
+            return View(carelist);
+        }
+
+        public ActionResult ProfileVisit(IFormCollection form)
+        {
+            string idstring = form["reply"].ToString();
+            int profileid = int.Parse(idstring);
+            Patient patient = _context.Patients.FirstOrDefault(p => p.PatientId == profileid);
+
+            return View(patient);
+        }
+        
+        public ActionResult AuthorizationRevoke(int id)
+        {
+            string username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
+            int userid = user.PatientId;
+            List<int> newlist = new List<int>();
+            List<int> newlist2 = new List<int>();
+
+            foreach (var item in user.CanSeeMeId)
+            {
+                if (item != id)
+                {
+                    newlist.Add(item);
+                }
+            }
+            user.CanSeeMeId = newlist;
+            _context.SaveChanges();
+
+            Patient user2 = _context.Patients.FirstOrDefault(u => u.PatientId == id);
+            foreach (var item in user.ICanSeeId)
+            {
+                if (item != userid)
+                {
+                    newlist2.Add(item);
+                }
+            }
+            user2.ICanSeeId = newlist2;
+            _context.SaveChanges();
+
+            return RedirectToAction("AuthorizationList", "Patient");
+        }
     }
 }

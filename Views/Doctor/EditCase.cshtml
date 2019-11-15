@@ -1,0 +1,148 @@
+﻿@model zorgapp.ViewModels.CaseViewModel
+<!DOCTYPE html>
+
+
+<!-- @{
+    ViewData["Title"] = Model.CurrentCase.CaseName;
+} -->
+
+<h2>Case: @Model.CurrentCase.CaseName</h2>
+
+<form asp-controller="Doctor" asp-action="EditCase" method="post">
+    <select name="caseId">
+        @foreach (Case c in Model.CaseList)
+        {
+            @if (c.CaseId == Model.CurrentCase.CaseId)
+            {
+                <option selected value=@c.CaseId>Case @c.CaseId</option>
+            }
+            else
+            {
+                <option value=@c.CaseId>Case @c.CaseId</option>
+            }
+        }
+    </select>
+    <input type="submit" name="Load" value="Load" />
+</form>
+
+
+<form asp-controller="Doctor" asp-action="EditCase" method="post">
+    Case notes:
+    <br>
+    <textarea type="string" required name="caseNotes" id="caseNotes" rows="15" cols="50" placeholder="Case Notes">@Model.CurrentCase.CaseInfo</textarea>
+    <br>
+    <input type="hidden" name="caseId" id="caseId" value="@Model.CurrentCase.CaseId" />
+    <input type="submit" name="Save" value="Save" />@ViewBag.SaveText
+</form>
+<h4>Upcoming appointments:</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Info
+            </th>
+            <th>
+                Time
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Appointment app in Model.UpcomingAppointments)
+        {
+            <tr>
+                <td>
+                    @app.AppointmentId
+                </td>
+                <td>
+                    @app.Info
+                </td>
+                <td>
+                    @app.Date
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4>Previous appointments:</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Info
+            </th>
+            <th>
+                Time
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Appointment app in Model.PassedAppointments)
+        {
+            <tr>
+                <td>
+                    @app.AppointmentId
+                </td>
+                <td>
+                    @app.Info
+                </td>
+                <td>
+                    @app.Date
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Medicine
+            </th>
+            <th>
+                Start
+            </th>
+            <th>
+                End
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Mg
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Medicine med in Model.MedicineList)
+        {
+        <tr>
+            <td>
+                @med.Name
+            </td>
+            <td>
+                @med.DateStart.ToShortDateString()
+            </td>
+            <td>
+                @med.DateEnd.ToShortDateString()
+            </td>
+            <td>
+                @med.Amount
+            </td>
+            <td>
+                @med.Mg
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+</html>

@@ -11,7 +11,7 @@ using zorgapp.Models;
 namespace zorgapp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191113113553_database")]
+    [Migration("20191115133847_database")]
     partial class database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,7 +19,7 @@ namespace zorgapp.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("zorgapp.Models.Admin", b =>
@@ -36,6 +36,40 @@ namespace zorgapp.Migrations
                     b.ToTable("Admins");
                 });
 
+            modelBuilder.Entity("zorgapp.Models.Appointment", b =>
+                {
+                    b.Property<int>("AppointmentId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CaseId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Info");
+
+                    b.HasKey("AppointmentId");
+
+                    b.ToTable("Appointments");
+                });
+
+            modelBuilder.Entity("zorgapp.Models.Case", b =>
+                {
+                    b.Property<string>("CaseId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CaseInfo");
+
+                    b.Property<string>("CaseName");
+
+                    b.Property<int>("DoctorId");
+
+                    b.Property<int>("PatientId");
+
+                    b.HasKey("CaseId");
+
+                    b.ToTable("Cases");
+                });
+
             modelBuilder.Entity("zorgapp.Models.Doctor", b =>
                 {
                     b.Property<int>("DoctorId")
@@ -47,11 +81,11 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<List<string>>("Messages");
+                    b.Property<List<string>>("LocalId");
 
                     b.Property<string>("Password");
 
-                    b.Property<int>("PhoneNumber");
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<string>("Specialism");
 
@@ -62,10 +96,56 @@ namespace zorgapp.Migrations
                     b.ToTable("Doctors");
                 });
 
+            modelBuilder.Entity("zorgapp.Models.Medicine", b =>
+                {
+                    b.Property<int>("MedicineId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Amount");
+
+                    b.Property<DateTime>("DateEnd");
+
+                    b.Property<DateTime>("DateStart");
+
+                    b.Property<float>("Mg");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("PatientId");
+
+                    b.HasKey("MedicineId");
+
+                    b.ToTable("Medicines");
+                });
+
+            modelBuilder.Entity("zorgapp.Models.Message", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<bool>("DoctorToPatient");
+
+                    b.Property<string>("Receiver");
+
+                    b.Property<string>("Sender");
+
+                    b.Property<string>("Subject");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("MessageId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("zorgapp.Models.Patient", b =>
                 {
                     b.Property<int>("PatientId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<List<int>>("CanSeeMeId");
 
                     b.Property<int?>("DoctorId");
 
@@ -73,13 +153,19 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("FirstName");
 
+                    b.Property<List<int>>("ICanSeeId");
+
                     b.Property<string>("LastName");
 
-                    b.Property<List<string>>("Messages");
+                    b.Property<string>("LinkCode");
+
+                    b.Property<int>("LinkUses");
+
+                    b.Property<List<string>>("LocalId");
 
                     b.Property<string>("Password");
 
-                    b.Property<int>("PhoneNumber");
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<string>("UserName");
 
@@ -101,26 +187,6 @@ namespace zorgapp.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("PatientsDoctorss");
-                });
-
-            modelBuilder.Entity("zorgapp.Models.Practice", b =>
-                {
-                    b.Property<int>("PracticeId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Address");
-
-                    b.Property<List<int>>("DoctorIds");
-
-                    b.Property<string>("Name");
-
-                    b.Property<List<int>>("PatientIds");
-
-                    b.Property<List<int>>("PatientPracticeIds");
-
-                    b.HasKey("PracticeId");
-
-                    b.ToTable("Practices");
                 });
 
             modelBuilder.Entity("zorgapp.Models.Patient", b =>
