@@ -57,6 +57,7 @@ namespace zorgapp.Controllers{
                     FirstName = firstname,
                     LastName = lastname,
                     Email = email,
+                    LocalId = new List<string>(),
                     PhoneNumber = phonenumber,
                     UserName = username.ToLower(),
                     Password = Program.Hash256bits(password),

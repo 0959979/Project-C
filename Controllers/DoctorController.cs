@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using zorgapp.Models;
 
 namespace zorgapp.Controllers{
@@ -57,10 +58,11 @@ namespace zorgapp.Controllers{
                         Email = email,
                         PhoneNumber = phonenumber,
                         Specialism = specialism,
-                        LocalId = localid,
+                        LocalId = new List<string>(),
                         UserName = username,
                         Password = Program.Hash256bits(password),
                     };
+                    doctor.LocalId.Add(localid);
                     _context.Doctors.Add(doctor);
                     _context.SaveChanges();
     
@@ -121,6 +123,49 @@ namespace zorgapp.Controllers{
 
             return View(doctors);
         }
+
+        public IActionResult PatientList()
+        {
+            string username_ = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            Doctor doctor = _context.Doctors.FirstOrDefault(u => u.UserName == username_);
+            int docId = doctor.DoctorId;
+            var Pat = new List<Patient>();
+            var patientsDoctors = from d in _context.PatientsDoctorss where d.DoctorId == docId select d;
+
+            foreach (var item in patientsDoctors)
+            {   
+                if (item.PatientId != null){
+                var patient_ = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
+                Pat.Add(patient_);
+                };
+
+            }
+            return View(Pat);
+        }
+
+        public IActionResult PatProfile (IFormCollection form)
+        {
+            string id = form["patientid"].ToString();
+            int id_ = int.Parse(id);
+            Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == id_);
+            
+            return View(patient);
+        }
+
+
+
+        // public IActionResult AddLocalId (int patientid ){
+        //   //  int id = form["patientid"];
+        // //    int id_ = int.Parse(id);
+        //     Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == patientid);
+        //   //  string localid = form["localid"];
+        //     string localid = "hey";
+        //     patient.LocalId.Add(localid);
+        //     _context.SaveChanges();
+            
+        //     return View("PatProfile");
+
+        // }
 
 
         [Authorize(Roles = "Doctor")]

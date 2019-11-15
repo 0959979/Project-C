@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -58,7 +59,7 @@ namespace zorgapp.Migrations
                 {
                     DoctorId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    LocalId = table.Column<string>(nullable: true),
+                    LocalId = table.Column<List<string>>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -114,17 +115,17 @@ namespace zorgapp.Migrations
                 {
                     PatientId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    LocalId = table.Column<string>(nullable: true),
+                    LocalId = table.Column<List<string>>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    CanSeeMeId = table.Column<int>(nullable: false),
-                    ICanSeeId = table.Column<int>(nullable: false),
+                    CanSeeMeId = table.Column<List<int>>(nullable: true),
+                    ICanSeeId = table.Column<List<int>>(nullable: true),
                     LinkCode = table.Column<string>(nullable: true),
-                    LinkUses = table.Column<string>(nullable: true),
+                    LinkUses = table.Column<int>(nullable: false),
                     DoctorId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

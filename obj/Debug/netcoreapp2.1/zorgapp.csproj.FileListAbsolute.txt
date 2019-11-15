@@ -226,3 +226,5 @@ C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/MessageSend.g.cshtml.cs
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/SentMessages.g.cshtml.cs
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/SentMessages.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/PatientList.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/PatProfile.g.cshtml.cs
