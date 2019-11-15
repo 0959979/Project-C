@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+
+
+<h2>Create an appointment</h2>
+<p>Enter all fields and press submit</p>
+
+<form method="post">
+    Case Id:<br>
+    <input type="string" required name=caseid id="caseid"><br>
+    Info:<br>
+    <input type="string" required name=info id="info"><br> <br>   
+    <input type="submit" value="Submit" id="submit" asp-controller="Doctor" asp-action="CreateAppointment">
+</form>
+
+
+</html>

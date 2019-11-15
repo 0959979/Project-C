@@ -57,8 +57,8 @@ using zorgapp.Models;
         #pragma warning disable 1998
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
-            BeginContext(29, 93, true);
-            WriteLiteral("<!DOCTYPE html>\n\n\n<h2>Create a doctor account</h2>\n<p>Enter all fields and press submit</p>\n\n");
+            BeginContext(30, 99, true);
+            WriteLiteral("<!DOCTYPE html>\r\n\r\n\r\n<h2>Create a doctor account</h2>\r\n<p>Enter all fields and press submit</p>\r\n\r\n");
             EndContext();
             BeginContext(122, 998, false);
             __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e43567086f984f23b43c8c07dde4f66c", async() => {

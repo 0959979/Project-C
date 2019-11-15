@@ -36,5 +36,5 @@ namespace zorgapp.Models
         public DbSet<PatientsDoctors> PatientsDoctorss {get; set;}
 
     }
-    
+
 }

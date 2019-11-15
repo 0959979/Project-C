@@ -7,19 +7,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using zorgapp.Models;
+using zorgapp.ViewModels;
 
-namespace zorgapp.Controllers{
+namespace zorgapp.Controllers {
 
-    public class DoctorController : Controller{
-        private readonly DatabaseContext _context;
+    public class DoctorController : Controller {
+        private readonly DatabaseContext _context;
 
-        public DoctorController(DatabaseContext context)
-        {
-            _context = context;
-        }
+        public DoctorController(DatabaseContext context)
+        {
+            _context = context;
+        }
 
         [Authorize(Roles = "Admin")]
         public IActionResult CreateAccount() => View();
@@ -30,22 +32,45 @@ namespace zorgapp.Controllers{
             if (username != null && password != null)
             {
                 bool valid = true;
-            {
-                Doctor user = _context.Doctors.FirstOrDefault(u => u.Email == email);
-                if (user != null)
                 {
-                    ViewBag.emptyfield1 = "this E-mail is already in use";
-                    valid = false;
+                    Doctor user = _context.Doctors.FirstOrDefault(u => u.Email == email);
+                    if (user != null)
+                    {
+                        ViewBag.emptyfield1 = "this E-mail is already in use";
+                        valid = false;
+                    }
                 }
-            }
 
-            {
-                Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
-                if (user != null)
                 {
-                    ViewBag.emptyfield3 = "this username is already in use";
-                    valid = false;
+                    Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
+                    if (user != null)
+                    {
+                        ViewBag.emptyfield3 = "this username is already in use";
+                        valid = false;
+                    }
                 }
+                if (!valid)
+                {
+                    return View();
+                }
+                Doctor doctor = new Doctor()
+                {
+                    FirstName = firstname,
+                    LastName = lastname,
+                    Email = email,
+                    PhoneNumber = phonenumber,
+                    Specialism = specialism,
+                    UserName = username,
+                    Password = Program.Hash256bits(password),
+                };
+                _context.Doctors.Add(doctor);
+                _context.SaveChanges();
+
+                ViewData["FirstName"] = doctor.FirstName;
+                ViewData["LastName"] = doctor.LastName;
+
+                return View();
+
             }
             if (!valid)
             {
@@ -74,6 +99,110 @@ namespace zorgapp.Controllers{
             }          
             return View();
         }
+        
+        public ActionResult CreateCase(string caseid, string casename, int patientid)
+        {
+            if (caseid != null)
+            {
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                int doctorid = user.DoctorId;
+                Case newcase = new Case()
+                {
+                    CaseId = caseid,
+                    CaseName = casename,
+                    DoctorId = doctorid,
+                    PatientId = patientid
+                };
+                _context.Cases.Add(newcase);
+                _context.SaveChanges();
+
+                return RedirectToAction("Profile", "Doctor");
+            }
+
+            return View();
+        }
+
+        public ActionResult CreateAppointment(string caseid, string info)
+        {
+            if (caseid != null)
+            {               
+                Appointment appointment = new Appointment()
+                {
+                    CaseId = caseid,
+                    Date = DateTime.Now,
+                    Info = info
+                };
+                _context.Appointments.Add(appointment);
+                _context.SaveChanges();
+
+                return RedirectToAction("Profile", "Doctor");
+            }
+            return View();
+        }
+
+        public ActionResult AppointmentList(string caseid)
+        {
+            if (caseid != null)
+            {
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                int doctorid = user.DoctorId;
+
+                var cases = from c in _context.Cases where c.DoctorId == doctorid select c;
+                var Case = new List<Case>();
+
+                var Appointment = new List<Appointment>();
+                var appointments = from a in _context.Appointments where a.CaseId == caseid select a;
+
+                ViewBag.ID = caseid;
+
+                foreach (var item in cases)
+                {
+                    Case.Add(item);
+                }
+                foreach (var item in appointments)
+                {
+                    Appointment.Add(item);
+                }
+
+                AppointmentViewModel caseappointments = new AppointmentViewModel
+                {
+                    Cases = Case,
+                    Appointments = Appointment
+                };
+
+                return View(caseappointments);
+            }
+            else
+            {
+                Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                int doctorid = user.DoctorId;
+
+                var cases = from c in _context.Cases where c.DoctorId == doctorid select c;
+                var Case = new List<Case>();
+
+                var Appointment = new List<Appointment>();
+                var appointments = from a in _context.Appointments where a.CaseId == caseid select a;
+
+                foreach (var item in cases)
+                {
+                    Case.Add(item);
+                }
+                foreach (var item in appointments)
+                {
+                    Appointment.Add(item);
+                }
+
+                AppointmentViewModel caseappointments = new AppointmentViewModel
+                {
+                    Cases = Case,
+                    Appointments = Appointment
+                };
+
+                return View(caseappointments);
+            }
+                                 
+        }
+
             public ActionResult Link(){
             if (TempData["message"]!= null){
             ViewBag.Message = TempData["message"].ToString();
@@ -169,9 +298,14 @@ namespace zorgapp.Controllers{
 
 
         [Authorize(Roles = "Doctor")]
-        public ActionResult Message(string reciever, string subject, string text)
+        public ActionResult Message(string reciever, string subject, string text ,string reply)
         {
             Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == reciever);
+                if (reply != null)
+                {              
+                     ViewBag.reply = reply;
+                }
+
             if (patient != null)
             {
                 if (text != null && text != "")
@@ -228,6 +362,12 @@ namespace zorgapp.Controllers{
                 message = from m in _context.Messages where m.DoctorToPatient == true && m.Sender == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value orderby m.Date descending select m;
             }
             return View(message);
+        }
+        public ActionResult Reply(IFormCollection form)
+        {
+            string reply = form["reply"].ToString();
+            ViewBag.reply = reply;                   
+            return View();
         }
 
         [Authorize(Roles = "Doctor")]

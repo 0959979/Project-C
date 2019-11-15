@@ -1,4 +1,4 @@
-@model IEnumerable<zorgapp.Models.Message>
+﻿@model IEnumerable<zorgapp.Models.Message>
 <!DOCTYPE html>
 @{
     ViewData["Title"] = "Inbox";
@@ -10,7 +10,7 @@
     <button onclick="window.location = '../Doctor/Message';">New Message</button>
 </class> <br /> <br />
 <class ="container">
-    <button onclick="window.location = '../Doctor/Inbox';">Recieved Messages</button>
+    <button onclick="window.location = '../Doctor/Inbox';">Received Messages</button>
 </class>
 <class ="container">
     <button onclick="window.location = '../Doctor/SentMessages';">Sent Messages</button>
@@ -22,16 +22,20 @@
             width: 100%;
             border-collapse: collapse;
         }
+
             .hoverTable td {
                 padding: 9px;
                 border: #ffffff 0px solid;
             }
+
             .hoverTable tr {
                 background: #ffffff;
             }
+
             .hoverTable th {
                 background: #ffffff;
             }
+
             .hoverTable tr:hover {
                 background-color: #cdb9b9;
             }
@@ -79,7 +83,3 @@
     </table>
 
 </div>
-<script>
-    function display(int x) {
-    }
-</script>

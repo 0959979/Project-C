@@ -23,15 +23,15 @@ using zorgapp.Models;
 
 #line default
 #line hidden
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0da30ed500547ae82e9d4a9946dda4b9e6835ee3", @"/Views/Patient/SubmitPatientAccount.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"c778459967e0a9d176c534a519b6905fd65746fe", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8f9c6395e4bfae311b2c71419773c0fca3fcf6a5", @"/Views/Patient/SubmitPatientAccount.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"9fb9c266c6f46fd0d0d62b48ce0943fbf90530da", @"/Views/_ViewImports.cshtml")]
     public class Views_Patient_SubmitPatientAccount : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<zorgapp.Models.Patient>
     {
         #pragma warning disable 1998
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
-            BeginContext(30, 46, true);
-            WriteLiteral("\n<h2>New patient account has been created for ");
+            BeginContext(31, 47, true);
+            WriteLiteral("\r\n<h2>New patient account has been created for ");
             EndContext();
             BeginContext(77, 21, false);
 #line 3 "/Users/yasemin/Documents/Inf_jaar_2/Project-C/Views/Patient/SubmitPatientAccount.cshtml"
@@ -40,7 +40,7 @@ using zorgapp.Models;
 #line default
 #line hidden
             EndContext();
-            BeginContext(98, 5, true);
+            BeginContext(100, 5, true);
             WriteLiteral("</h2>");
             EndContext();
         }
