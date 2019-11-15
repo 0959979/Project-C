@@ -1,0 +1,40 @@
+﻿@model zorgapp.Models.Patient
+<!DOCTYPE html>
+
+<h2>Personal page of @Html.DisplayFor(model => model.UserName) </h2>
+
+
+<html>
+<head>
+    <style>
+        table, th, td {
+            border: 0.1px solid black;
+            border-collapse: separate;
+        }
+        th, td {
+            padding: 10px;
+        }
+
+        th {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h3>My information</h3>
+    <table style="width:25%" id=DoInfo>
+        <tr>
+            <th>First Name: @Html.DisplayFor(model => model.FirstName)</th>
+        </tr>
+        <tr>
+            <th>Last Name: @Html.DisplayFor(model => model.LastName)</th>
+        </tr>
+        <tr>
+            <th>Phonenumber: @Html.DisplayFor(model => model.PhoneNumber)</th>
+        </tr>
+        <tr>
+            <th>Email: @Html.DisplayFor(model => model.Email) </th>
+        </tr>
+    </table>
+</body>
+</html>

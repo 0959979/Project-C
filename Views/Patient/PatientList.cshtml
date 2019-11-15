@@ -15,7 +15,7 @@
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Messages)
+                @Html.DisplayNameFor(model => model.PatientId)
             </th>
             <th></th>
         </tr>
@@ -31,7 +31,7 @@
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
-                @*Html.DisplayFor(modelItem => item.Messages)*@
+                @*Html.DisplayFor(modelItem => item.Messages)
                 <table class="table">
                     <tbody>
                         @foreach (string mes in item.Messages)
@@ -43,7 +43,8 @@
                             </tr>
                         }
                     </tbody>
-                </table>
+                </table>*@
+                @Html.DisplayFor(modelItem => item.PatientId)
             </td>
         </tr>
         }

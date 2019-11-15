@@ -1,0 +1,31 @@
+@model zorgapp.Models.Patient
+
+<h2><strong>Patient ID: @Html.DisplayFor(model => model.PatientId) </strong></h2>
+
+
+<ul style="list-style-type:none;">
+    <li> <strong>Firstname:</strong> @Html.DisplayFor(model => model.FirstName)</li>
+    <li> <strong>Lastname:</strong> @Html.DisplayFor(model => model.LastName) </li>
+    <li> <strong>Phonenumber:</strong> @Html.DisplayFor(model => model.PhoneNumber) </li>
+    <li> <strong>Email: </strong>@Html.DisplayFor(model => model.Email) </li>
+</ul>
+
+<ul>
+        <strong>Local ID: </strong>
+    @foreach (var item in Model.LocalId)
+    {
+        <li> @item </li>
+
+    }
+    </ul>
+
+<form method = "post">
+    Add a local id:<br>
+    <input type = "string" id ="localid" name = "localid"/>
+    <input type = "hidden" value= "@Html.DisplayFor(model => model.PatientId)"id = "patientid" name = "patientid"/>
+    <input type="submit" value="Submit" id="submit" asp-controller="Doctor" asp-action="AddLocalId">
+</form><br>
+
+    <input type="button"
+    value="Add medicine"
+    onclick="location.href='@Url.Action("AddMedicines","Doctor")'"/>
