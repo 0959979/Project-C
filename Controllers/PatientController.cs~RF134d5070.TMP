@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using zorgapp.Models;
-using zorgapp.ViewModels;
 
 namespace zorgapp.Controllers{
 
@@ -616,15 +615,16 @@ namespace zorgapp.Controllers{
 
         public ActionResult AuthorizationList()
         {
+            return View();
+        }
+
+        public ActionResult CarerList()
+        {
             string username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
             int id = user.PatientId;
-
             List<int> carerids = user.CanSeeMeId;
             List<Patient> carers = new List<Patient>();
-
-            List<int> careeids = user.ICanSeeId;
-            List<Patient> carees = new List<Patient>();
 
             if (carerids != null)
             {
@@ -639,8 +639,18 @@ namespace zorgapp.Controllers{
                 Patient empty = _context.Patients.FirstOrDefault(u => u.UserName == "");
                 carers.Add(empty);
             }
-
             
+            return View(carers);
+        }
+
+        public ActionResult CareeList()
+        {
+            string username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
+            int id = user.PatientId;
+            List<int> careeids = user.ICanSeeId;
+            List<Patient> carees = new List<Patient>();
+
             if (careeids != null)
             {
                 foreach (var item in careeids)
@@ -655,54 +665,7 @@ namespace zorgapp.Controllers{
                 carees.Add(empty);
             }
 
-            CareViewModel carelist = new CareViewModel
-            {
-                Carers = carers,
-                Carees = carees
-            };
-
-            return View(carelist);
-        }
-
-        public ActionResult ProfileVisit(IFormCollection form)
-        {
-            string idstring = form["reply"].ToString();
-            int profileid = int.Parse(idstring);
-            Patient patient = _context.Patients.FirstOrDefault(p => p.PatientId == profileid);
-
-            return View(patient);
-        }
-        
-        public ActionResult AuthorizationRevoke(int id)
-        {
-            string username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
-            int userid = user.PatientId;
-            List<int> newlist = new List<int>();
-            List<int> newlist2 = new List<int>();
-
-            foreach (var item in user.CanSeeMeId)
-            {
-                if (item != id)
-                {
-                    newlist.Add(item);
-                }
-            }
-            user.CanSeeMeId = newlist;
-            _context.SaveChanges();
-
-            Patient user2 = _context.Patients.FirstOrDefault(u => u.PatientId == id);
-            foreach (var item in user.ICanSeeId)
-            {
-                if (item != userid)
-                {
-                    newlist2.Add(item);
-                }
-            }
-            user2.ICanSeeId = newlist2;
-            _context.SaveChanges();
-
-            return RedirectToAction("AuthorizationList", "Patient");
+            return View(carees);
         }
     }
 }

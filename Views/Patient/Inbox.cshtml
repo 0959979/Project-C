@@ -7,13 +7,13 @@
 
 <h2>Inbox</h2>
 <class ="container">
-    <button onclick="window.location = '../Doctor/Message';">New Message</button>
+    <button onclick="window.location = '../Patient/Message';">New Message</button>
 </class> <br /> <br />
 <class ="container">
-    <button onclick="window.location = '../Doctor/Inbox';">Recieved Messages</button>
+    <button onclick="window.location = '../Patient/Inbox';">Recieved Messages</button>
 </class>
 <class ="container">
-    <button onclick="window.location = '../Doctor/SentMessages';">Sent Messages</button>
+    <button onclick="window.location = '../Patient/SentMessages';">Sent Messages</button>
 </class> <br />
 <div>
 
@@ -64,20 +64,27 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Sender)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Subject)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Text)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" value="@item.Sender" id="reply" name="reply" />
+                        <input type="submit" value="Reply" id="submit" asp-controller="Patient" asp-action="Reply">
+                    </form>
+                </td>
+                
+            </tr>
             }
         </tbody>
     </table>

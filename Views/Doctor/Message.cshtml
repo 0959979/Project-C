@@ -11,7 +11,7 @@
 
 <form asp-action="Message" method="post">
     Recipient username:<br>
-    <input type="string" required name=reciever id="reciever"><br>
+    <input type="text" required name=reciever id="reciever" value="@ViewBag.reply"><br>
     Subject:<br>
     <input type="string" required name=subject id="subject"><br>
     Message:<br>

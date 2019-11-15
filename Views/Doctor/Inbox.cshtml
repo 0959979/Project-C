@@ -77,13 +77,16 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Date)
                     </td>
-                </tr>
+                    <td>
+                        <form method="post">                           
+                            <input type="hidden" value="@item.Sender" id="reply" name="reply"/>
+                            <input type="submit" value="Reply" id="submit" asp-controller="Doctor" asp-action="Reply">
+                        </form>
+                        
+                    </td>
+                </tr>                
             }
         </tbody>
     </table>
 
 </div>
-<script>
-    function display(int x) {
-    }
-</script>

@@ -118,3 +118,11 @@ C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\D
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\SentMessages.g.cshtml.cs
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Inbox.g.cshtml.cs
 C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Inbox.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Reply.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Reply.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\AuthorizationForm.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\GenerateAuthorizeCode.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\GenerateNewCode.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\ConfirmAuthorization.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\AuthorizationList.g.cshtml.cs
+C:\Users\School\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\ProfileVisit.g.cshtml.cs

@@ -10,7 +10,7 @@
     <button onclick="window.location = '../Doctor/Message';">New Message</button>
 </class> <br /> <br />
 <class ="container">
-    <button onclick="window.location = '../Doctor/Inbox';">Recieved Messages</button>
+    <button onclick="window.location = '../Doctor/Inbox';">Received Messages</button>
 </class>
 <class ="container">
     <button onclick="window.location = '../Doctor/SentMessages';">Sent Messages</button>
@@ -66,7 +66,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Reciever)
+                        @Html.DisplayFor(modelItem => item.Receiver)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Subject)
@@ -83,7 +83,3 @@
     </table>
 
 </div>
-<script>
-    function display(int x) {
-    }
-</script>
