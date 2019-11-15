@@ -1,13 +1,12 @@
 ﻿<!DOCTYPE html>
 @model zorgapp.ViewModels.NewAppointmentViewModel
 
-
 <h2>Create a appointment</h2>
 <p>Enter all fields and press submit</p>
 
 <form method="post">
 	
-	Case Id:
+	Case Name:
 	<select name="caseid">
 		@foreach (Case s in Model.Cases)
 		{

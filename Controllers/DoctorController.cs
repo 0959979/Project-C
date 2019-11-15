@@ -53,18 +53,24 @@ namespace zorgapp.Controllers {
                 {
                     return View();
                 }
+
+
+
                 Doctor doctor = new Doctor()
                 {
                     FirstName = firstname,
                     LastName = lastname,
+                    LocalId = new List<string>(),
                     Email = email,
                     PhoneNumber = phonenumber,
                     Specialism = specialism,
                     UserName = username,
                     Password = Program.Hash256bits(password),
                 };
+                doctor.LocalId.Add(localid);
                 _context.Doctors.Add(doctor);
                 _context.SaveChanges();
+
 
                 ViewData["FirstName"] = doctor.FirstName;
                 ViewData["LastName"] = doctor.LastName;
@@ -513,24 +519,6 @@ namespace zorgapp.Controllers {
                 }
             }
             return newList;
-        }
-        [Authorize(Roles = "Doctor")]
-        public ActionResult CreateAppointment(string caseid, string info)
-        {
-            if (caseid != null)
-            {               
-                Appointment appointment = new Appointment()
-                {
-                    CaseId = caseid,
-                    Date = DateTime.Now,
-                    Info = info
-                };
-                _context.Appointments.Add(appointment);
-                _context.SaveChanges();
-
-                return RedirectToAction("Profile", "Doctor");
-            }
-            return View();
         }
 
  	    [Authorize(Roles="Doctor")]
