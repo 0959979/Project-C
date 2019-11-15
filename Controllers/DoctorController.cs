@@ -131,7 +131,7 @@ namespace zorgapp.Controllers{
 				_context.Appointments.Add(appointment);
 				_context.SaveChanges();
 
-				return RedirectToAction("Inbox", "Doctor");
+				return RedirectToAction("Profile", "Doctor");
 			}
 			List<Case> caseList = new List<Case>();
 
