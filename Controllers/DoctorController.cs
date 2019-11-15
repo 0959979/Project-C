@@ -835,14 +835,14 @@ namespace zorgapp.Controllers {
 			ViewData["FirstName"] = firstname;
 			return View();
         }
-		public ActionResult AddMedicines(string name, DateTime date_start, DateTime date_end, int amount, int patient_id, float mg)
+		public ActionResult AddMedicines(string name, DateTime start_date, DateTime end_date, int amount, int patient_id, float mg)
 		{
 
 			Medicine medicine_ = new Medicine()
 			{
 				Name = name,
-				DateStart = date_start,
-				DateEnd = date_end,
+				DateStart = start_date,
+				DateEnd = end_date,
 				Amount = amount,
 				PatientId = patient_id,
 				Mg = mg
