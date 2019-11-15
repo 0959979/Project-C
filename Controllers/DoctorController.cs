@@ -101,7 +101,7 @@ namespace zorgapp.Controllers {
                 _context.Cases.Add(newcase);
                 _context.SaveChanges();
 
-                return RedirectToAction("Profile", "Doctor");
+                return RedirectToAction("CreateAppointment", "Doctor");
             }
 
             return View();
@@ -702,18 +702,13 @@ namespace zorgapp.Controllers {
 
 
 
-        // public IActionResult AddLocalId (int patientid ){
-        //   //  int id = form["patientid"];
-        // //    int id_ = int.Parse(id);
-        //     Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == patientid);
-        //   //  string localid = form["localid"];
-        //     string localid = "hey";
-        //     patient.LocalId.Add(localid);
-        //     _context.SaveChanges();
+        public IActionResult AddLocalId (int patientid, string localid){
+            Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == patientid);
+            patient.LocalId.Add(localid);
+            _context.SaveChanges();
             
-        //     return View("PatProfile");
-
-        // }
+            return RedirectToAction("PatientList","Doctor");
+        }
 
 
         [Authorize(Roles = "Doctor")]

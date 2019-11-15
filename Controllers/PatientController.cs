@@ -142,7 +142,7 @@ namespace zorgapp.Controllers{
                                         AllowRefresh = false
                                     });
 
-                                return RedirectToAction("Profile", "Patient");
+                                return RedirectToAction("Inbox", "Patient");
                             }
                             else
                             {
@@ -180,7 +180,7 @@ namespace zorgapp.Controllers{
                                         AllowRefresh = false
                                     });
 
-                                return RedirectToAction("Profile", "Doctor");
+                                return RedirectToAction("Inbox", "Doctor");
                             }
                             else
                             {
@@ -219,7 +219,7 @@ namespace zorgapp.Controllers{
                                        AllowRefresh = false
                                    });
 
-                               return RedirectToAction("Link", "Admin");
+                               return RedirectToAction("CreateAccount", "Doctor");
                            }
                            else
                            {
