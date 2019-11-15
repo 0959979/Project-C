@@ -11,8 +11,8 @@ using zorgapp.Models;
 namespace zorgapp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191114123357_database")]
-    partial class database
+    [Migration("20191115102204_databse")]
+    partial class databse
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -81,7 +81,7 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("LocalId");
+                    b.Property<List<string>>("LocalId");
 
                     b.Property<string>("Password");
 
@@ -161,7 +161,7 @@ namespace zorgapp.Migrations
 
                     b.Property<int>("LinkUses");
 
-                    b.Property<string>("LocalId");
+                    b.Property<List<string>>("LocalId");
 
                     b.Property<string>("Password");
 

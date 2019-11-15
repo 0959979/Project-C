@@ -79,7 +79,7 @@ namespace zorgapp.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("LocalId");
+                    b.Property<List<string>>("LocalId");
 
                     b.Property<string>("Password");
 
@@ -159,7 +159,7 @@ namespace zorgapp.Migrations
 
                     b.Property<int>("LinkUses");
 
-                    b.Property<string>("LocalId");
+                    b.Property<List<string>>("LocalId");
 
                     b.Property<string>("Password");
 

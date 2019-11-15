@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace zorgapp.Migrations
 {
-    public partial class database : Migration
+    public partial class databse : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,7 +59,7 @@ namespace zorgapp.Migrations
                 {
                     DoctorId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    LocalId = table.Column<string>(nullable: true),
+                    LocalId = table.Column<List<string>>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -115,7 +115,7 @@ namespace zorgapp.Migrations
                 {
                     PatientId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    LocalId = table.Column<string>(nullable: true),
+                    LocalId = table.Column<List<string>>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
