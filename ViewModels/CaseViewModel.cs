@@ -10,6 +10,7 @@ namespace zorgapp.ViewModels
     {
         public Case CurrentCase;
         public List<Case> CaseList;
+        public List<Medicine> MedicineList;
         //public List<Appointment> Appointments;
         public List<Appointment> UpcomingAppointments;
         public List<Appointment> PassedAppointments;

@@ -92,10 +92,7 @@
                             @if (App.Date.Hour == houri && App.Date.DayOfWeek.ToString() == Model.Days[d])
                             {
                                 <form asp-controller="Doctor" asp-action="EditCase" method="post">
-                                    <!--<input type="button"/>
-                                    <h5>@Html.DisplayFor(modelItem => App.Info)</h5>
-                                    <h6>@Html.DisplayFor(modelItem => App.Date.Hour):@Html.DisplayFor(modelItem => App.Date.Minute)</h6>-->
-                                    @App.Date.Hour:@App.Date.Minute:<br>
+                                    @App.Date.ToShortTimeString():<br>
                                     <input type="submit" name="Submit" value="@App.Info">
                                     <input type="hidden" name="caseId" value="@App.CaseId" />
                                 </form>

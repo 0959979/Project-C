@@ -309,7 +309,8 @@ namespace zorgapp.Controllers{
         {
             if (!string.IsNullOrEmpty(Save))
             {
-                ViewBag.SaveText = " Changes Saved";
+
+                //ensure the case belongs to the doctor
                 var CaseQ = from c in _context.Cases where c.CaseId == caseId select c;
                 Case curCase = CaseQ.FirstOrDefault();
                 if (curCase == null)
@@ -318,6 +319,13 @@ namespace zorgapp.Controllers{
                 }
                 else
                 {
+                    Doctor doc = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                    int docId = doc.DoctorId;
+                    if (!(curCase.DoctorId == docId))
+                    {
+                        return RedirectToAction("Doctor", "CreateCase");
+                    }
+                    ViewBag.SaveText = " Changes Saved";
                     curCase.CaseInfo = caseNotes;
                     _context.Update(curCase);
                     _context.SaveChanges();
@@ -326,6 +334,7 @@ namespace zorgapp.Controllers{
             }
             Case currentCase;
             List<Case> caseList = new List<Case>();
+            List<Medicine> medicineList = new List<Medicine>();
             List<Appointment> appointments = new List<Appointment>();
             List<Appointment> upcomingAppointments = new List<Appointment>();
             List<Appointment> passedAppointments = new List<Appointment>();
@@ -347,6 +356,12 @@ namespace zorgapp.Controllers{
             foreach (Case c in CaseList)
             {
                 caseList.Add(c);
+            }
+            //get the medicine from the case's patient
+            var medicineL = from m in _context.Medicines where m.PatientId == currentCase.PatientId select m; //_context.Medicine in ERD
+            foreach(Medicine med in medicineL)
+            {
+                medicineList.Add(med);
             }
 
             //get the appointments of that case
@@ -383,6 +398,7 @@ namespace zorgapp.Controllers{
             {
                 CurrentCase = currentCase,
                 CaseList = caseList,
+                MedicineList = medicineList,
                 //Appointments = appointments,
                 UpcomingAppointments = upcomingAppointments,
                 PassedAppointments = passedAppointments,

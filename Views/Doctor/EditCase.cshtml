@@ -100,4 +100,48 @@
     </tbody>
 </table>
 
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Medicine
+            </th>
+            <th>
+                Start
+            </th>
+            <th>
+                End
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Mg
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Medicine med in Model.MedicineList)
+        {
+        <tr>
+            <td>
+                @med.Name
+            </td>
+            <td>
+                @med.DateStart.ToShortDateString()
+            </td>
+            <td>
+                @med.DateEnd.ToShortDateString()
+            </td>
+            <td>
+                @med.Amount
+            </td>
+            <td>
+                @med.Mg
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
 </html>
