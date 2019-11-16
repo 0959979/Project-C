@@ -614,6 +614,8 @@ namespace zorgapp.Controllers{
                 }
             }
         }
+
+        public ActionResult AuthorizationList()
         {
             string username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
