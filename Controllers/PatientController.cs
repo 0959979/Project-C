@@ -61,7 +61,7 @@ namespace zorgapp.Controllers{
                     Email = email,
                     LocalId = new List<string>(),
                     PhoneNumber = phonenumber,
-                    UserName = username.ToLower(),
+                    UserName = username,
                     Password = Program.Hash256bits(password),
                     LinkCode = null,
                     LinkUses = 0,
@@ -108,7 +108,8 @@ namespace zorgapp.Controllers{
 
                      
             if (username != null && password != null)
-            {    string pwhash = Program.Hash256bits(password);
+            {   string pwhash = Program.Hash256bits(password);
+                username = username.ToLower();
                 if (type == null)
                 {
                     ViewBag.emptyfield = "Please select an account type";
@@ -118,7 +119,7 @@ namespace zorgapp.Controllers{
                     if (type == "patient")
                     {
 
-                        Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
+                        Patient user = _context.Patients.FirstOrDefault(u => u.UserName.ToLower() == username);
                         if (user != null)
                         {
                                   if (user.Password == pwhash) 
@@ -156,7 +157,7 @@ namespace zorgapp.Controllers{
                     }
                     if (type == "doctor")
                     {
-                        Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
+                        Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == username);
                         if (user != null)
                         {
                             if (user.Password == pwhash) 
@@ -195,7 +196,7 @@ namespace zorgapp.Controllers{
                     if (type == "admin")
                     {
                        
-                        Admin user = _context.Admins.FirstOrDefault(u => u.UserName == username);
+                        Admin user = _context.Admins.FirstOrDefault(u => u.UserName.ToLower() == username);
                         if (user != null)
                         {
                            if (user.Password == pwhash) 
