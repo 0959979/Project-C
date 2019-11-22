@@ -242,3 +242,5 @@ C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/AddMedicines.g.cshtml.cs
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Agenda.g.cshtml.cs
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/EditCase.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/DoctorList.g.cshtml.cs
+/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/DocProfile.g.cshtml.cs

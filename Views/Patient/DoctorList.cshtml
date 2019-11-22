@@ -1,7 +1,7 @@
-@model IEnumerable<zorgapp.Models.Patient>
+@model IEnumerable<zorgapp.Models.Doctor>
 
 
-<h2>Patientlist</h2>
+<h2>Doctorlist</h2>
 
 <table class="table">
     <thead>
@@ -13,7 +13,7 @@
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PatientId)
+                @Html.DisplayNameFor(model => model.DoctorId)
             </th>
             <th></th>
         </tr>
@@ -31,9 +31,9 @@
             
             <td>
                 <form method = "post">
-                    <input type = "hidden" value="@item.PatientId" id = "patientid" name = "patientid"/>
-                    <input type="submit" value="@Html.DisplayFor(modelItem => item.PatientId)" id = "submit" asp-controller="Doctor"
-                    asp-action ="PatProfile">
+                    <input type = "hidden" value="@item.DoctorId" id = "doctorid" name = "doctorid"/>
+                    <input type="submit" value="@Html.DisplayFor(modelItem => item.DoctorId)" id = "submit" asp-controller="Patient"
+                    asp-action ="DocProfile">
                 </form>
             </td>
             

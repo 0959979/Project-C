@@ -87,6 +87,43 @@ namespace zorgapp.Controllers{
 
             return View(patients);
         }
+      public IActionResult DoctorList()
+        {
+            string username_ = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == username_);
+            int patid = patient.PatientId;
+            var Doc = new List<Doctor>();
+            var patientsDoctors = from d in _context.PatientsDoctorss where d.PatientId == patid select d;
+
+            foreach (var item in patientsDoctors)
+            {   
+                if (item.DoctorId != null){
+                var doctor_ = _context.Doctors.FirstOrDefault(p => p.DoctorId == item.DoctorId);
+                Doc.Add(doctor_);
+                };
+
+            }
+            return View(Doc);
+        }
+        public IActionResult DocProfile (IFormCollection form)
+        {
+            string id = form["doctorid"].ToString();
+            int id_ = int.Parse(id);
+            Doctor doctor = _context.Doctors.FirstOrDefault(u => u.DoctorId == id_);
+            
+            return View(doctor);
+        }
+
+
+
+        public IActionResult AddLocalId (int patientid, string localid){
+            Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == patientid);
+            patient.LocalId.Add(localid);
+            _context.SaveChanges();
+            
+            return RedirectToAction("PatientList","Doctor");
+        }
+
 
 
         public ActionResult Login(string username, string password, string type)
