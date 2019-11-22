@@ -88,6 +88,193 @@ namespace zorgapp.Controllers{
             return View(patients);
         }
 
+        [Authorize(Roles = "Patient")]
+        public ActionResult Agenda(string Previous, int dayoffset, string Next, int starthour, int endhour, string Apply)
+        {
+            {
+                System.Diagnostics.Debug.WriteLine("starthour: " + starthour.ToString());
+                System.Diagnostics.Debug.WriteLine("endhour: " + endhour.ToString());
+
+                if (!string.IsNullOrEmpty(Next))
+                {
+                    dayoffset += 7;
+                    //ViewBag.Recieved = "Next, dayoffset = "+dayoffset.ToString();
+                }
+                else if (!string.IsNullOrEmpty(Previous))
+                {
+                    dayoffset -= 7;
+                    //ViewBag.Recieved = "Previous, dayoffset = " + dayoffset.ToString();
+                }
+                else if (!string.IsNullOrEmpty(Apply))
+                {
+                    dayoffset += 0;
+                    //ViewBag.Recieved = "Previous, dayoffset = " + dayoffset.ToString();
+                }
+                else
+                {
+                    dayoffset = 0;
+                    //ViewBag.Recieved = "None";
+                }
+                if (endhour <= starthour)
+                {
+                    starthour = 6;
+                    endhour = 20;
+                }
+                System.Diagnostics.Debug.WriteLine("starthour: " + starthour.ToString());
+                System.Diagnostics.Debug.WriteLine("endhour: " + endhour.ToString());
+                bool AmPm = true;
+                List<string> Day = new List<string>();
+                List<string> Date = new List<string>();
+                List<string> Hour = new List<string>();
+                List<int> Houri = new List<int>();
+                List<int> Minute = new List<int>();
+                List<Case> Case = new List<Case>();
+                List<Appointment> Appointment = new List<Appointment>();
+                //List<List<int>> AppointmentDatesHours = new List<List<int>>();
+                //List<string> AppointmentStrings = new List<string>();
+                DateTime Today = DateTime.Now;//new DateTime(2020, 4, 13);
+                Today = Today.AddDays(dayoffset);
+                DateTime FWeekday;
+                int offset;
+
+                //the days and dates
+                {
+                    DayOfWeek WeekDay = Today.DayOfWeek;
+                    offset = 0;
+                    switch (WeekDay.ToString())
+                    {
+                        case "Monday":
+                            offset = 0;
+                            break;
+                        case "Tuesday":
+                            offset = 1;
+                            break;
+                        case "Wednesday":
+                            offset = 2;
+                            break;
+                        case "Thursday":
+                            offset = 3;
+                            break;
+                        case "Friday":
+                            offset = 4;
+                            break;
+                        case "Saturday":
+                            offset = 5;
+                            break;
+                        case "Sunday":
+                            offset = 6;
+                            break;
+                        default:
+                            offset = 0;
+                            break;
+                    }
+                    //offset ensures that the agenda starts at monday. To get it to start at sunday uncomment:
+                    //offset += 1; //Higher offset means the first point on the agenda starts earlier
+                    int d;
+                    FWeekday = new DateTime(Today.Year, Today.Month, Today.Day);
+                    FWeekday = FWeekday.AddDays(-offset);
+                    for (d = 0; d < 7; d++)
+                    {
+                        DateTime day = Today;//DateTime.Now;
+                        day = day.AddDays(d - offset);
+                        Day.Add(day.DayOfWeek.ToString());
+                        Date.Add(day.Date.ToShortDateString());
+                        //System.Diagnostics.Debug.WriteLine("RonanDayList: " + day.ToString());
+                    }
+                }
+                //The hours and minutes
+                {
+                    for (int h = starthour; h <= endhour; h++)
+                    {
+                        Houri.Add(h);
+                        if (AmPm)
+                        {
+                            if (h > 12)
+                            {
+                                int u;
+                                u = h - 12;
+                                Hour.Add(u.ToString() + " pm");
+                            }
+                            else
+                            {
+                                Hour.Add(h.ToString() + " am");
+                            }
+                        }
+                        else
+                        {
+                            Hour.Add(h.ToString());
+                        }
+                    }
+                    for (int m = 0; m < 60; m += 5)
+                    {
+                        Minute.Add(m);
+                    }
+                }
+                //The appointments of that week
+                { //query door Pelle geschreven
+                    Patient user = _context.Patients.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                    int patientid = user.PatientId;
+
+                    var cases = from c in _context.Cases where c.PatientId == patientid select c;
+                    var Tempappointments = new List<Appointment>();
+                    //var appointments = from a in _context.Appointments where a.select a;
+
+                    foreach (var item in cases)
+                    {
+                        Case.Add(item);
+                    }
+                    foreach (var item in cases)
+                    {
+                        var appointment = from c in _context.Appointments where c.CaseId == item.CaseId select c;
+                        foreach (var app in appointment)
+                        {
+                            Tempappointments.Add(app);
+                        }
+                        Tempappointments = Program.FilterWeek(Tempappointments, Today, 7);
+                    }
+                    foreach (var item in Tempappointments)
+                    {
+                        string infosub;
+                        infosub = item.Info.Trim();
+                        if (infosub.Length > 18)
+                        {
+                            infosub = infosub.Substring(0, 16) + "...";
+                        }
+                        /*DateTime AppTime = new DateTime();
+                        AppTime.AddHours(item.Date.Hour);
+                        AppTime.AddMinutes(item.Date.Minute);*/
+                        Appointment.Add(new Appointment()
+                        {
+                            AppointmentId = item.AppointmentId,
+                            Date = item.Date,
+                            Info = infosub,
+                            CaseId = item.CaseId,
+                        }
+                        );
+                    }
+                }
+                bool sWeek;
+                DateTime c_date;
+                c_date = DateTime.Now;
+                sWeek = Program.SameWeek(Today, c_date);
+                AgendaViewModel agendamodel = new AgendaViewModel
+                {
+                    Days = Day,
+                    Dates = Date,
+                    Hours = Hour,
+                    Hoursi = Houri,
+                    Minutes = Minute,
+                    CurrentDate = offset,
+                    dayOffset = dayoffset,
+                    sameWeek = sWeek,
+                    Cases = Case,
+                    Appointments = Appointment
+                };
+
+                return View(agendamodel);
+            }
+
+        }
 
         public ActionResult Login(string username, string password, string type)
         {
