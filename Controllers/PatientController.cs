@@ -708,7 +708,55 @@ namespace zorgapp.Controllers{
             int profileid = int.Parse(idstring);
             Patient patient = _context.Patients.FirstOrDefault(p => p.PatientId == profileid);
 
-            return View(patient);
+            var medicines_ = from m in _context.Medicines where m.PatientId == profileid select m;
+            var emptymedicine = _context.Medicines.FirstOrDefault(m => m.MedicineId == 0);
+            List<Medicine> medicines = new List<Medicine>();
+            if (medicines_ == null)
+            {
+                medicines.Add(emptymedicine);
+            }
+            else
+            {
+                foreach (var item in medicines_)
+                {
+                    medicines.Add(item);
+                }
+            }
+
+            var cases = from c in _context.Cases where c.PatientId == profileid select c;
+            List<string> caseids = new List<string>();   
+            
+            var emptyappointment = _context.Appointments.FirstOrDefault(m => m.AppointmentId == 0);
+            List<Appointment> appointments = new List<Appointment>();
+            if (cases == null)
+            {
+                appointments.Add(emptyappointment);
+            }
+            else
+            {
+                foreach (var item in cases)
+                {
+                    caseids.Add(item.CaseId);
+                }
+
+                foreach (var item in caseids)
+                {
+                    var appointments_ = from a in _context.Appointments where a.CaseId == item select a;
+                    foreach (var item_ in appointments_)
+                    {
+                        appointments.Add(item_);
+                    }
+                }
+            }           
+
+            ProfileViewModel profiledata = new ProfileViewModel
+            {
+                UserInfo = patient,
+                Appointments = appointments,
+                Medicines = medicines
+            };
+
+            return View(profiledata);
         }
         
         public ActionResult AuthorizationRevoke(int id)
