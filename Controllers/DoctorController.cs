@@ -696,8 +696,48 @@ namespace zorgapp.Controllers {
             string id = form["patientid"].ToString();
             int id_ = int.Parse(id);
             Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == id_);
+            string doctorusername = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            Doctor doctor = _context.Doctors.FirstOrDefault(u => u.UserName == doctorusername);
+            int doctorid = doctor.DoctorId;
+
+            var medicines_ = from m in _context.Medicines where m.PatientId == id_ select m;
+            var emptymedicine = _context.Medicines.FirstOrDefault(m => m.MedicineId == 0);
+            List<Medicine> medicines = new List<Medicine>();
+            if (medicines_ == null)
+            {
+                medicines.Add(emptymedicine);
+            }
+            else
+            {
+                foreach (var item in medicines_)
+                {
+                    medicines.Add(item);
+                }
+            }           
+ 
+            var cases_ = from c in _context.Cases where c.PatientId == id_ && c.DoctorId == doctorid select c;
+            var emptycase = _context.Cases.FirstOrDefault(m => m.CaseId == "");
+            List<Case> cases = new List<Case>();
+            if (cases_ == null)
+            {
+                cases.Add(emptycase);
+            }
+            else
+            {
+                foreach (var item in cases_)
+                {
+                    cases.Add(item);
+                }
+            }
             
-            return View(patient);
+
+            ProfileViewModel profiledata = new ProfileViewModel
+            {
+                UserInfo = patient,
+                Cases = cases,
+                Medicines = medicines
+            };
+            return View(profiledata);
         }
 
 

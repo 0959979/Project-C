@@ -1,246 +1,78 @@
-/Users/yasemin/Documents/Inf_jaar_2/zorgapp/obj/Debug/netcoreapp2.1/zorgapp.csprojAssemblyReference.cache
-/Users/yasemin/Documents/Inf_jaar_2/zorgapp/obj/Debug/netcoreapp2.1/zorgapp.csproj.CoreCompileInputs.cache
-/Users/yasemin/Documents/Inf_jaar_2/zorgapp/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cache
-/Users/yasemin/Documents/Inf_jaar_2/zorgapp/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cs
-/Users/yasemin/Documents/Inf_jaar_2/zorgapp/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfoInputs.cache
-/Users/yasemin/Documents/Inf_jaar_2/zorgapp/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfo.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/bin/Debug/netcoreapp2.1/zorgapp.deps.json
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/bin/Debug/netcoreapp2.1/zorgapp.runtimeconfig.json
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/bin/Debug/netcoreapp2.1/zorgapp.runtimeconfig.dev.json
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/bin/Debug/netcoreapp2.1/zorgapp.dll
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/bin/Debug/netcoreapp2.1/zorgapp.pdb
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/bin/Debug/netcoreapp2.1/zorgapp.Views.dll
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/bin/Debug/netcoreapp2.1/zorgapp.Views.pdb
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csprojAssemblyReference.cache
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csproj.CoreCompileInputs.cache
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cache
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfoInputs.cache
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfo.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.TagHelpers.input.cache
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.TagHelpers.output.cache
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorCoreGenerate.cache
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/Error.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_CookieConsentPartial.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_Layout.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_ValidationScriptsPartial.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/_ViewImports.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/_ViewStart.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorTargetAssemblyInfo.cache
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorTargetAssemblyInfo.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.Views.pdb
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.dll
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.pdb
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csproj.CopyComplete
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/CreateAccount.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.g.cshtml.cs
-C:/Users/Cruelwalker/Desktop/Project-C/bin/Debug/netcoreapp2.1/zorgapp.deps.json
-C:/Users/Cruelwalker/Desktop/Project-C/bin/Debug/netcoreapp2.1/zorgapp.runtimeconfig.json
-C:/Users/Cruelwalker/Desktop/Project-C/bin/Debug/netcoreapp2.1/zorgapp.runtimeconfig.dev.json
-C:/Users/Cruelwalker/Desktop/Project-C/bin/Debug/netcoreapp2.1/zorgapp.dll
-C:/Users/Cruelwalker/Desktop/Project-C/bin/Debug/netcoreapp2.1/zorgapp.pdb
-C:/Users/Cruelwalker/Desktop/Project-C/bin/Debug/netcoreapp2.1/zorgapp.Views.dll
-C:/Users/Cruelwalker/Desktop/Project-C/bin/Debug/netcoreapp2.1/zorgapp.Views.pdb
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csprojAssemblyReference.cache
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csproj.CoreCompileInputs.cache
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cache
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cs
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfoInputs.cache
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfo.cs
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.TagHelpers.input.cache
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.TagHelpers.output.cache
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorCoreGenerate.cache
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.g.cshtml.cs
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/CreateAccount.g.cshtml.cs
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/Error.g.cshtml.cs
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_CookieConsentPartial.g.cshtml.cs
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_Layout.g.cshtml.cs
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_ValidationScriptsPartial.g.cshtml.cs
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/_ViewImports.g.cshtml.cs
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/_ViewStart.g.cshtml.cs
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorTargetAssemblyInfo.cache
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorTargetAssemblyInfo.cs
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.Views.pdb
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.dll
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.pdb
-C:/Users/Cruelwalker/Desktop/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csproj.CopyComplete
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/bin/Debug/netcoreapp2.1/zorgapp.deps.json
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/bin/Debug/netcoreapp2.1/zorgapp.runtimeconfig.json
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/bin/Debug/netcoreapp2.1/zorgapp.runtimeconfig.dev.json
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/bin/Debug/netcoreapp2.1/zorgapp.dll
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/bin/Debug/netcoreapp2.1/zorgapp.pdb
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/bin/Debug/netcoreapp2.1/zorgapp.Views.dll
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/bin/Debug/netcoreapp2.1/zorgapp.Views.pdb
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csprojAssemblyReference.cache
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csproj.CoreCompileInputs.cache
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cache
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfoInputs.cache
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfo.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.TagHelpers.input.cache
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.TagHelpers.output.cache
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorCoreGenerate.cache
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/CreateAccount.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/PatientList.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/Error.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_CookieConsentPartial.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_Layout.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_ValidationScriptsPartial.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/_ViewImports.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/_ViewStart.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorTargetAssemblyInfo.cache
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorTargetAssemblyInfo.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.Views.pdb
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.dll
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.pdb
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csproj.CopyComplete
-<<<<<<< HEAD
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/SubmitPatientAccount.g.cshtml.cs
-C:/Users/School/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.deps.json
-C:/Users/School/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.runtimeconfig.json
-C:/Users/School/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.runtimeconfig.dev.json
-C:/Users/School/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.dll
-C:/Users/School/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.pdb
-C:/Users/School/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.Views.dll
-C:/Users/School/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.Views.pdb
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csproj.CoreCompileInputs.cache
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cache
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cs
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfoInputs.cache
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfo.cs
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.TagHelpers.input.cache
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.TagHelpers.output.cache
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorCoreGenerate.cache
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.g.cshtml.cs
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/CreateAccount.g.cshtml.cs
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/PatientList.g.cshtml.cs
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/SubmitPatientAccount.g.cshtml.cs
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/Error.g.cshtml.cs
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_CookieConsentPartial.g.cshtml.cs
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_Layout.g.cshtml.cs
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_ValidationScriptsPartial.g.cshtml.cs
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/_ViewImports.g.cshtml.cs
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/_ViewStart.g.cshtml.cs
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorTargetAssemblyInfo.cache
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorTargetAssemblyInfo.cs
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.Views.pdb
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.dll
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.pdb
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csproj.CopyComplete
-C:/Users/School/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csprojAssemblyReference.cache
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/PatientList.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/SubmitPatientAccount.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/CreateAccount.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/SubmitDoctorAccount.g.cshtml.cs
-=======
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/appsettings.Development.json
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/appsettings.json
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/package-lock.json
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/Properties/launchSettings.json
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.deps.json
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.runtimeconfig.json
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.runtimeconfig.dev.json
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.dll
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.pdb
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.Views.dll
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/bin/Debug/netcoreapp2.1/zorgapp.Views.pdb
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csprojAssemblyReference.cache
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cache
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorAssemblyInfo.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfoInputs.cache
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.AssemblyInfo.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.TagHelpers.input.cache
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.TagHelpers.output.cache
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorCoreGenerate.cache
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/CreateAccount.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/PatientList.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/SubmitPatientAccount.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/Error.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_CookieConsentPartial.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_Layout.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_ValidationScriptsPartial.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/_ViewImports.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/_ViewStart.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorTargetAssemblyInfo.cache
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.RazorTargetAssemblyInfo.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.Views.pdb
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.dll
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.pdb
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/zorgapp.csproj.CopyComplete
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Login.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Profile.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/CreateAccount.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/DoctorList.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Login.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Profile.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/SubmitDoctorAccount.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Message.cshtml.g.cs
-C:/Users/santa/OneDrive/Documents/GitHub/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Message.cshtml.g.cs
->>>>>>> Login2
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/DoctorList.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Login.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Message.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Login.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Message.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/CreateAccount.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/DoctorList.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Login.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Message.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Profile.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/SubmitDoctorAccount.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Login.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Message.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Profile.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/Login.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/Profile.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/Link.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/SubmitLink.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/Link.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/Login.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/Profile.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Admin/SubmitLink.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Profile.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Profile.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/About.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/Contact.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/Privacy.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Test/Index.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/UpdateAccount.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/UpdateAccount.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/UpdateAccount.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/About.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/Contact.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Home/Privacy.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/UpdateAccount.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Test/Index.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Link.g.cshtml.cs
-/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/SubmitLink.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Inbox.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Link.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/MessageSend.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/SubmitLink.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Inbox.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/MessageDisplay.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/MessageSend.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/SentMessages.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/SentMessages.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/PatientList.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/PatProfile.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/AppointmentList.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/CreateAppointment.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/CreateCase.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Reply.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/AuthorizationForm.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/AuthorizationList.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/ConfirmAuthorization.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/GenerateAuthorizeCode.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/GenerateNewCode.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/ProfileVisit.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Reply.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/AddMedicines.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/Agenda.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Doctor/EditCase.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/DoctorList.g.cshtml.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/DocProfile.g.cshtml.cs
+B:\Documenten\Github\Project-C\bin\Debug\netcoreapp2.1\zorgapp.deps.json
+B:\Documenten\Github\Project-C\bin\Debug\netcoreapp2.1\zorgapp.runtimeconfig.json
+B:\Documenten\Github\Project-C\bin\Debug\netcoreapp2.1\zorgapp.runtimeconfig.dev.json
+B:\Documenten\Github\Project-C\bin\Debug\netcoreapp2.1\zorgapp.dll
+B:\Documenten\Github\Project-C\bin\Debug\netcoreapp2.1\zorgapp.pdb
+B:\Documenten\Github\Project-C\bin\Debug\netcoreapp2.1\zorgapp.Views.dll
+B:\Documenten\Github\Project-C\bin\Debug\netcoreapp2.1\zorgapp.Views.pdb
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CoreCompileInputs.cache
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorAssemblyInfo.cache
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorAssemblyInfo.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.AssemblyInfoInputs.cache
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.AssemblyInfo.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.TagHelpers.input.cache
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.TagHelpers.output.cache
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorCoreGenerate.cache
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Admin\Link.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Admin\Login.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Admin\Profile.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Admin\SubmitLink.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\AddMedicines.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Agenda.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\AppointmentList.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\CreateAccount.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\CreateAppointment.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\CreateCase.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\DoctorList.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\EditCase.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Inbox.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Link.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Login.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Message.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\MessageSend.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\PatientList.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\PatProfile.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Profile.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\Reply.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\SentMessages.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\SubmitDoctorAccount.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\SubmitLink.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\UpdateAccount.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\About.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\Contact.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\Privacy.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\AuthorizationForm.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\AuthorizationList.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\ConfirmAuthorization.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\CreateAccount.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\DocProfile.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\DoctorList.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\GenerateAuthorizeCode.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\GenerateNewCode.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Inbox.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Login.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Message.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\MessageDisplay.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\MessageSend.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\PatientList.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Profile.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\ProfileVisit.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Reply.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\SentMessages.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\SubmitPatientAccount.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\UpdateAccount.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Error.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_Layout.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Test\Index.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\_ViewImports.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\_ViewStart.g.cshtml.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorTargetAssemblyInfo.cache
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.RazorTargetAssemblyInfo.cs
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.Views.pdb
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.dll
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.pdb
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CopyComplete
+B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csprojAssemblyReference.cache
