@@ -65,7 +65,7 @@ namespace zorgapp.Controllers {
                     PhoneNumber = phonenumber,
                     Specialism = specialism,
                     UserName = username,
-                    Password = Program.Hash256bits(password),
+                    Password = Program.Hash256bits(username+password),
                 };
                 doctor.LocalId.Add(localid);
                 _context.Doctors.Add(doctor);
@@ -294,11 +294,10 @@ namespace zorgapp.Controllers {
 
         }
         [Authorize(Roles= "Doctor")]
-        public IActionResult EditCase(string caseId, string caseNotes, string Save, string Load)
+        public IActionResult EditCase(string caseId, string caseNotes, string Save, string Load, string name, DateTime start_date, DateTime end_date, int amount, float mg, string Add)
         {
-            if (!string.IsNullOrEmpty(Save))
+            if (!string.IsNullOrEmpty(Save) || !string.IsNullOrEmpty(Add))
             {
-
                 //ensure the case belongs to the doctor
                 var CaseQ = from c in _context.Cases where c.CaseId == caseId select c;
                 Case curCase = CaseQ.FirstOrDefault();
@@ -312,7 +311,35 @@ namespace zorgapp.Controllers {
                     int docId = doc.DoctorId;
                     if (!(curCase.DoctorId == docId))
                     {
-                        return RedirectToAction("Doctor", "CreateCase");
+                        return RedirectToAction("CreateCase", "Doctor");
+                    }
+                    //medicine
+                    if (name != null && end_date != null && mg != null)
+                    {
+                        int patId;
+                        patId = curCase.PatientId;
+                        if (start_date == null || start_date.Year < DateTime.Now.Year)
+                        {
+                            start_date = DateTime.Now;
+                        }
+                        if (end_date.Year < DateTime.Now.Year)
+                        {
+                            start_date = DateTime.Now;
+                        }
+                        if (amount == null)
+                        {
+                            amount = 1;
+                        }
+                        Medicine newMedicine = new Medicine()
+                        {
+                            Name = name,
+                            DateStart = start_date,
+                            DateEnd = end_date,
+                            Amount = amount,
+                            PatientId = patId,
+                            Mg = mg
+                        };
+                        _context.Medicines.Add(newMedicine);
                     }
                     ViewBag.SaveText = " Changes Saved";
                     curCase.CaseInfo = caseNotes;
@@ -322,6 +349,7 @@ namespace zorgapp.Controllers {
                 //save case in db
             }
             Case currentCase;
+            string patientName;
             List<Case> caseList = new List<Case>();
             List<Medicine> medicineList = new List<Medicine>();
             List<Appointment> appointments = new List<Appointment>();
@@ -336,11 +364,20 @@ namespace zorgapp.Controllers {
 
             //get the case
             var CaseList = from l in _context.Cases where l.DoctorId == doctorId select l;
+            Case FirstCase = CaseList.FirstOrDefault();
+            if (FirstCase == null)
+            {
+                return RedirectToAction("Createcase", "Doctor");
+            }
+            if (caseId == null)
+            {
+                caseId = FirstCase.CaseId;
+            }
             var currentCaseList = from c in CaseList where c.CaseId == caseId.ToString() select c;
             currentCase = currentCaseList.FirstOrDefault();
             if (currentCase == null)
             {
-                return RedirectToAction("Doctor","CreateCase");
+                return RedirectToAction("CreateCase","Doctor");
             }
             foreach (Case c in CaseList)
             {
@@ -361,7 +398,7 @@ namespace zorgapp.Controllers {
             }
             if (appointments.Count() <= 0)
             {
-                return RedirectToAction("Doctor", "CreateAppointment");
+                return RedirectToAction("CreateAppointment", "Doctor");
             }
 
             //find which appointment is next
@@ -383,9 +420,21 @@ namespace zorgapp.Controllers {
             //upcomingAppointments = OrderByDate(upcomingAppointments);
             //passedAppointments = OrderByDate(passedAppointments);
 
+            var PatientL = from p in _context.Patients where p.PatientId == currentCase.PatientId select p;
+            Patient pat = PatientL.FirstOrDefault();
+            if (pat != null)
+            {
+                patientName = pat.FirstName + " " + pat.LastName;
+            }
+            else
+            {
+                patientName = "Error: Patient with patientId '" + currentCase.PatientId.ToString() + "' not found!";
+            }
+
             CaseViewModel casemodel = new CaseViewModel
             {
                 CurrentCase = currentCase,
+                PatientName = patientName,
                 CaseList = caseList,
                 MedicineList = medicineList,
                 //Appointments = appointments,
@@ -417,7 +466,7 @@ namespace zorgapp.Controllers {
 
             return NewList;
         }
-        public bool SameWeek(DateTime day1, DateTime day2)
+        public static bool SameWeek(DateTime day1, DateTime day2)
         {
             DateTime Day1;
             DateTime Day2;
