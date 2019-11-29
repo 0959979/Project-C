@@ -837,7 +837,21 @@ namespace zorgapp.Controllers {
         }
 		public ActionResult AddMedicines(string name, DateTime start_date, DateTime end_date, int amount, int patient_id, float mg)
 		{
+			List<Patient> Patientslist = new List<Patient>();
 
+			var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+			var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME);
+			int Id = USER.DoctorId;
+			var patientslist = from m in _context.PatientsDoctorss where m.DoctorId == Id select m;
+			foreach (var item in patientslist)
+				{
+				if (item.PatientId != null)
+				{
+					var patientname = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
+					Patientslist.Add (patientname) ;
+				};
+
+			}
 			Medicine medicine_ = new Medicine()
 			{
 				Name = name,
@@ -847,11 +861,12 @@ namespace zorgapp.Controllers {
 				PatientId = patient_id,
 				Mg = mg
 			};
+			
 			_context.Medicines.Add(medicine_);
 			_context.SaveChanges();
 
 
-			return View();
+			return View(Patientslist);
 		}
 	}
 }
