@@ -78,8 +78,9 @@
                         {
                             @if (App.Date.Hour == houri && App.Date.DayOfWeek.ToString() == Model.Days[d])
                             {
-                                    @App.Date.ToShortTimeString();
-                                    @App.Info;
+                                    <!---->
+                                    @App.Date.ToShortTimeString()<br>
+                                    @App.Info
                                 <!--<form asp-controller="Doctor" asp-action="EditCase" method="post">
                                     @App.Date.ToShortTimeString():<br>
                                     <input type="submit" name="Submit" value="@App.Info">
@@ -96,8 +97,8 @@
                         {
                             @if (App.Date.Hour == houri && App.Date.DayOfWeek.ToString() == Model.Days[d])
                             {
-                                    @App.Date.ToShortTimeString();
-                                    @App.Info;
+                                    @App.Date.ToShortTimeString()<br>
+                                    @App.Info
                                 <!--<form asp-controller="Doctor" asp-action="EditCase" method="post">
                                     @App.Date.ToShortTimeString():<br>
                                     <input type="submit" name="Submit" value="@App.Info">

@@ -62,7 +62,7 @@ namespace zorgapp.Controllers{
                     LocalId = new List<string>(),
                     PhoneNumber = phonenumber,
                     UserName = username,
-                    Password = Program.Hash256bits(password),
+                    Password = Program.Hash256bits(username+password),
                     LinkCode = null,
                     LinkUses = 0,
                     CanSeeMeId = new List<int>(),
@@ -286,7 +286,7 @@ namespace zorgapp.Controllers{
             if(!adminexists){
             Admin admin = new Admin(){
                 UserName = "admin",
-                Password = Program.Hash256bits("password")
+                Password = Program.Hash256bits("adminpassword")
             };
 
             _context.Admins.Add(admin);
@@ -295,7 +295,7 @@ namespace zorgapp.Controllers{
 
                      
             if (username != null && password != null)
-            {   string pwhash = Program.Hash256bits(password);
+            {   string pwhash = Program.Hash256bits(username+password);
                 username = username.ToLower();
                 if (type == null)
                 {
