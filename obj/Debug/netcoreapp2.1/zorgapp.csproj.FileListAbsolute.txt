@@ -77,3 +77,4 @@ C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorga
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.pdb
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CopyComplete
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Agenda.cshtml.g.cs
+C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csprojAssemblyReference.cache
