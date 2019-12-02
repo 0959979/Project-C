@@ -9,12 +9,14 @@ namespace zorgapp.ViewModels
 	public class PatInfoviewModel
 	{	
 		public Case CurrentCase;
-		public List<Case> CaseList;
-		public List<Medicine> MedicineList;
+		public List<Case> Cases;
+		public List<Medicine> Medicines;
 		
-		public List<Appointment> UpcomingAppointments;
+		public List<Appointment> appointments;
 		//public List<Appointment> PassedAppointments;
 		public DateTime Today;
+
+		
 	}
 	
 }
