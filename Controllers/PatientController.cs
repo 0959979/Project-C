@@ -341,7 +341,27 @@ namespace zorgapp.Controllers{
 			ViewBag.firstname = firstname;
 			var lastname = user.LastName.ToString();
 			ViewBag.lastname = lastname;
-			return View();
+			Case currentCase;
+			List<Case> caseList = new List<Case>();
+			//Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+			//int patientid = user.PatientId;
+
+			//var cases = from c in _context.Cases where c.PatientId == patientid select c;
+			//var Tempappointments = new List<Appointment>();
+			List<Medicine> medicineList = new List<Medicine>();
+			List<Appointment> appointments = new List<Appointment>();
+			List<Appointment> upcomingAppointments = new List<Appointment>();
+			List<Appointment> passedAppointments = new List<Appointment>();
+			DateTime today = DateTime.Now;
+			var patInfoviewModel = new PatInfoviewModel
+			{
+				CaseList = caseList,
+				UpcomingAppointments = upcomingAppointments,
+				MedicineList = medicineList
+			};
+
+
+			return View(patInfoviewModel);
         }
 
         [Authorize(Roles = "Patient")]
