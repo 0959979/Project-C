@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj": {}
+    "C:\\Users\\saade\\Desktop\\Git repos\\DoProf\\zorgapp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj": {
+    "C:\\Users\\saade\\Desktop\\Git repos\\DoProf\\zorgapp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj",
+        "projectUniqueName": "C:\\Users\\saade\\Desktop\\Git repos\\DoProf\\zorgapp.csproj",
         "projectName": "zorgapp",
-        "projectPath": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj",
+        "projectPath": "C:\\Users\\saade\\Desktop\\Git repos\\DoProf\\zorgapp.csproj",
         "packagesPath": "C:\\Users\\saade\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\obj\\",
+        "outputPath": "C:\\Users\\saade\\Desktop\\Git repos\\DoProf\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\saade\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -58,10 +58,6 @@
               "target": "Package",
               "version": "[2.1.0, )",
               "autoReferenced": true
-            },
-            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
-              "target": "Package",
-              "version": "[2.1.10, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",

@@ -16,9 +16,8 @@ namespace zorgapp.Controllers{
 
     public class PatientController : Controller{
         private readonly DatabaseContext _context;
-		private int profileid;
 
-		public PatientController(DatabaseContext context)
+        public PatientController(DatabaseContext context)
         {
             _context = context;
         }
@@ -88,6 +87,43 @@ namespace zorgapp.Controllers{
 
             return View(patients);
         }
+      public IActionResult DoctorList()
+        {
+            string username_ = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == username_);
+            int patid = patient.PatientId;
+            var Doc = new List<Doctor>();
+            var patientsDoctors = from d in _context.PatientsDoctorss where d.PatientId == patid select d;
+
+            foreach (var item in patientsDoctors)
+            {   
+                if (item.DoctorId != null){
+                var doctor_ = _context.Doctors.FirstOrDefault(p => p.DoctorId == item.DoctorId);
+                Doc.Add(doctor_);
+                };
+
+            }
+            return View(Doc);
+        }
+        public IActionResult DocProfile (IFormCollection form)
+        {
+            string id = form["doctorid"].ToString();
+            int id_ = int.Parse(id);
+            Doctor doctor = _context.Doctors.FirstOrDefault(u => u.DoctorId == id_);
+            
+            return View(doctor);
+        }
+
+
+
+        public IActionResult AddLocalId (int patientid, string localid){
+            Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == patientid);
+            patient.LocalId.Add(localid);
+            _context.SaveChanges();
+            
+            return RedirectToAction("PatientList","Doctor");
+        }
+
 
 
         public ActionResult Login(string username, string password, string type)
@@ -328,12 +364,12 @@ namespace zorgapp.Controllers{
         }
 
         [Authorize(Roles = "Patient")]
-        public ActionResult Profile()
-        {
-            //Gets the username of the logged in user and sends it to the view
-            var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            ViewBag.username = username;
-            var user = _context.Patients.FirstOrDefault(u => u.UserName == username);
+		public ActionResult Profile()
+		{
+			//Gets the username of the logged in user and sends it to the view
+			var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+			ViewBag.username = username;
+			var user = _context.Patients.FirstOrDefault(u => u.UserName == username);
 			string email = user.Email.ToString();
 			ViewBag.email = email;
 			var phonenumber = user.PhoneNumber.ToString();
@@ -350,11 +386,11 @@ namespace zorgapp.Controllers{
 			var cas = from m in _context.Cases where m.PatientId == patientid select m;
 			List<Case> caseList = new List<Case>();
 			foreach (var item in cas)
-				{
+			{
 				caseList.Add(item);
-				}
+			}
 			var b = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-			var medicine = from m in _context.Medicines where m.PatientId == patientid select m ;
+			var medicine = from m in _context.Medicines where m.PatientId == patientid select m;
 			List<Medicine> medicineList = new List<Medicine>();
 			foreach (var item in medicine)
 			{
@@ -376,7 +412,7 @@ namespace zorgapp.Controllers{
 				{
 					caseids.Add(item.CaseId);
 				}
-					foreach (var i in caseids)
+				foreach (var i in caseids)
 				{
 					var appointments_ = from q in _context.Appointments where q.CaseId == i select q;
 
@@ -396,9 +432,9 @@ namespace zorgapp.Controllers{
 
 
 			return View(patInfoviewModel);
-        }
+		}
 
-        [Authorize(Roles = "Patient")]
+		[Authorize(Roles = "Patient")]
         public IActionResult UpdateAccount(string firstname, string lastname, string email, string phonenumber)
 		{
 			if (firstname != null)
@@ -725,7 +761,55 @@ namespace zorgapp.Controllers{
             int profileid = int.Parse(idstring);
             Patient patient = _context.Patients.FirstOrDefault(p => p.PatientId == profileid);
 
-            return View(patient);
+            var medicines_ = from m in _context.Medicines where m.PatientId == profileid select m;
+            var emptymedicine = _context.Medicines.FirstOrDefault(m => m.MedicineId == 0);
+            List<Medicine> medicines = new List<Medicine>();
+            if (medicines_ == null)
+            {
+                medicines.Add(emptymedicine);
+            }
+            else
+            {
+                foreach (var item in medicines_)
+                {
+                    medicines.Add(item);
+                }
+            }
+
+            var cases = from c in _context.Cases where c.PatientId == profileid select c;
+            List<string> caseids = new List<string>();   
+            
+            var emptyappointment = _context.Appointments.FirstOrDefault(m => m.AppointmentId == 0);
+            List<Appointment> appointments = new List<Appointment>();
+            if (cases == null)
+            {
+                appointments.Add(emptyappointment);
+            }
+            else
+            {
+                foreach (var item in cases)
+                {
+                    caseids.Add(item.CaseId);
+                }
+
+                foreach (var item in caseids)
+                {
+                    var appointments_ = from a in _context.Appointments where a.CaseId == item select a;
+                    foreach (var item_ in appointments_)
+                    {
+                        appointments.Add(item_);
+                    }
+                }
+            }           
+
+            ProfileViewModel profiledata = new ProfileViewModel
+            {
+                UserInfo = patient,
+                Appointments = appointments,
+                Medicines = medicines
+            };
+
+            return View(profiledata);
         }
         
         public ActionResult AuthorizationRevoke(int id)

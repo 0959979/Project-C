@@ -696,8 +696,48 @@ namespace zorgapp.Controllers {
             string id = form["patientid"].ToString();
             int id_ = int.Parse(id);
             Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == id_);
+            string doctorusername = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            Doctor doctor = _context.Doctors.FirstOrDefault(u => u.UserName == doctorusername);
+            int doctorid = doctor.DoctorId;
+
+            var medicines_ = from m in _context.Medicines where m.PatientId == id_ select m;
+            var emptymedicine = _context.Medicines.FirstOrDefault(m => m.MedicineId == 0);
+            List<Medicine> medicines = new List<Medicine>();
+            if (medicines_ == null)
+            {
+                medicines.Add(emptymedicine);
+            }
+            else
+            {
+                foreach (var item in medicines_)
+                {
+                    medicines.Add(item);
+                }
+            }           
+ 
+            var cases_ = from c in _context.Cases where c.PatientId == id_ && c.DoctorId == doctorid select c;
+            var emptycase = _context.Cases.FirstOrDefault(m => m.CaseId == "");
+            List<Case> cases = new List<Case>();
+            if (cases_ == null)
+            {
+                cases.Add(emptycase);
+            }
+            else
+            {
+                foreach (var item in cases_)
+                {
+                    cases.Add(item);
+                }
+            }
             
-            return View(patient);
+
+            ProfileViewModel profiledata = new ProfileViewModel
+            {
+                UserInfo = patient,
+                Cases = cases,
+                Medicines = medicines
+            };
+            return View(profiledata);
         }
 
 
@@ -837,21 +877,7 @@ namespace zorgapp.Controllers {
         }
 		public ActionResult AddMedicines(string name, DateTime start_date, DateTime end_date, int amount, int patient_id, float mg)
 		{
-			List<Patient> Patientslist = new List<Patient>();
 
-			var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-			var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME);
-			int Id = USER.DoctorId;
-			var patientslist = from m in _context.PatientsDoctorss where m.DoctorId == Id select m;
-			foreach (var item in patientslist)
-				{
-				if (item.PatientId != null)
-				{
-					var patientname = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
-					Patientslist.Add (patientname) ;
-				};
-
-			}
 			Medicine medicine_ = new Medicine()
 			{
 				Name = name,
@@ -861,12 +887,11 @@ namespace zorgapp.Controllers {
 				PatientId = patient_id,
 				Mg = mg
 			};
-			
 			_context.Medicines.Add(medicine_);
 			_context.SaveChanges();
 
 
-			return View(Patientslist);
+			return View();
 		}
 	}
 }

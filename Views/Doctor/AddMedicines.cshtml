@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-@model IEnumerable<zorgapp.Models.Patient>
+@model zorgapp.Models.Medicine
 <html>
 <head>
 <title>Add medicine</title>
@@ -13,14 +13,7 @@
 		<input type="datetime-local" name="start_date" placeholder="Date of start">
 		<input type="datetime-local" name="end_date" placeholder="Date of end">
 		<input type="int" name="amount" placeholder="Amount per day">
-		<select name="patientsid">
-			@foreach (var item in Model)
-			{
-				<option value="@item.PatientId">@item.PatientId</option>
-			}
-
-		</select>
-		@*<input type="int" name="patient_id" placeholder="ID of the patient">*@
+		<input type="int" name="patient_id" placeholder="ID of the patient">
 		<input type="float" name="mg" placeholder="Mg">
 		<input type="submit" value="Add medicine" id="submit" asp-controller="Doctor" asp-action="AddMedicines">
 
