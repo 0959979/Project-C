@@ -1,7 +1,7 @@
 C:\Users\saade\Desktop\Git repos\DoProf\bin\Debug\netcoreapp2.1\appsettings.Development.json
-C:\Users\saade\Desktop\Git repos\DoProf\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
 C:\Users\saade\Desktop\Git repos\DoProf\bin\Debug\netcoreapp2.1\appsettings.json
 C:\Users\saade\Desktop\Git repos\DoProf\bin\Debug\netcoreapp2.1\package-lock.json
+C:\Users\saade\Desktop\Git repos\DoProf\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
 C:\Users\saade\Desktop\Git repos\DoProf\bin\Debug\netcoreapp2.1\zorgapp.deps.json
 C:\Users\saade\Desktop\Git repos\DoProf\bin\Debug\netcoreapp2.1\zorgapp.runtimeconfig.json
 C:\Users\saade\Desktop\Git repos\DoProf\bin\Debug\netcoreapp2.1\zorgapp.runtimeconfig.dev.json
@@ -46,6 +46,7 @@ C:\Users\saade\Desktop\Git repos\DoProf\obj\Debug\netcoreapp2.1\Razor\Views\Home
 C:\Users\saade\Desktop\Git repos\DoProf\obj\Debug\netcoreapp2.1\Razor\Views\Home\Contact.cshtml.g.cs
 C:\Users\saade\Desktop\Git repos\DoProf\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\saade\Desktop\Git repos\DoProf\obj\Debug\netcoreapp2.1\Razor\Views\Home\Privacy.cshtml.g.cs
+C:\Users\saade\Desktop\Git repos\DoProf\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Agenda.cshtml.g.cs
 C:\Users\saade\Desktop\Git repos\DoProf\obj\Debug\netcoreapp2.1\Razor\Views\Patient\AuthorizationForm.cshtml.g.cs
 C:\Users\saade\Desktop\Git repos\DoProf\obj\Debug\netcoreapp2.1\Razor\Views\Patient\AuthorizationList.cshtml.g.cs
 C:\Users\saade\Desktop\Git repos\DoProf\obj\Debug\netcoreapp2.1\Razor\Views\Patient\ConfirmAuthorization.cshtml.g.cs

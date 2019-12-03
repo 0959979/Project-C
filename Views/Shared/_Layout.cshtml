@@ -38,6 +38,7 @@
                         <!-- <li><a asp-area="" asp-controller="Patient" asp-action="AppointmentList">My appointments</a></li> -->
                         <li><a asp-area="" asp-controller="Patient" asp-action="AuthorizationList">Authorization</a></li>
                         <li><a asp-area="" asp-controller="Patient" asp-action="Inbox">Inbox</a></li>
+                        <li><a asp-area="" asp-controller="Patient" asp-action="Agenda">Agenda</a></li>
                         <li><a asp-area="" asp-controller="Patient" asp-action="Logout">Logout</a></li>
                     }
                     else if (User.Identity.Name == "Doctor")
@@ -46,7 +47,8 @@
                         <li><a asp-area="" asp-controller="Doctor" asp-action="Profile">@User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value's profile</a></li>
                         <li><a asp-area="" asp-controller="Doctor" asp-action="Inbox">Inbox</a></li>
                         <li><a asp-area="" asp-controller="Doctor" asp-action="Agenda">Agenda</a></li>
-                        <li><a asp-area="" asp-controller="Doctor" asp-action="PatientList">My Patients</a></li>                      
+                        <li><a asp-area="" asp-controller="Doctor" asp-action="PatientList">My Patients</a></li>
+
                         <li><a asp-area="" asp-controller="Patient" asp-action="Logout">Logout</a></li>
                     }
                     else if (User.Identity.Name == "Admin")
