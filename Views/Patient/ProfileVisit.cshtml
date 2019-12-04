@@ -11,6 +11,7 @@
             border: 0.1px solid black;
             border-collapse: separate;
         }
+
         th, td {
             padding: 10px;
         }
@@ -64,23 +65,23 @@
     <tbody>
         @foreach (var item in Model.Medicines)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mg)
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mg)
+                </td>
+            </tr>
         }
     </tbody>
 </table>
@@ -91,13 +92,10 @@
     <thead>
         <tr>
             <th>
-                Case Id
+                Info
             </th>
             <th>
                 Date
-            </th>
-            <th>
-                Info
             </th>
         </tr>
     </thead>
@@ -106,13 +104,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CaseId)
+                    @Html.DisplayFor(modelItem => item.Info)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Info)
                 </td>
             </tr>
         }

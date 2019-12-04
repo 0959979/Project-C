@@ -941,21 +941,24 @@ namespace zorgapp.Controllers {
 
 			}
 
-			Medicine medicine_ = new Medicine()
-			{
-				Name = name,
-				DateStart = start_date,
-				DateEnd = end_date,
-				Amount = amount,
-				PatientId = patient_id,
-				Mg = mg
-			};
-			
-			_context.Medicines.Add(medicine_);
-			_context.SaveChanges();
+            if (name != null)
+            {
+                Medicine medicine_ = new Medicine()
+                {
+                    Name = name,
+                    DateStart = start_date,
+                    DateEnd = end_date,
+                    Amount = amount,
+                    PatientId = patient_id,
+                    Mg = mg
+                };
+
+                _context.Medicines.Add(medicine_);
+                _context.SaveChanges();
+            }
 
 
-			return View(Patientslist);
+            return View(Patientslist);
 		}
 	}
 }

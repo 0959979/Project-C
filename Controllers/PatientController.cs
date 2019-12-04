@@ -558,15 +558,68 @@ namespace zorgapp.Controllers{
             var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             ViewBag.username = username;
             var user = _context.Patients.FirstOrDefault(u => u.UserName == username);
-			string email = user.Email.ToString();
-			ViewBag.email = email;
-			var phonenumber = user.PhoneNumber.ToString();
-			ViewBag.phonenumber = phonenumber;
-			var firstname = user.FirstName.ToString();
-			ViewBag.firstname = firstname;
-			var lastname = user.LastName.ToString();
-			ViewBag.lastname = lastname;
-			return View();
+            string email = user.Email.ToString();
+            ViewBag.email = email;
+            var phonenumber = user.PhoneNumber.ToString();
+            ViewBag.phonenumber = phonenumber;
+            var firstname = user.FirstName.ToString();
+            ViewBag.firstname = firstname;
+            var lastname = user.LastName.ToString();
+            ViewBag.lastname = lastname;
+
+
+
+            var a = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var patientid = user.PatientId;
+            var cas = from m in _context.Cases where m.PatientId == patientid select m;
+            List<Case> caseList = new List<Case>();
+            foreach (var item in cas)
+            {
+                caseList.Add(item);
+            }
+            var b = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var medicine = from m in _context.Medicines where m.PatientId == patientid select m;
+            List<Medicine> medicineList = new List<Medicine>();
+            foreach (var item in medicine)
+            {
+                medicineList.Add(item);
+            }
+            //var c = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            //var appointment = from m in _context.Appointments where m.PatientId == patientid select c;
+            var cases = from c in _context.Cases where c.PatientId == patientid select c;
+            List<string> caseids = new List<string>();
+            var emptyappointment = _context.Appointments.FirstOrDefault(m => m.AppointmentId == 0);
+            List<Appointment> appointments = new List<Appointment>();
+            if (cases == null)
+            {
+                appointments.Add(emptyappointment);
+            }
+            else
+            {
+                foreach (var item in cases)
+                {
+                    caseids.Add(item.CaseId);
+                }
+                foreach (var i in caseids)
+                {
+                    var appointments_ = from q in _context.Appointments where q.CaseId == i select q;
+
+                    foreach (var f in appointments_)
+                    {
+                        appointments.Add(f);
+                    }
+                }
+            }
+            List<Appointment> upcomingAppointments = new List<Appointment>();
+            var patInfoviewModel = new PatInfoViewModel
+            {
+                Cases = caseList,
+                appointments = appointments,
+                Medicines = medicineList
+            };
+
+
+            return View(patInfoviewModel);
         }
 
         [Authorize(Roles = "Patient")]
