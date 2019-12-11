@@ -45,6 +45,7 @@ C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\Contact.cshtml.g.cs
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Home\Privacy.cshtml.g.cs
+C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Agenda.cshtml.g.cs
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\AuthorizationForm.cshtml.g.cs
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\AuthorizationList.cshtml.g.cs
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\ConfirmAuthorization.cshtml.g.cs
@@ -76,5 +77,4 @@ C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorga
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.dll
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.pdb
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CopyComplete
-C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Agenda.cshtml.g.cs
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csprojAssemblyReference.cache

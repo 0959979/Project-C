@@ -671,17 +671,68 @@ namespace zorgapp.Controllers {
                                  
         }
 
-            public ActionResult Link(){
+    [Authorize(Roles="Doctor")]
+    public ActionResult Link()
+        {
             if (TempData["message"]!= null){
             ViewBag.Message = TempData["message"].ToString();
             TempData.Remove("message");
             }
-            return View();
+            string username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.ToLower();
+            Doctor doc = _context.Doctors.FirstOrDefault(d => d.UserName.ToLower() == username);
+            if (string.IsNullOrEmpty(username) || doc == null)
+            {
+                return RedirectToAction("Login", "Patient");
+            }
+            var docId = doc.DoctorId;
+            var Pat = new List<Patient>();
+            var patientsDoctors = from d in _context.PatientsDoctorss where d.DoctorId == docId select d;
+
+            foreach (var item in patientsDoctors)
+            {
+                if (item.PatientId != null)
+                {
+                    var patient_ = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
+                    Pat.Add(patient_);
+                };
+
+            }
+            DoctorLinkViewModel model = new DoctorLinkViewModel
+            {
+                Patients = Pat
+            };
+            return View(model);
         }
         //links patient with doctor 
-        public ActionResult SubmitLink(int patientid, int doctorid){
+        public ActionResult SubmitLink(int patientid, string patientUsername, int doctorid, string doctorUsername)
+        {
             Doctor doctor = _context.Doctors.FirstOrDefault(m => m.DoctorId == doctorid);
             Patient patient = _context.Patients.FirstOrDefault(y => y.PatientId == patientid);
+            if (patient == null)
+            {
+                TempData["message"] = "Patient not found";
+                return RedirectToAction("Link", "Doctor");
+            }
+            if (doctor == null)
+            {
+                TempData["message"] = "Doctor not found";
+                return RedirectToAction("Link", "Doctor");
+            }
+            if (patientUsername == null)
+            {
+                TempData["message"] = "Patient not found";
+                return RedirectToAction("Link", "Doctor");
+            }
+            if (patient.UserName.ToLower() != patientUsername.ToLower())
+            {
+                TempData["message"] = "Patient ID and Username do not match";
+                return RedirectToAction("Link", "Doctor");
+            }
+            if (doctor.UserName.ToLower() != doctorUsername.ToLower())
+            {
+                TempData["message"] = "Doctor ID and Username do not match";
+                return RedirectToAction("Link", "Doctor");
+            }
             string docName = doctor.FirstName;
             string patName = patient.FirstName;
             PatientsDoctors patientsDoctors_ = _context.PatientsDoctorss.FirstOrDefault(
@@ -701,7 +752,7 @@ namespace zorgapp.Controllers {
             }
             else if(linkmade){
                 TempData["message"] = "Link has already been made";
-                return RedirectToAction("Link","Admin");
+                return RedirectToAction("Link","Doctor");
             }
 
             ViewData["Doctor"] = docName;
@@ -735,11 +786,30 @@ namespace zorgapp.Controllers {
                 var patient_ = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
                 Pat.Add(patient_);
                 };
-
+                Console.WriteLine("test 1");
             }
             return View(Pat);
         }
+        /*public void test()
+        {
+            //arrange
+            string firstName = "Harry";
+            string lastName = "Jones";
+            string eMail = "HarryJ@email.com";
+            string phoneNumber = "06-24685344";
+            string specialism = "Bone fractures";
+            string localId = "2515";
+            string userName = null;
+            string password = "password12342";
 
+            //act
+            SubmitDoctorAccount(firstName,lastName,eMail,phoneNumber,specialism,localId,userName,password);
+
+            //Assert
+            Doctor account = query naar userName;
+            bool result = (account == null)
+            Console.WriteLine(result.ToString());
+        }*/
         public IActionResult PatProfile (IFormCollection form)
         {
             string id = form["patientid"].ToString();

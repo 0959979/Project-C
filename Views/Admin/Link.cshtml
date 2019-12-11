@@ -5,10 +5,14 @@
 
 <form asp-action="SubmitLink" method="post">
     Patient id:<br>
-  <input type="string" required name = patientid id="patientid"><br>
+    <input type="string" required name=patientid id="patientid"><br>
+    Patient Username:<br>
+    <input type="string" required name=patientUsername id="patientUsername"><br>
     Doctor id:<br>
-  <input type="string" required name = doctorid id="doctorid"><br>
-  <input type="submit" value = "Submit" id="submit">
+    <input type="string" required name=doctorid id="doctorid"><br>
+    Doctor username:<br>
+    <input type="string" required name=doctorUsername id="doctorUsername"><br>
+    <input type="submit" value="Submit" id="submit">
 </form><br>
 
 <h4>@ViewBag.message</h4>

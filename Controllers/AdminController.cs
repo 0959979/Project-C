@@ -33,9 +33,29 @@ namespace zorgapp.Controllers{
 
       //  links patient with doctor 
  
-        public ActionResult SubmitLink(int patientid, int doctorid){
+        public ActionResult SubmitLink(int patientid, string patientUsername, int doctorid, string doctorUsername){
             Doctor doctor = _context.Doctors.FirstOrDefault(m => m.DoctorId == doctorid);
             Patient patient = _context.Patients.FirstOrDefault(y => y.PatientId == patientid);
+            if (patient == null)
+            {
+                TempData["message"] = "Patient not found";
+                return RedirectToAction("Link", "Admin");
+            }
+            if (doctor == null)
+            {
+                TempData["message"] = "Doctor not found";
+                return RedirectToAction("Link", "Admin");
+            }
+            if (patient.UserName.ToLower() != patientUsername.ToLower())
+            {
+                TempData["message"] = "Patient ID and Username do not match";
+                return RedirectToAction("Link", "Admin");
+            }
+            if (doctor.UserName.ToLower() != doctorUsername.ToLower())
+            {
+                TempData["message"] = "Doctor ID and Username do not match";
+                return RedirectToAction("Link", "Admin");
+            }
             string docName = doctor.FirstName;
             string patName = patient.FirstName;
             PatientsDoctors patientsDoctors_ = _context.PatientsDoctorss.FirstOrDefault(
