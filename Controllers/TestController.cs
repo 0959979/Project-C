@@ -113,7 +113,7 @@ namespace zorgapp.Controllers{
             Criteria = "";
             Inputstr = "";
             Aresult = "";
-            Eresult = "UserName=User | FirstName=Harry";
+            Eresult = "UserName=UserAT1 | FirstName=Harry";
         }
 
         public override TestViewModel Run()
@@ -129,7 +129,7 @@ namespace zorgapp.Controllers{
             string eMail = "HarryJ@email.com";
             string phoneNumber = "06-24685344";
             string specialism = "Bone fractures";
-            string localId = "2515";
+            string localId = "2515T1";
             string userName = "UserAT1";
             string password = "password12342";
 
@@ -203,7 +203,7 @@ namespace zorgapp.Controllers{
             string eMail = "HarryJ@email.com";
             string phoneNumber = "06-24685344";
             string specialism = "Bone fractures";
-            string localId = "2515";
+            string localId = "2515T2";
             string userName = null;
             string password = "password12342";
 
@@ -291,11 +291,11 @@ namespace zorgapp.Controllers{
             DoctorController controller = new DoctorController(testController.getContext());
 
             string firstName = null;
-            string lastName = "Jones";
-            string eMail = "HarryJ@email.com";
+            string lastName = "Tester";
+            string eMail = "TestmanT3@email.com";
             string phoneNumber = "06-24685344";
             string specialism = "Bone fractures";
-            string localId = "2515";
+            string localId = "2515T3";
             string userName = "UserAT3";
             string password = "password12342";
 

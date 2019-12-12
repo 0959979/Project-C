@@ -20,10 +20,5 @@ namespace zorgapp.Models
         public string UserName { get; set; }
         public string Password { get; set; }
         public ICollection<PatientsDoctors> PatientsDoctorss {get;set;}
-
-        internal static void SubmitDoctorAccount(string firstName, string lastName, string eMail, string phoneNumber, string specialism, string localId, string userName, string password)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
