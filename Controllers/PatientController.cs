@@ -978,5 +978,148 @@ namespace zorgapp.Controllers{
 
             return RedirectToAction("AuthorizationList", "Patient");
         }
+
+        //TESTING
+        public DatabaseContext getContext()
+        {
+            return _context;
+        }
+        public IActionResult noAccess()
+        {
+            return View();
+        }
+
+        public IActionResult TestPage()
+        {
+            List<Tuple<string, string>> tupleList = new List<Tuple<string, string>>();
+
+            List<PatientTest> testlist = new List<PatientTest>();
+            {
+                testlist.Add(new GenerateNewAuthorizeCodeTest1(this));
+            }
+            foreach (PatientTest T in testlist)
+            {
+                tupleList.Add(new Tuple<string, string>(T.Id, T.Id));
+            }
+
+            TestListViewModel testlistmodel = new TestListViewModel { tuples = tupleList };
+            return View(testlistmodel);
+        }
+
+        public IActionResult StartTest(string TestId)
+        {
+            List<PatientTest> testlist = new List<PatientTest>();
+            {
+                testlist.Add(new GenerateNewAuthorizeCodeTest1(this));
+            }
+            PatientTest testobj = testlist.FirstOrDefault();
+            foreach (PatientTest T in testlist)
+            {
+                if (T.Id == TestId)
+                {
+                    testobj = T;
+                }
+            }
+            TestViewModel Model = testobj.Run();
+            return View(Model);
+        }
+    }
+    internal abstract class PatientTest
+    {
+        public abstract TestViewModel Run();
+        public PatientController testController;
+        public string Id;
+        public string Description;
+        public string Steps;
+        public string Criteria;
+        public string Inputstr;
+        public string Aresult;
+        public string Eresult;
+        public bool Pass;
+    }
+    internal class GenerateNewAuthorizeCodeTest1 : PatientTest
+    {
+        public GenerateNewAuthorizeCodeTest1(PatientController tc)
+        {
+            testController = tc;
+            Id = "P5.Integration.GNAC1";
+            Description = "GenerateNewAuthorizeCode test 1";
+            Steps = "";
+            Criteria = "";
+            Inputstr = "";
+            Aresult = "";
+            Eresult = "a string with 32 characters";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+
+            int uses = 3;
+
+            //act
+            try
+            {
+                controller.GenerateNewCode(uses);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            Patient P = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            string Code = P.LinkCode;
+            if (P == null)
+            {
+                Aresult = "Null";
+            }
+            else
+            {
+                Aresult = "a string with " + P.LinkCode.Length.ToString() + " characters";
+            }
+
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
     }
 }
