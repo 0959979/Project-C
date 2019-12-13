@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj": {}
+    "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj": {
+    "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj",
+        "projectUniqueName": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
         "projectName": "zorgapp",
-        "projectPath": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj",
-        "packagesPath": "C:\\Users\\saade\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\obj\\",
+        "projectPath": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
+        "packagesPath": "C:\\Users\\santa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\saade\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\santa\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -58,6 +61,10 @@
               "target": "Package",
               "version": "[2.1.0, )",
               "autoReferenced": true
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[2.1.10, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
