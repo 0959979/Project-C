@@ -1,30 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj": {}
+    "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj": {
+    "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
+        "projectUniqueName": "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj",
         "projectName": "zorgapp",
-        "projectPath": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
-        "packagesPath": "C:\\Users\\santa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\obj\\",
+        "projectPath": "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj",
+        "packagesPath": "/Users/yasemin/.nuget/packages/",
+        "outputPath": "/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\santa\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/yasemin/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.1"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -62,10 +60,6 @@
               "version": "[2.1.0, )",
               "autoReferenced": true
             },
-            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
-              "target": "Package",
-              "version": "[2.1.10, )"
-            },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[2.1.0, )"
@@ -81,7 +75,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.100/RuntimeIdentifierGraph.json"
         }
       }
     }

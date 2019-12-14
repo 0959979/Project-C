@@ -54,7 +54,8 @@ namespace zorgapp.Controllers{
                 _context.SaveChanges();
             }
             else if(linkmade){
-                TempData["message"] = "Link has already been made";
+                if (TempData != null)
+                    {TempData["message"] = "Link has already been made";}
                 return RedirectToAction("Link", "Admin");
             }
             

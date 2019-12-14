@@ -27,6 +27,7 @@ namespace zorgapp.Controllers{
                 testlist.Add(new SubmitDoctorAccountTest1(this));
                 testlist.Add(new SubmitDoctorAccountTest2(this));
                 testlist.Add(new SubmitDoctorAccountTest3(this));
+                testlist.Add(new LinkAdminTest1(this));
             }
         }
 
@@ -66,27 +67,6 @@ namespace zorgapp.Controllers{
             TestViewModel Model = testobj.Run();
             return View(Model);
         }
-
-        /*public void test()
-        {
-            //arrange
-            string firstName = "Harry";
-            string lastName = "Jones";
-            string eMail = "HarryJ@email.com";
-            string phoneNumber = "06-24685344";
-            string specialism = "Bone fractures";
-            string localId = "2515";
-            string userName = null;
-            string password = "password12342";
-
-            //act
-            Doctor.SubmitDoctorAccount(firstName,lastName,eMail,phoneNumber,specialism,localId,userName,password);
-
-            //Assert
-            Doctor account = query naar userName;
-            bool result = (account == null)
-            Console.WriteLine(result.ToString());
-        }*/
     }
 
     internal abstract class Test
@@ -359,4 +339,90 @@ namespace zorgapp.Controllers{
             return model;
         }
     }
+    internal class LinkAdminTest1 : Test
+    {
+        public LinkAdminTest1(TestController tc)
+        {
+            testController = tc;
+            Id = "A2.Integration.LAT1";
+            Description = "Link Admin test 1";
+            Steps = "";
+            Criteria = "";
+            Inputstr = "Patient and doctorID where link is already made";
+            Aresult = "";
+            Eresult = "Patient ID=1 | Doctor ID=1";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            AdminController controller = new AdminController(testController.getContext());
+
+            int PatientID = 1;
+            int DocterID = 1;
+
+           // act
+           try
+           {
+            controller.SubmitLink(PatientID,DocterID);
+           }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            PatientsDoctors patdoc = Tcontext.PatientsDoctorss.FirstOrDefault(x => x.DoctorId == DocterID);
+            if (patdoc == null)
+            {
+                Aresult = "Null";
+            }
+            else
+            {
+                Aresult = "Patient ID=" + patdoc.PatientId + " | Doctor ID=" + patdoc.DoctorId;
+            }
+
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+}
+
 }
