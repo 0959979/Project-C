@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj": {}
+    "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj": {}
   },
   "projects": {
-    "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj": {
+    "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj",
+        "projectUniqueName": "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj",
         "projectName": "zorgapp",
-        "projectPath": "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/zorgapp.csproj",
-        "packagesPath": "/Users/yaseminsnoek/.nuget/packages/",
-        "outputPath": "/Users/yaseminsnoek/Documents/Inf jaar 2/Project/Project-C/obj/",
+        "projectPath": "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj",
+        "packagesPath": "/Users/yasemin/.nuget/packages/",
+        "outputPath": "/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/Users/yaseminsnoek/.nuget/NuGet/NuGet.Config"
+          "/Users/yasemin/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.1"
@@ -66,10 +66,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.100/RuntimeIdentifierGraph.json"
         }
       }
     }

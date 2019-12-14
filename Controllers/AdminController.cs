@@ -36,8 +36,8 @@ namespace zorgapp.Controllers{
         public ActionResult SubmitLink(int patientid, int doctorid){
             Doctor doctor = _context.Doctors.FirstOrDefault(m => m.DoctorId == doctorid);
             Patient patient = _context.Patients.FirstOrDefault(y => y.PatientId == patientid);
-            string docName = doctor.FirstName;
-            string patName = patient.FirstName;
+            // string docName = doctor.FirstName;
+            // string patName = patient.FirstName;
             PatientsDoctors patientsDoctors_ = _context.PatientsDoctorss.FirstOrDefault(
                 p => p.PatientId == patientid && p.DoctorId == doctorid
             );
@@ -48,6 +48,16 @@ namespace zorgapp.Controllers{
                 PatientId = patientid,
                 DoctorId = doctorid
             };
+            if(patient == null){
+                if (TempData != null)
+                {TempData["message"] = "PatientId does not exist";}
+                return RedirectToAction("Link", "Admin");
+            }
+            if(doctor == null){
+                if (TempData != null)
+                {TempData["message"] = "Doctorid does not exist";}
+                return RedirectToAction("Link", "Admin");
+            }
 
             if(!linkmade){
                 _context.PatientsDoctorss.Add(patientsDoctors);
@@ -59,8 +69,8 @@ namespace zorgapp.Controllers{
                 return RedirectToAction("Link", "Admin");
             }
             
-            ViewData["Doctor"] = docName;
-            ViewData["Patient"] = patName;
+            ViewData["Doctor"] = doctor.FirstName;
+            ViewData["Patient"] = patient.FirstName;
 
             return View();
         }

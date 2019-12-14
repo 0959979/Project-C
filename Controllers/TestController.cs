@@ -405,7 +405,7 @@ namespace zorgapp.Controllers
 
                 };
             }
-
+            //check if the list of patientsdoctors contains the link twice
             if (list.Count() > 1)
             {
                 Aresult = "Link doubled";
@@ -473,9 +473,7 @@ namespace zorgapp.Controllers
             p => p.PatientId == PatientID && p.DoctorId == doctor.DoctorId);
             bool linkmade = Tcontext.PatientsDoctorss.Contains(patientsDoctors_);
 
-
-
-
+            //loops untill patient is found where doc is not already linked
             for (int i = 1; linkmade; i++)
             {
                 PatientID = i;
@@ -484,20 +482,13 @@ namespace zorgapp.Controllers
                 linkmade = Tcontext.PatientsDoctorss.Contains(patientsDoctors_);
 
                 patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
-
-                // patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
-                // patients = from d in Tcontext.Patients select d;
-                // if (patient != null)
-                // {
-                //     patientExists = patients.Contains(patient);
-                // }
-
+            // if all patients are linked, the loop is stopped
                 if (patient == null)
                 {
                     break;
                 }
             }
-
+            //if all patients are linked, the results below are viewed
             if (patient == null)
             {
                 Pass = false;
@@ -516,11 +507,12 @@ namespace zorgapp.Controllers
                 };
                 return model;
             }
-
+            //if there is a patient that is not already linked, run submitlink method
             try
             {
                 controller.SubmitLink(PatientID, DoctorID);
             }
+            //if for some reason we get an error, the error will be viewed 
             catch (Exception e)
             {
                 Pass = false;
@@ -543,7 +535,7 @@ namespace zorgapp.Controllers
             //assert
             var patientsDoctors = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
             Patient patient_ = Tcontext.Patients.FirstOrDefault(x => x.PatientId == PatientID);
-
+            //check if link is made in the database
             foreach (var item in patientsDoctors)
             {
                 if (item.PatientId == patient_.PatientId)
