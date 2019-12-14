@@ -31,6 +31,8 @@ namespace zorgapp.Controllers
                 testlist.Add(new SubmitDoctorAccountTest3(this));
                 testlist.Add(new LinkAdminLinkAlreadyMadeTest1(this));
                 testlist.Add(new LinkAdminLinkNotMadeTest1(this));
+                testlist.Add(new LinkAdminPatNullTest1(this));
+                testlist.Add(new LinkAdminDocNullTest1(this));
             }
         }
 
@@ -535,6 +537,7 @@ namespace zorgapp.Controllers
             //assert
             var patientsDoctors = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
             Patient patient_ = Tcontext.Patients.FirstOrDefault(x => x.PatientId == PatientID);
+
             //check if link is made in the database
             foreach (var item in patientsDoctors)
             {
@@ -547,6 +550,225 @@ namespace zorgapp.Controllers
                 {
                     Aresult = "Link not made";
                     Pass = false;
+                }
+            }
+
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+     internal class LinkAdminPatNullTest1 : Test
+    {
+        public LinkAdminPatNullTest1(TestController tc)
+        {
+            testController = tc;
+            Id = "A2.Integration.LAT3";
+            Description = "Link Admin Patient is null";
+            Steps = "Check if patient does not exist, try to create link";
+            Criteria = "Pass: link is not made, warning to admin that patient does not exist| Fail: exeption error";
+            Inputstr = "PatientID of a non existent patient, DoctorID of existing doctor  ";
+            Aresult = "";
+            Eresult = "Patient does not exist";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = testController.getContext();
+            AdminController controller = new AdminController(testController.getContext());
+            int PatientID = 1;
+            int DoctorID = 1;
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+
+            Patient patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
+            var patients = from d in Tcontext.Patients select d;
+            bool patientExists = true;
+            if (patient == null){
+                patientExists = false;
+            }
+
+            // PatientsDoctors patientsDoctors_ = Tcontext.PatientsDoctorss.FirstOrDefault(
+            // p => p.PatientId == PatientID && p.DoctorId == doctor.DoctorId);
+            // bool linkmade = Tcontext.PatientsDoctorss.Contains(patientsDoctors_);
+
+            //loops untill patient is found that doesnt exist 
+            for (int i = 1; patientExists; i++)
+            {
+                PatientID = i;
+                patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
+                if (patient == null)
+                {
+                patientExists = false;
+                }
+            }
+
+            //try to run the submitlink method with a non existing patient 
+            try
+            {
+                controller.SubmitLink(PatientID, DoctorID);
+            }
+            //if for some reason we get an error, the error will be viewed 
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            var patientsDoctors = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            Patient patient_ = Tcontext.Patients.FirstOrDefault(x => x.PatientId == PatientID);
+            
+            //check if link is made in the database
+            foreach (var item in patientsDoctors)
+            {   
+                if (patientExists == true)
+            {
+                if (item.PatientId == patient_.PatientId)
+                {
+                    Aresult = "Link made for Patientid:" + patient_.PatientId + " and Doctorid:" + DoctorID;
+                    Pass = false;
+                }
+            }
+                else
+                {
+                    Aresult = "Link not made";
+                    Pass = true;
+                }
+            }
+
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+         internal class LinkAdminDocNullTest1 : Test
+    {
+        public LinkAdminDocNullTest1(TestController tc)
+        {
+            testController = tc;
+            Id = "A2.Integration.LAT4";
+            Description = "Link Admin Doctor is null";
+            Steps = "Check if doctor does not exist, try to create link";
+            Criteria = "Pass: link is not made, warning to admin that doctor does not exist| Fail: exeption error";
+            Inputstr = "DoctorID of a non existent patient, PatientID of existing doctor  ";
+            Aresult = "";
+            Eresult = "Doctor does not exist";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = testController.getContext();
+            AdminController controller = new AdminController(testController.getContext());
+            int PatientID = 1;
+            int DoctorID = 1;
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+            Patient patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
+
+            var doctors = from d in Tcontext.Doctors select d;
+            bool doctorExists = true;
+            if (doctor == null){
+                doctorExists = false;
+            }
+
+
+            //loops untill doctor is found that doesnt exist 
+            for (int i = 1; doctorExists; i++)
+            {
+                DoctorID = i;
+                doctor = Tcontext.Doctors.FirstOrDefault(p => p.DoctorId == DoctorID);
+                if (doctor == null)
+                {
+                doctorExists = false;
+                }
+            }
+
+            //try to run the submitlink method with a non existing doctor 
+            try
+            {
+                controller.SubmitLink(PatientID, DoctorID);
+            }
+            //if for some reason we get an error, the error will be viewed 
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            var patientsDoctors = from d in Tcontext.PatientsDoctorss where d.PatientId == PatientID select d;
+            Doctor doctor_ = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+            
+            //check if link is made in the database
+            foreach (var item in patientsDoctors)
+            {   
+                if (doctorExists == true)
+            {
+                if (item.DoctorId == doctor_.DoctorId)
+                {
+                    Aresult = "Link made for Patientid:" + PatientID + " and Doctorid:" + doctor_.DoctorId;
+                    Pass = false;
+                }
+            }
+                else
+                {
+                    Aresult = "Link not made";
+                    Pass = true;
                 }
             }
 
