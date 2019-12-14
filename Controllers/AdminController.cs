@@ -54,7 +54,8 @@ namespace zorgapp.Controllers{
                 _context.SaveChanges();
             }
             else if(linkmade){
-                TempData["message"] = "Link has already been made";
+                if (TempData != null)
+                    {TempData["message"] = "Link has already been made";}
                 return RedirectToAction("Link", "Admin");
             }
             
@@ -63,38 +64,6 @@ namespace zorgapp.Controllers{
 
             return View();
         }
-    //    public ActionResult Login(string username, string password)
-    //     {
-    //         var adminexists = _context.Admins.Any(x => x.UserName == "admin");
-    //         if(!adminexists){
-    //         Admin admin = new Admin(){
-    //             UserName = "admin",
-    //             Password = "password"
-    //         };
-
-        //         _context.Admins.Add(admin);
-        //         _context.SaveChanges();
-        //         }
-
-
-        //         Admin user = _context.Admins.FirstOrDefault(u => u.UserName == username);
-        //         if (user != null)
-        //         {
-        //             if (user.Password == password)
-        //             {
-        //                 return RedirectToAction("Profile", "Admin");
-        //             }
-        //             else
-        //             {
-        //                 ViewBag.emptyfield = "Username or Password is incorrect";
-        //             }
-        //         }
-        //         else if (username != null)
-        //         {
-        //             ViewBag.emptyfield = "Username or Password is incorrect";
-        //         }
-        //         return View();
-        //     }
 
     }
     
