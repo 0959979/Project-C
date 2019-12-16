@@ -26,9 +26,9 @@ namespace zorgapp.Controllers
             _context = context;
             testlist = new List<Test>();
             {
-                testlist.Add(new SubmitDoctorAccountTest1(this));
-                testlist.Add(new SubmitDoctorAccountTest2(this));
-                testlist.Add(new SubmitDoctorAccountTest3(this));
+                testlist.Add(new CreateDoctorAccountTest1(this));
+                testlist.Add(new CreateDoctorAccountMissingParameterTest1(this));
+                testlist.Add(new CreateDoctorAccountPasswordtest1(this));
                 testlist.Add(new LinkAdminLinkAlreadyMadeTest1(this));
                 testlist.Add(new LinkAdminLinkNotMadeTest1(this));
                 testlist.Add(new LinkAdminPatNullTest1(this));
@@ -87,18 +87,18 @@ namespace zorgapp.Controllers
         public string Eresult;
         public bool Pass;
     }
-    internal class SubmitDoctorAccountTest1 : Test
+    internal class CreateDoctorAccountTest1 : Test
     {
-        public SubmitDoctorAccountTest1(TestController tc)
+        public CreateDoctorAccountTest1(TestController tc)
         {
             testController = tc;
-            Id = "A1.Integration.SDA1";
-            Description = "SubmitDoctorAccount test 1";
-            Steps = "";
-            Criteria = "";
-            Inputstr = "";
+            Id = "A1.Integration.CDA1";
+            Description = "Create Doctor Account Test 1";
+            Steps = "Create a doctor with all values inserted";
+            Criteria = "Pass: doctor is created in the database | Fail: exception error";
+            Inputstr = "All parameters for a doctor";
             Aresult = "";
-            Eresult = "UserName=UserAT1 | FirstName=Harry";
+            Eresult = "Doctor added to database";
         }
 
         public override TestViewModel Run()
@@ -123,9 +123,23 @@ namespace zorgapp.Controllers
             {
                 controller.SubmitDoctorAccount(firstName, lastName, eMail, phoneNumber, specialism, localId, userName, password);
             }
-            catch (Exception)
-            {
+            catch (Exception e)
+           {
                 Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
             }
 
             //assert
@@ -133,17 +147,14 @@ namespace zorgapp.Controllers
             Doctor doc = Tcontext.Doctors.FirstOrDefault(u => u.UserName == userName);
             if (doc == null)
             {
+                Aresult = "Doctor not added to database";
                 Pass = false;
             }
             else
             {
-                Aresult = "UserName=" + doc.UserName + " | FirstName=" + doc.FirstName;
-            }
-            if (Aresult == Eresult)
-            {
+                Aresult = "Doctor added to database";
                 Pass = true;
             }
-
 
             model = new TestViewModel()
             {
@@ -161,18 +172,18 @@ namespace zorgapp.Controllers
         }
     }
 
-    internal class SubmitDoctorAccountTest2 : Test
+    internal class CreateDoctorAccountMissingParameterTest1 : Test
     {
-        public SubmitDoctorAccountTest2(TestController tc)
+        public CreateDoctorAccountMissingParameterTest1(TestController tc)
         {
             testController = tc;
-            Id = "A1.Integration.SDA2";
-            Description = "SubmitDoctorAccount test 2";
-            Steps = "";
-            Criteria = "";
-            Inputstr = "";
+            Id = "A1.Integration.CDA2";
+            Description = "Create Doctor account with a missing parameter";
+            Steps = "Create a doctor account with a parameter missing";
+            Criteria = "Pass: doctor is not created | Fail: doctor is created or exeption error";
+            Inputstr = "All parameters except email";
             Aresult = "";
-            Eresult = "Null";
+            Eresult = "Doctor is not created";
         }
 
         public override TestViewModel Run()
@@ -183,24 +194,24 @@ namespace zorgapp.Controllers
             bool Pass = false;
             DoctorController controller = new DoctorController(testController.getContext());
 
-            string firstName = "Harry";
+            string firstName = "Haley";
             string lastName = "Jones";
-            string eMail = "HarryJ@email.com";
+            string eMail = null;
             string phoneNumber = "06-24685344";
             string specialism = "Bone fractures";
             string localId = "2515T2";
-            string userName = null;
-            string password = "password12342";
+            string userName = "Haley";
+            string password = "password";
 
             //act
             try
             {
                 controller.SubmitDoctorAccount(firstName, lastName, eMail, phoneNumber, specialism, localId, userName, password);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Pass = false;
-                Aresult = "Exception Error.";
+                Aresult = e.ToString();
                 model = new TestViewModel()
                 {
                     id = Id,
@@ -221,20 +232,13 @@ namespace zorgapp.Controllers
             Doctor doc = Tcontext.Doctors.FirstOrDefault(u => u.UserName == userName);
             if (doc == null)
             {
-                Aresult = "Null";
-            }
-            else
-            {
-                Aresult = "UserName=" + doc.UserName + " | FirstName=" + doc.FirstName;
-            }
-
-            if (Aresult == Eresult)
-            {
+                Aresult = "Doctor is not created";
                 Pass = true;
             }
             else
             {
-                Pass = false;
+                Aresult = "Doctor is created";
+                Pass= false;
             }
 
 
@@ -253,18 +257,18 @@ namespace zorgapp.Controllers
             return model;
         }
     }
-    internal class SubmitDoctorAccountTest3 : Test
+    internal class CreateDoctorAccountPasswordtest1 : Test
     {
-        public SubmitDoctorAccountTest3(TestController tc)
+        public CreateDoctorAccountPasswordtest1(TestController tc)
         {
             testController = tc;
-            Id = "A1.Integration.SDA3";
-            Description = "SubmitDoctorAccount test 3";
-            Steps = "";
-            Criteria = "";
-            Inputstr = "";
+            Id = "A1.Integration.CDA3";
+            Description = "Create Doctor Account with password less than 8 characters";
+            Steps = "Try to create a doctor account with a password less than 8 characters long";
+            Criteria = "Pass: doctor is not created | Fail: doctor is created";
+            Inputstr = "All parameters entered with a password with less than 8 characters";
             Aresult = "";
-            Eresult = "Null";
+            Eresult = "Doctor is not created";
         }
 
         public override TestViewModel Run()
@@ -275,24 +279,24 @@ namespace zorgapp.Controllers
             bool Pass = false;
             DoctorController controller = new DoctorController(testController.getContext());
 
-            string firstName = null;
-            string lastName = "Tester";
-            string eMail = "TestmanT3@email.com";
+            string firstName = "Kim";
+            string lastName = "Jones";
+            string eMail = "KimmJJ@email.com";
             string phoneNumber = "06-24685344";
             string specialism = "Bone fractures";
             string localId = "2515T3";
-            string userName = "UserAT3";
-            string password = "password12342";
+            string userName = "KimJJ";
+            string password = "passw";
 
             //act
             try
             {
                 controller.SubmitDoctorAccount(firstName, lastName, eMail, phoneNumber, specialism, localId, userName, password);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Pass = false;
-                Aresult = "Exception Error.";
+                Aresult = e.ToString();
                 model = new TestViewModel()
                 {
                     id = Id,
@@ -313,19 +317,12 @@ namespace zorgapp.Controllers
             Doctor doc = Tcontext.Doctors.FirstOrDefault(u => u.UserName == userName);
             if (doc == null)
             {
-                Aresult = "Null";
-            }
-            else
-            {
-                Aresult = "UserName=" + doc.UserName + " | FirstName=" + doc.FirstName;
-            }
-
-            if (Aresult == Eresult)
-            {
+                Aresult = "Doctor is not created";
                 Pass = true;
             }
             else
             {
+                Aresult = "Doctor is created";
                 Pass = false;
             }
 
@@ -494,7 +491,7 @@ namespace zorgapp.Controllers
             if (patient == null)
             {
                 Pass = false;
-                Aresult = "All patients are linked to the doctor";
+                Aresult = "All patients are linked to the doctor, could not perform test, create new account";
                 model = new TestViewModel()
                 {
                     id = Id,
@@ -591,20 +588,17 @@ namespace zorgapp.Controllers
             bool Pass = false;
             DatabaseContext Tcontext = testController.getContext();
             AdminController controller = new AdminController(testController.getContext());
-            int PatientID = 1;
+            int PatientID = new int();
             int DoctorID = 1;
             Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
 
             Patient patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
             var patients = from d in Tcontext.Patients select d;
             bool patientExists = true;
-            if (patient == null){
+            if (patient == null)
+            {
                 patientExists = false;
             }
-
-            // PatientsDoctors patientsDoctors_ = Tcontext.PatientsDoctorss.FirstOrDefault(
-            // p => p.PatientId == PatientID && p.DoctorId == doctor.DoctorId);
-            // bool linkmade = Tcontext.PatientsDoctorss.Contains(patientsDoctors_);
 
             //loops untill patient is found that doesnt exist 
             for (int i = 1; patientExists; i++)
@@ -703,7 +697,7 @@ namespace zorgapp.Controllers
             DatabaseContext Tcontext = testController.getContext();
             AdminController controller = new AdminController(testController.getContext());
             int PatientID = 1;
-            int DoctorID = 1;
+            int DoctorID = new int();
             Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
             Patient patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
 

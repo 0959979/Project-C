@@ -30,7 +30,7 @@ namespace zorgapp.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult SubmitDoctorAccount(string firstname, string lastname, string email, string phonenumber, string specialism, string localid, string username, string password)
         {
-            if (username != null && password != null)
+            if (firstname != null && lastname != null && email != null && phonenumber != null && specialism != null && localid != null && username != null && password != null)
             {
                 bool valid = true;
                 {
@@ -50,12 +50,20 @@ namespace zorgapp.Controllers
                         valid = false;
                     }
                 }
+
+                {
+                    int count = password.Count();
+                    if (count < 8)
+                    {
+                        ViewBag.emptyfield3 = "Password should be more than 8 characters long";
+                        valid = false;
+                    }
+                }
+
                 if (!valid)
                 {
                     return View();
                 }
-
-
 
                 Doctor doctor = new Doctor()
                 {
