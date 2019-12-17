@@ -467,7 +467,15 @@ namespace zorgapp.Controllers{
             Doctor doctor = _context.Doctors.FirstOrDefault(u => u.UserName == reciever);
             if (doctor != null)
             {
-                if (text != null && text != "")
+                if (string.IsNullOrEmpty(subject))
+                {
+                    ViewBag.emptyfield = "You need enter a subject to send a message.";
+                }
+                else if (string.IsNullOrEmpty(text))
+                {
+                    ViewBag.emptyfield = "You need enter a message to send it.";                   
+                }
+                else
                 {
                     var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
                     Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == username);
@@ -485,12 +493,12 @@ namespace zorgapp.Controllers{
                     _context.SaveChanges();
                     return RedirectToAction("MessageSend", "Patient");
                 }
-                else
-                {
-                    ViewBag.emptyfield = "You need to type in a message to send it.";
-                }
             }
-            else if (reciever != null)
+            else if (string.IsNullOrEmpty(reciever))
+            {
+                ViewBag.emptyfield = "You need to enter a receiver to send a message";
+            }
+            else if (!(string.IsNullOrEmpty(reciever)))
             {
                 ViewBag.emptyfield = "User not found";
             }
@@ -1044,11 +1052,35 @@ namespace zorgapp.Controllers{
 
         public IActionResult TestPage()
         {
-            List<Tuple<string, string>> tupleList = new List<Tuple<string, string>>();
+            var userexists = _context.Doctors.Any(x => x.UserName == "lotte");
+            if (!userexists)
+            {
+                Doctor user = new Doctor()
+                {
+                    FirstName = "lotte",
+                    LastName = "lotte",
+                    LocalId = new List<string>(),
+                    Email = "lotte",
+                    PhoneNumber = "123",
+                    Specialism = "something",
+                    UserName = "lotte",
+                    Password = Program.Hash256bits("lotte" + "Lotte123"),
+                };
 
+                _context.Doctors.Add(user);
+                _context.SaveChanges();
+            }
+
+            List<Tuple<string, string>> tupleList = new List<Tuple<string, string>>();
+            
             List<PatientTest> testlist = new List<PatientTest>();
             {
                 testlist.Add(new GenerateNewAuthorizeCodeTest1(this));
+                testlist.Add(new MessageTest1(this));
+                testlist.Add(new MessageTest2(this));
+                testlist.Add(new MessageTest3(this));
+                testlist.Add(new MessageTest4(this));
+                testlist.Add(new MessageTest5(this));
             }
             foreach (PatientTest T in testlist)
             {
@@ -1064,6 +1096,11 @@ namespace zorgapp.Controllers{
             List<PatientTest> testlist = new List<PatientTest>();
             {
                 testlist.Add(new GenerateNewAuthorizeCodeTest1(this));
+                testlist.Add(new MessageTest1(this));
+                testlist.Add(new MessageTest2(this));
+                testlist.Add(new MessageTest3(this));
+                testlist.Add(new MessageTest4(this));
+                testlist.Add(new MessageTest5(this));
             }
             PatientTest testobj = testlist.FirstOrDefault();
             foreach (PatientTest T in testlist)
@@ -1151,6 +1188,431 @@ namespace zorgapp.Controllers{
                 Aresult = "a string with " + P.LinkCode.Length.ToString() + " characters";
             }
 
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class MessageTest1 : PatientTest
+    {
+        public MessageTest1(PatientController tc)
+        {
+            testController = tc;
+            Id = "P2.Integration.M1";
+            Description = "Message test 1";
+            Steps = "Create a message where parameters are all filled and correct";
+            Criteria = "Pass: message is added to the database | Fail: exception error";
+            Inputstr = "receiver='lotte', subject='Message Test' and text='Testing the send message'";
+            Aresult = "";
+            Eresult = "Receiver=lotte | Subject=Message Test | Text=Testing the send message";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+
+            string receiver = "lotte";
+            string subject = "Message Test";
+            string text = "Testing the send message";
+
+            //act
+            try
+            {
+                controller.Message(receiver, subject, text);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            Message mes = Tcontext.Messages.FirstOrDefault(m => m.Receiver == receiver && m.Subject == subject && m.Text == text);
+            if (mes == null)
+            {
+                Aresult = "Null";
+            }
+            else
+            {
+                Aresult = "Receiver=" + mes.Receiver + " | Subject=" + mes.Subject + " | Text=" + mes.Text;
+            }
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+         
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class MessageTest2 : PatientTest
+    {
+        public MessageTest2(PatientController tc)
+        {
+            testController = tc;
+            Id = "P2.Integration.M2";
+            Description = "Message test 2";
+            Steps = "Create a message but leave only receiver empty";
+            Criteria = "Pass: message is not created | Fail: message is created or exception error";
+            Inputstr = "receiver=null, subject='Message Test' and text='Testing the send message'";
+            Aresult = "";
+            Eresult = "Message is not created";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+
+            string receiver = null;
+            string subject = "Message Test";
+            string text = "Testing the send message";
+
+            //act
+            try
+            {
+                controller.Message(receiver, subject, text);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            Message mes = Tcontext.Messages.FirstOrDefault(m => m.Receiver == receiver && m.Subject == subject && m.Text == text);
+            if (mes == null)
+            {
+                Aresult = "Message is not created";
+            }
+            else
+            {
+                Aresult = "Receiver=" + mes.Receiver + " | Subject=" + mes.Subject + " | Text=" + mes.Text;
+            }
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class MessageTest3 : PatientTest
+    {
+        public MessageTest3(PatientController tc)
+        {
+            testController = tc;
+            Id = "P2.Integration.M3";
+            Description = "Message test 3";
+            Steps = "Create a message but leave only subject empty";
+            Criteria = "Pass: message is not created | Fail: message is created or exception error";
+            Inputstr = "receiver='lotte', subject=null and text='Testing the send message'";
+            Aresult = "";
+            Eresult = "Message is not created";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+
+            string receiver = "lotte";
+            string subject = null;
+            string text = "Testing the send message";
+
+            //act
+            try
+            {
+                controller.Message(receiver, subject, text);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            Message mes = Tcontext.Messages.FirstOrDefault(m => m.Receiver == receiver && m.Subject == subject && m.Text == text);
+            if (mes == null)
+            {
+                Aresult = "Message is not created";
+            }
+            else
+            {
+                Aresult = "Receiver=" + mes.Receiver + " | Subject=" + mes.Subject + " | Text=" + mes.Text;
+            }
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class MessageTest4 : PatientTest
+    {
+        public MessageTest4(PatientController tc)
+        {
+            testController = tc;
+            Id = "P2.Integration.M4";
+            Description = "Message test 4";
+            Steps = "Create a message but leave only text empty";
+            Criteria = "Pass: message is not created | Fail: message is created or exception error";
+            Inputstr = "receiver='lotte', subject='Message Test' and text=null";
+            Aresult = "";
+            Eresult = "Message is not created";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+
+            string receiver = "lotte";
+            string subject = "Message Test";
+            string text = null;
+
+            //act
+            try
+            {
+                controller.Message(receiver, subject, text);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            Message mes = Tcontext.Messages.FirstOrDefault(m => m.Receiver == receiver && m.Subject == subject && m.Text == text);
+            if (mes == null)
+            {
+                Aresult = "Message is not created";
+            }
+            else
+            {
+                Aresult = "Receiver=" + mes.Receiver + " | Subject=" + mes.Subject + " | Text=" + mes.Text;
+            }
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class MessageTest5 : PatientTest
+    {
+        public MessageTest5(PatientController tc)
+        {
+            testController = tc;
+            Id = "P2.Integration.M5";
+            Description = "Message test 5";
+            Steps = "Create a message but the receiver username does not exist in the database";
+            Criteria = "Pass: message is not created | Fail: message is created or exception error";
+            Inputstr = "receiver='peter', subject='Message Test' and text=null";
+            Aresult = "";
+            Eresult = "Message is not created";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+
+            string receiver = "peter";
+            string subject = "Message Test";
+            string text = "Testing the send message";
+
+            //act
+            try
+            {
+                controller.Message(receiver, subject, text);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            Message mes = Tcontext.Messages.FirstOrDefault(m => m.Receiver == receiver && m.Subject == subject && m.Text == text);
+            if (mes == null)
+            {
+                Aresult = "Message is not created";
+            }
+            else
+            {
+                Aresult = "Receiver=" + mes.Receiver + " | Subject=" + mes.Subject + " | Text=" + mes.Text;
+            }
             if (Aresult == Eresult)
             {
                 Pass = true;
