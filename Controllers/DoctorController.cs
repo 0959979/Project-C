@@ -52,8 +52,7 @@ namespace zorgapp.Controllers
                 }
 
                 {
-                    int count = password.Count();
-                    if (count < 8)
+                    if (password.Count() < 8)
                     {
                         ViewBag.emptyfield3 = "Password should be more than 8 characters long";
                         valid = false;
@@ -157,8 +156,6 @@ namespace zorgapp.Controllers
                 List<int> Minute = new List<int>();
                 List<Case> Case = new List<Case>();
                 List<Appointment> Appointment = new List<Appointment>();
-                //List<List<int>> AppointmentDatesHours = new List<List<int>>();
-                //List<string> AppointmentStrings = new List<string>();
                 DateTime Today = DateTime.Now;//new DateTime(2020, 4, 13);
                 Today = Today.AddDays(dayoffset);
                 DateTime FWeekday;

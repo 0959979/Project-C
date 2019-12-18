@@ -29,6 +29,8 @@ namespace zorgapp.Controllers
                 testlist.Add(new CreateDoctorAccountTest1(this));
                 testlist.Add(new CreateDoctorAccountMissingParameterTest1(this));
                 testlist.Add(new CreateDoctorAccountPasswordtest1(this));
+                testlist.Add(new CreateDoctorAccountEmailTest1(this));
+                testlist.Add(new CreateDoctorAccountUsernameTest1(this));
                 testlist.Add(new LinkAdminLinkAlreadyMadeTest1(this));
                 testlist.Add(new LinkAdminLinkNotMadeTest1(this));
                 testlist.Add(new LinkAdminPatNullTest1(this));
@@ -341,6 +343,202 @@ namespace zorgapp.Controllers
             return model;
         }
     }
+    internal class CreateDoctorAccountEmailTest1 : Test
+    {
+        public CreateDoctorAccountEmailTest1(TestController tc)
+        {
+            testController = tc;
+            Id = "A1.Integration.CDA4";
+            Description = "Create Doctor Account Existing Email";
+            Steps = "Try to create a doctor account with the email of an existing doctor";
+            Criteria = "Pass: Account is not created| Fail: account is created or exeption error";
+            Inputstr = "All parameters plus the email of an existing doctor";
+            Aresult = "";
+            Eresult = "Doctor is not created";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = new DoctorController(testController.getContext());
+            int DoctorID = new int();
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+            var doctors = from d in Tcontext.Doctors select d;
+            bool doctorExists = false;
+
+            //loops untill doctor is found that exists 
+            for (int i = 1; !doctorExists; i++)
+            {
+                DoctorID = i;
+                doctor = Tcontext.Doctors.FirstOrDefault(p => p.DoctorId == DoctorID);
+                if (doctor != null)
+                {
+                doctorExists = true;
+                }
+            }
+            string firstName = "Rose";
+            string lastName = "Jones";
+            string eMail = doctor.Email;
+            string phoneNumber = "06-24685344";
+            string specialism = "Bone fractures";
+            string localId = "2515T3";
+            string userName = "RoseJ";
+            string password = "Password";
+
+            //act
+            try
+            {
+                controller.SubmitDoctorAccount(firstName, lastName, eMail, phoneNumber, specialism, localId, userName, password);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            Doctor doc = Tcontext.Doctors.FirstOrDefault(u => u.UserName == userName);
+            if (doc == null)
+            {
+                Aresult = "Doctor is not created";
+                Pass = true;
+            }
+            else
+            {
+                Aresult = "Doctor is created";
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+      internal class CreateDoctorAccountUsernameTest1 : Test
+    {
+        public CreateDoctorAccountUsernameTest1(TestController tc)
+        {
+            testController = tc;
+            Id = "A1.Integration.CDA5";
+            Description = "Create Doctor Account Existing Username";
+            Steps = "Try to create a doctor account with the username of an existing doctor";
+            Criteria = "Pass: Account is not created| Fail: account is created or exeption error";
+            Inputstr = "All parameters plus the username of an existing doctor";
+            Aresult = "";
+            Eresult = "Doctor is not created";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = new DoctorController(testController.getContext());
+            int DoctorID = new int();
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+            var doctors = from d in Tcontext.Doctors select d;
+            bool doctorExists = false;
+
+            //loops untill doctor is found that exists 
+            for (int i = 1; !doctorExists; i++)
+            {
+                DoctorID = i;
+                doctor = Tcontext.Doctors.FirstOrDefault(p => p.DoctorId == DoctorID);
+                if (doctor != null)
+                {
+                doctorExists = true;
+                }
+            }
+            string firstName = "Rose";
+            string lastName = "Jones";
+            string eMail = "RoseJ@email.com";
+            string phoneNumber = "06-24685344";
+            string specialism = "Bone fractures";
+            string localId = "2515T3";
+            string userName = doctor.UserName;
+            string password = "Password";
+
+            //act
+            try
+            {
+                controller.SubmitDoctorAccount(firstName, lastName, eMail, phoneNumber, specialism, localId, userName, password);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            Doctor doc = Tcontext.Doctors.FirstOrDefault(u => u.Email == eMail);
+            if (doc == null)
+            {
+                Aresult = "Doctor is not created";
+                Pass = true;
+            }
+            else
+            {
+                Aresult = "Doctor is created";
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
     internal class LinkAdminLinkAlreadyMadeTest1 : Test
     {
         public LinkAdminLinkAlreadyMadeTest1(TestController tc)
@@ -360,11 +558,32 @@ namespace zorgapp.Controllers
             TestViewModel model;
 
             //arrange
+            DatabaseContext Tcontext = testController.getContext();
             bool Pass = false;
             AdminController controller = new AdminController(testController.getContext());
+            var patientdoctors = from d in Tcontext.PatientsDoctorss select d;
+            PatientsDoctors patdoc = patientdoctors.First();
 
-            int PatientID = 1;
-            int DocterID = 1;
+            if (patdoc == null){
+                Pass = false;
+                Aresult = "No links already made, make a link and perform the test again";
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            int PatientID = patdoc.PatientId;
+            int DocterID = patdoc.DoctorId;
 
             // act
             try
@@ -391,7 +610,6 @@ namespace zorgapp.Controllers
             }
 
             //assert
-            DatabaseContext Tcontext = testController.getContext();
             var patientsDoctors = from d in Tcontext.PatientsDoctorss where d.DoctorId == DocterID select d;
             Patient patient = Tcontext.Patients.FirstOrDefault(x => x.PatientId == PatientID);
             List<int> list = new List<int>();
