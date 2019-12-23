@@ -40,6 +40,11 @@ namespace zorgapp.Controllers
                 testlist.Add(new CreatePatientAccountPasswordtest1(this));
                 testlist.Add(new CreatePatientAccountEmailTest1(this));
                 testlist.Add(new CreatePatientAccountUsernameTest1(this));
+                testlist.Add(new AddLocalIdToPatientTest1(this));
+                testlist.Add(new AddLocalIdNullToPatientTest1(this));
+                testlist.Add(new AddLocalIdAlreadyExistsToPatientTest1(this));
+
+
 
             }
         }
@@ -1431,6 +1436,324 @@ namespace zorgapp.Controllers
                 Pass = false;
             }
 
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+          internal class AddLocalIdToPatientTest1 : Test
+    {
+        public AddLocalIdToPatientTest1(TestController tc)
+        {
+            testController = tc;
+            Id = "D7.Integration.ALP1";
+            Description = "Doctor Adds Local Id to patient account";
+            Steps = "Doctor adds a local id to a patient account";
+            Criteria = "Pass: local id is added| Fail: local id is not added or exeption error";
+            Inputstr = "A local id as string";
+            Aresult = "";
+            Eresult = "Local id is added";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = new DoctorController(testController.getContext());
+            var patientdoctors = from d in Tcontext.PatientsDoctorss select d;
+            PatientsDoctors patdoc = patientdoctors.First(); 
+            int patientid = patdoc.PatientId;
+            Patient pat = Tcontext.Patients.FirstOrDefault(u => u.PatientId == patientid);
+            string LocalID = "LocalIdtest1";
+            var localids = pat.LocalId;
+
+            bool localidExists = false;
+
+            if (localids != null)
+            {
+                foreach (var item in localids)
+                {
+                    if (item == LocalID)
+                    {
+                        localidExists = true;
+                        Pass = false;
+                        Aresult = "Local id already exists, try another one";
+                        model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                    return model;
+                    }
+
+                }
+            }
+           
+
+            //act
+            try
+            {
+                controller.AddLocalId( patientid,  LocalID);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+
+            foreach (var item in localids)
+                {
+                    if (item == LocalID)
+                    {
+                        localidExists = true;
+                        
+                    }
+                }
+
+            if (localidExists == true)
+            {
+                Aresult = "Local id added";
+                Pass = true;
+            }
+            else
+            {
+                Aresult = "Local id not added";
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+         internal class AddLocalIdNullToPatientTest1 : Test
+    {
+        public AddLocalIdNullToPatientTest1(TestController tc)
+        {
+            testController = tc;
+            Id = "D7.Integration.ALP2";
+            Description = "Doctor Adds Local Id to patient account with local id being NULL";
+            Steps = "Doctor adds a local id equal to NULL to a patient account";
+            Criteria = "Pass: local id is not added| Fail: local id is added or exeption error";
+            Inputstr = "A local id equal to NULL";
+            Aresult = "";
+            Eresult = "Local id is not added";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = new DoctorController(testController.getContext());
+            var patientdoctors = from d in Tcontext.PatientsDoctorss select d;
+            PatientsDoctors patdoc = patientdoctors.First(); 
+            int patientid = patdoc.PatientId;
+            Patient pat = Tcontext.Patients.FirstOrDefault(u => u.PatientId == patientid);
+            string LocalID = null;
+            var localids = pat.LocalId;
+            bool localidExists = false;
+
+            //act
+            try
+            {
+                controller.AddLocalId( patientid,  LocalID);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+
+            foreach (var item in localids)
+                {
+                    if (item == LocalID)
+                    {
+                        localidExists = true;
+                        
+                    }
+                }
+
+            if (localidExists == true)
+            {
+                Aresult = "Local id added";
+                Pass = false;
+            }
+            else
+            {
+                Aresult = "Local id not added";
+                Pass = true;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+
+             internal class AddLocalIdAlreadyExistsToPatientTest1 : Test
+    {
+        public AddLocalIdAlreadyExistsToPatientTest1(TestController tc)
+        {
+            testController = tc;
+            Id = "D7.Integration.ALP3";
+            Description = "Doctor Adds Local Id to patient account with local id already added";
+            Steps = "Doctor adds a local id that is already added to a patient account";
+            Criteria = "Pass: local id is not added| Fail: local id is added or exeption error";
+            Inputstr = "A local id that is already added";
+            Aresult = "";
+            Eresult = "Local id is not added";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = new DoctorController(testController.getContext());
+            var patientdoctors = from d in Tcontext.PatientsDoctorss select d;
+            PatientsDoctors patdoc = patientdoctors.First(); 
+            int patientid = patdoc.PatientId;
+            Patient pat = Tcontext.Patients.FirstOrDefault(u => u.PatientId == patientid);
+            var localids = pat.LocalId;
+            string LocalID = localids.First();
+
+            if (LocalID == null)
+            {
+                Pass = false;
+                Aresult = "No local ids exist, can't perform test";
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+            //act
+            try
+            {
+                controller.AddLocalId( patientid,  LocalID);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+               List<int> count = new List<int>();
+
+            foreach (var item in localids)
+                {
+                    if (item == LocalID)
+                    {
+                        count.Add(1);
+                    }
+                }
+
+            if (count.Count() > 1)
+            {
+                Aresult = "Local id added again";
+                Pass = false;
+            }
+            else
+            {
+                Aresult = "Local id not added again";
+                Pass = true;
+            }
             model = new TestViewModel()
             {
                 id = Id,

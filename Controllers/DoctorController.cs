@@ -421,11 +421,6 @@ namespace zorgapp.Controllers
                 }
             }
 
-            //ViewBag.emptyfield = caseId.ToString();
-
-            //upcomingAppointments = OrderByDate(upcomingAppointments);
-            //passedAppointments = OrderByDate(passedAppointments);
-
             var PatientL = from p in _context.Patients where p.PatientId == currentCase.PatientId select p;
             Patient pat = PatientL.FirstOrDefault();
             if (pat != null)
@@ -750,11 +745,19 @@ namespace zorgapp.Controllers
                 };
 
             }
+
+            // if (TempData["message"] != null)
+            // {
+            //     ViewBag.Message = TempData["message"].ToString();
+            //     TempData.Remove("message");
+            // }
+   
             return View(Pat);
         }
 
         public IActionResult PatProfile(IFormCollection form)
         {
+
             string id = form["patientid"].ToString();
             int id_ = int.Parse(id);
             Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == id_);
@@ -805,12 +808,47 @@ namespace zorgapp.Controllers
 
 
         public IActionResult AddLocalId(int patientid, string localid)
-        {
+        {   
+            Patient pat = _context.Patients.FirstOrDefault(u => u.PatientId == patientid);
+            var localids = pat.LocalId;
+            bool localidExists = false;
+
+            foreach (var item in localids)
+            {
+                if (item == localid)
+                {
+                    localidExists = true;
+                }
+            }
+
+            if (localid == null)
+            {  
+           //     TempData["message"] = "Local id cannot be empty";
+                return RedirectToAction("PatientList", "Doctor");
+            }
+            if (localidExists)
+            {   
+
+          //      TempData["message"] = "Local id is already added";
+                
+                return RedirectToAction("PatientList", "Doctor");
+            }
+
+            if (localid != null && !localidExists)
+            {
             Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == patientid);
             patient.LocalId.Add(localid);
             _context.SaveChanges();
 
             return RedirectToAction("PatientList", "Doctor");
+            }
+            else 
+            {
+                return RedirectToAction("PatientList", "Doctor");
+            }
+
+            return View();
+
         }
 
 

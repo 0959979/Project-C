@@ -15,12 +15,14 @@
 
     }
 </ul>
+
 <form method="post">
     Add a local id:<br>
     <input type="string" id="localid" name="localid" />
     <input type="hidden" value="@Html.DisplayFor(model => model.UserInfo.PatientId)" id="patientid" name="patientid" />
     <input type="submit" value="Submit" id="submit" asp-controller="Doctor" asp-action="AddLocalId">
 </form><br>
+
 <h3> Medicines</h3>
 <br />
 <table class="table">
