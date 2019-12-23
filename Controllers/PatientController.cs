@@ -32,6 +32,8 @@ namespace zorgapp.Controllers{
         [Route("Patient/SubmitPatientAccount")]
         public IActionResult SubmitPatientAccount(string firstname, string lastname, string email,string phonenumber, string username, string password)
         {          
+            if (firstname != null && lastname != null && email != null && phonenumber != null && username != null && password != null)
+            {
             bool valid = true;
             {
                 Patient user = _context.Patients.FirstOrDefault(u => u.Email == email);
@@ -49,9 +51,16 @@ namespace zorgapp.Controllers{
                     valid = false;
                 }
             }
+            {
+                if (password.Count() < 8)
+                {
+                    ViewBag.emptyfield3 = "Password should be more than 8 characters long";
+                    valid = false;
+                }
+            }
             if (!valid)
             {
-                return View("CreateAccount"); //moet de data in de fields nog bewaren?
+                return View("CreateAccount");
             }
             
                 Patient patient = new Patient()
@@ -75,6 +84,8 @@ namespace zorgapp.Controllers{
                 ViewData["LastName"] = patient.LastName;
             
             return View("SubmitPatientAccount");
+            }
+            return View();
         }
 
         

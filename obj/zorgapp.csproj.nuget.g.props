@@ -4,10 +4,10 @@
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
-    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/Users/yasemin/.nuget/packages/</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/Users/yasemin/.nuget/packages/;/usr/local/share/dotnet/sdk/NuGetFallbackFolder</NuGetPackageFolders>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/Users/yaseminsnoek/.nuget/packages/</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/Users/yaseminsnoek/.nuget/packages/;/usr/local/share/dotnet/sdk/NuGetFallbackFolder</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
-    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">5.4.0</NuGetToolVersion>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">5.2.0</NuGetToolVersion>
   </PropertyGroup>
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -22,7 +22,7 @@
     <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.app/2.1.1/build/netcoreapp2.1/Microsoft.AspNetCore.App.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.app/2.1.1/build/netcoreapp2.1/Microsoft.AspNetCore.App.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">/Users/yasemin/.nuget/packages/microsoft.entityframeworkcore.tools/2.1.1</PkgMicrosoft_EntityFrameworkCore_Tools>
-    <PkgMicrosoft_AspNetCore_Razor_Design Condition=" '$(PkgMicrosoft_AspNetCore_Razor_Design)' == '' ">/Users/yasemin/.nuget/packages/microsoft.aspnetcore.razor.design/2.1.2</PkgMicrosoft_AspNetCore_Razor_Design>
+    <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">/Users/yaseminsnoek/.nuget/packages/microsoft.entityframeworkcore.tools/2.1.1</PkgMicrosoft_EntityFrameworkCore_Tools>
+    <PkgMicrosoft_AspNetCore_Razor_Design Condition=" '$(PkgMicrosoft_AspNetCore_Razor_Design)' == '' ">/Users/yaseminsnoek/.nuget/packages/microsoft.aspnetcore.razor.design/2.1.2</PkgMicrosoft_AspNetCore_Razor_Design>
   </PropertyGroup>
 </Project>

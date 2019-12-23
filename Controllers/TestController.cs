@@ -35,6 +35,12 @@ namespace zorgapp.Controllers
                 testlist.Add(new LinkAdminLinkNotMadeTest1(this));
                 testlist.Add(new LinkAdminPatNullTest1(this));
                 testlist.Add(new LinkAdminDocNullTest1(this));
+                testlist.Add(new CreatePatientAccountTest1(this));
+                testlist.Add(new CreatePatientAccountMissingParameterTest1(this));
+                testlist.Add(new CreatePatientAccountPasswordtest1(this));
+                testlist.Add(new CreatePatientAccountEmailTest1(this));
+                testlist.Add(new CreatePatientAccountUsernameTest1(this));
+
             }
         }
 
@@ -984,6 +990,446 @@ namespace zorgapp.Controllers
                 }
             }
 
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+        
+    }
+    internal class CreatePatientAccountTest1 : Test
+    {
+        public CreatePatientAccountTest1(TestController tc)
+        {
+            testController = tc;
+            Id = "P1.Integration.CPA1";
+            Description = "Create Patient Account Test 1";
+            Steps = "Create a patient with all values inserted";
+            Criteria = "Pass: patient is created in the database | Fail: exception error";
+            Inputstr = "All parameters for a patient";
+            Aresult = "";
+            Eresult = "Patient added to database";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = new PatientController(testController.getContext());
+
+            string firstName = "Harry";
+            string lastName = "Jones";
+            string eMail = "HarryJ@email.com";
+            string phoneNumber = "06-24685344";
+            string userName = "UserAT1";
+            string password = "password12342";
+
+            //act
+            try
+            {
+                controller.SubmitPatientAccount(firstName, lastName, eMail, phoneNumber, userName, password);
+            }
+            catch (Exception e)
+           {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            Patient pat = Tcontext.Patients.FirstOrDefault(u => u.UserName == userName);
+            if (pat == null)
+            {
+                Aresult = "Patient not added to database";
+                Pass = false;
+            }
+            else
+            {
+                Aresult = "Patient added to database";
+                Pass = true;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class CreatePatientAccountMissingParameterTest1 : Test
+    {
+        public CreatePatientAccountMissingParameterTest1(TestController tc)
+        {
+            testController = tc;
+            Id = "P1.Integration.CPA2";
+            Description = "Create patient account with a missing parameter";
+            Steps = "Create a patient account with a parameter missing";
+            Criteria = "Pass: patient is not created | Fail: patient is created or exeption error";
+            Inputstr = "All parameters except email";
+            Aresult = "";
+            Eresult = "Patient is not created";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = new PatientController(testController.getContext());
+
+            string firstName = "Haley";
+            string lastName = "Jones";
+            string eMail = null;
+            string phoneNumber = "06-24685344";
+            string userName = "HaleyJ";
+            string password = "password";
+
+            //act
+            try
+            {
+                controller.SubmitPatientAccount(firstName, lastName, eMail, phoneNumber, userName, password);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            Patient pat = Tcontext.Patients.FirstOrDefault(u => u.UserName == userName);
+            if (pat == null)
+            {
+                Aresult = "Patient is not created";
+                Pass = true;
+            }
+            else
+            {
+                Aresult = "Patient is created";
+                Pass= false;
+            }
+
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class CreatePatientAccountPasswordtest1 : Test
+    {
+        public CreatePatientAccountPasswordtest1(TestController tc)
+        {
+            testController = tc;
+            Id = "P1.Integration.CPA3";
+            Description = "Create Patient Account with password less than 8 characters";
+            Steps = "Try to create a patient account with a password less than 8 characters long";
+            Criteria = "Pass: patient is not created | Fail: patient is created";
+            Inputstr = "All parameters entered with a password with less than 8 characters";
+            Aresult = "";
+            Eresult = "Patient is not created";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = new PatientController(testController.getContext());
+
+            string firstName = "Kim";
+            string lastName = "Jones";
+            string eMail = "KimmJJ@email.com";
+            string phoneNumber = "06-24685344";
+            string userName = "KimJ";
+            string password = "passw";
+
+            //act
+            try
+            {
+                controller.SubmitPatientAccount(firstName, lastName, eMail, phoneNumber, userName, password);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            Patient pat = Tcontext.Patients.FirstOrDefault(u => u.UserName == userName);
+            if (pat == null)
+            {
+                Aresult = "Patient is not created";
+                Pass = true;
+            }
+            else
+            {
+                Aresult = "Patient is created";
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class CreatePatientAccountEmailTest1 : Test
+    {
+        public CreatePatientAccountEmailTest1(TestController tc)
+        {
+            testController = tc;
+            Id = "P1.Integration.CPA4";
+            Description = "Create Patient Account Existing Email";
+            Steps = "Try to create a patient account with the email of an existing patient";
+            Criteria = "Pass: Account is not created| Fail: account is created or exeption error";
+            Inputstr = "All parameters plus the email of an existing patient";
+            Aresult = "";
+            Eresult = "Patient is not created";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = testController.getContext();
+            PatientController controller = new PatientController(testController.getContext());
+            int PatientID = new int();
+            Patient patient = Tcontext.Patients.FirstOrDefault(x => x.PatientId == PatientID);
+            var patients = from d in Tcontext.Patients select d;
+            bool patientExists = false;
+
+            //loops untill doctor is found that exists 
+            for (int i = 1; !patientExists; i++)
+            {
+                PatientID = i;
+                patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
+                if (patient != null)
+                {
+                patientExists = true;
+                }
+            }
+            string firstName = "Rose";
+            string lastName = "Jones";
+            string eMail = patient.Email;
+            string phoneNumber = "06-24685344";
+            string userName = "RoseJ";
+            string password = "Password";
+
+            //act
+            try
+            {
+                controller.SubmitPatientAccount(firstName, lastName, eMail, phoneNumber, userName, password);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            Patient pat = Tcontext.Patients.FirstOrDefault(u => u.UserName == userName);
+            if (pat == null)
+            {
+                Aresult = "Patient is not created";
+                Pass = true;
+            }
+            else
+            {
+                Aresult = "Patient is created";
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+      internal class CreatePatientAccountUsernameTest1 : Test
+    {
+        public CreatePatientAccountUsernameTest1(TestController tc)
+        {
+            testController = tc;
+            Id = "P1.Integration.CPA5";
+            Description = "Create Patient Account Existing Username";
+            Steps = "Try to create a patient account with the username of an existing patient";
+            Criteria = "Pass: Account is not created| Fail: account is created or exeption error";
+            Inputstr = "All parameters plus the username of an existing patient";
+            Aresult = "";
+            Eresult = "Patient is not created";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = testController.getContext();
+            PatientController controller = new PatientController(testController.getContext());
+            int PatientID = new int();
+            Patient patient = Tcontext.Patients.FirstOrDefault(x => x.PatientId == PatientID);
+            var patients = from d in Tcontext.Patients select d;
+            bool patientExists = false;
+
+            //loops untill doctor is found that exists 
+            for (int i = 1; !patientExists; i++)
+            {
+                PatientID = i;
+                patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
+                if (patient != null)
+                {
+                patientExists = true;
+                }
+            }
+            string firstName = "Rose";
+            string lastName = "Jones";
+            string eMail = "RoseJ@email.com";
+            string phoneNumber = "06-24685344";
+            string userName = patient.UserName;
+            string password = "Password";
+
+            //act
+            try
+            {
+                controller.SubmitPatientAccount(firstName, lastName, eMail, phoneNumber, userName, password);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            Patient pat = Tcontext.Patients.FirstOrDefault(u => u.Email == eMail);
+            if (pat == null)
+            {
+                Aresult = "Patient is not created";
+                Pass = true;
+            }
+            else
+            {
+                Aresult = "Patient is created";
+                Pass = false;
+            }
 
             model = new TestViewModel()
             {
