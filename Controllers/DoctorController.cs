@@ -13,9 +13,11 @@ using Microsoft.AspNetCore.Http;
 using zorgapp.Models;
 using zorgapp.ViewModels;
 
-namespace zorgapp.Controllers {
+namespace zorgapp.Controllers
+{
 
-    public class DoctorController : Controller {
+    public class DoctorController : Controller
+    {
         private readonly DatabaseContext _context;
 
         public DoctorController(DatabaseContext context)
@@ -65,7 +67,7 @@ namespace zorgapp.Controllers {
                     PhoneNumber = phonenumber,
                     Specialism = specialism,
                     UserName = username,
-                    Password = Program.Hash256bits(username+password),
+                    Password = Program.Hash256bits(username + password),
                 };
                 doctor.LocalId.Add(localid);
                 _context.Doctors.Add(doctor);
@@ -78,10 +80,10 @@ namespace zorgapp.Controllers {
                 return View();
 
             }
-  
+
             return View();
         }
-        
+
 
 
         [Authorize(Roles = "Doctor")]
@@ -106,8 +108,8 @@ namespace zorgapp.Controllers {
 
             return View();
         }
-[Authorize(Roles="Doctor")]
-        public ActionResult Agenda (string Previous, int dayoffset, string Next, int starthour, int endhour, string Apply)
+        [Authorize(Roles = "Doctor")]
+        public ActionResult Agenda(string Previous, int dayoffset, string Next, int starthour, int endhour, string Apply)
         {
             {
                 System.Diagnostics.Debug.WriteLine("starthour: " + starthour.ToString());
@@ -189,7 +191,7 @@ namespace zorgapp.Controllers {
                     //offset ensures that the agenda starts at monday. To get it to start at sunday uncomment:
                     //offset += 1; //Higher offset means the first point on the agenda starts earlier
                     int d;
-                    FWeekday = new DateTime(Today.Year,Today.Month,Today.Day);
+                    FWeekday = new DateTime(Today.Year, Today.Month, Today.Day);
                     FWeekday = FWeekday.AddDays(-offset);
                     for (d = 0; d < 7; d++)
                     {
@@ -202,7 +204,7 @@ namespace zorgapp.Controllers {
                 }
                 //The hours and minutes
                 {
-                    for(int h = starthour;h<=endhour;h++)
+                    for (int h = starthour; h <= endhour; h++)
                     {
                         Houri.Add(h);
                         if (AmPm)
@@ -211,7 +213,7 @@ namespace zorgapp.Controllers {
                             {
                                 int u;
                                 u = h - 12;
-                                Hour.Add(u.ToString()+" pm");
+                                Hour.Add(u.ToString() + " pm");
                             }
                             else
                             {
@@ -248,7 +250,7 @@ namespace zorgapp.Controllers {
                         {
                             Tempappointments.Add(app);
                         }
-                        Tempappointments = FilterWeek(Tempappointments, Today,7);
+                        Tempappointments = FilterWeek(Tempappointments, Today, 7);
                     }
                     foreach (var item in Tempappointments)
                     {
@@ -274,7 +276,7 @@ namespace zorgapp.Controllers {
                 bool sWeek;
                 DateTime c_date;
                 c_date = DateTime.Now;
-                sWeek = SameWeek(Today,c_date);
+                sWeek = SameWeek(Today, c_date);
                 AgendaViewModel agendamodel = new AgendaViewModel
                 {
                     Days = Day,
@@ -288,12 +290,12 @@ namespace zorgapp.Controllers {
                     Cases = Case,
                     Appointments = Appointment
                 };
-                
+
                 return View(agendamodel);
             }
 
         }
-        [Authorize(Roles= "Doctor")]
+        [Authorize(Roles = "Doctor")]
         public IActionResult EditCase(string caseId, string caseNotes, string Save, string Load, string name, DateTime start_date, DateTime end_date, int amount, float mg, string Add)
         {
             if (!string.IsNullOrEmpty(Save) || !string.IsNullOrEmpty(Add))
@@ -377,7 +379,7 @@ namespace zorgapp.Controllers {
             currentCase = currentCaseList.FirstOrDefault();
             if (currentCase == null)
             {
-                return RedirectToAction("CreateCase","Doctor");
+                return RedirectToAction("CreateCase", "Doctor");
             }
             foreach (Case c in CaseList)
             {
@@ -385,14 +387,14 @@ namespace zorgapp.Controllers {
             }
             //get the medicine from the case's patient
             var medicineL = from m in _context.Medicines where m.PatientId == currentCase.PatientId select m; //_context.Medicine in ERD
-            foreach(Medicine med in medicineL)
+            foreach (Medicine med in medicineL)
             {
                 medicineList.Add(med);
             }
 
             //get the appointments of that case
             var AppointmentL = from a in _context.Appointments where a.CaseId == currentCase.CaseId orderby a.Date ascending select a;
-            foreach(Appointment app in AppointmentL)
+            foreach (Appointment app in AppointmentL)
             {
                 appointments.Add(app);
             }
@@ -405,7 +407,7 @@ namespace zorgapp.Controllers {
             nextAppointment = appointments.First();
             foreach (Appointment app in appointments)
             {
-                if (DateTime.Compare(today,app.Date) <= 0) //if true, then app is at a DateTime later than or the same as today, and thus eligeble to be in upcomingAppointments
+                if (DateTime.Compare(today, app.Date) <= 0) //if true, then app is at a DateTime later than or the same as today, and thus eligeble to be in upcomingAppointments
                 {
                     upcomingAppointments.Add(app);
                 }
@@ -451,8 +453,8 @@ namespace zorgapp.Controllers {
             List<Appointment> NewList = new List<Appointment>();
             foreach (var app in List)
             {
-                DateTime day = new DateTime(dateTime.Year,dateTime.Month,dateTime.Day);
-                if (SameWeek(day,app.Date))//(day.AddDays(-(int)day.DayOfWeek) == app.Date.AddDays(-(int)app.Date.DayOfWeek))
+                DateTime day = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
+                if (SameWeek(day, app.Date))//(day.AddDays(-(int)day.DayOfWeek) == app.Date.AddDays(-(int)app.Date.DayOfWeek))
                 {
                     NewList.Add(app);
                 }
@@ -540,7 +542,7 @@ namespace zorgapp.Controllers {
         public List<Appointment> OrderByDate(List<Appointment> List) //Sorts the appointments based on their Date. Earliest to Latest. Does not work for same day
         {
             List<Appointment> newList = new List<Appointment>();
-            foreach(Appointment app in List)
+            foreach (Appointment app in List)
             {
                 if (List.Count == 0)
                 {
@@ -551,9 +553,9 @@ namespace zorgapp.Controllers {
                     int e = 0;
                     bool added;
                     added = false;
-                    while(e < List.Count())
+                    while (e < List.Count())
                     {
-                        if (DateTime.Compare(app.Date,List[e].Date) < 0)
+                        if (DateTime.Compare(app.Date, List[e].Date) < 0)
                         {
                             newList.Insert(e, app);
                             added = true;
@@ -570,45 +572,45 @@ namespace zorgapp.Controllers {
             return newList;
         }
 
- 	    [Authorize(Roles="Doctor")]
-		public ActionResult CreateAppointment(string caseid,DateTime date, string info)
-		{
-			if (caseid != null)
-			{
-				Appointment appointment = new Appointment()
-				{
-					CaseId = caseid,
-					Date = date,
-					Info = info
-				};
-				_context.Appointments.Add(appointment);
-				_context.SaveChanges();
+        [Authorize(Roles = "Doctor")]
+        public ActionResult CreateAppointment(string caseid, DateTime date, string info)
+        {
+            if (caseid != null)
+            {
+                Appointment appointment = new Appointment()
+                {
+                    CaseId = caseid,
+                    Date = date,
+                    Info = info
+                };
+                _context.Appointments.Add(appointment);
+                _context.SaveChanges();
 
-				return RedirectToAction("Profile", "Doctor");
-			}
-			List<Case> caseList = new List<Case>();
+                return RedirectToAction("Profile", "Doctor");
+            }
+            List<Case> caseList = new List<Case>();
 
-			Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
-			int doctorid = user.DoctorId;
+            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            int doctorid = user.DoctorId;
 
-			var cases = from c in _context.Cases where c.DoctorId == doctorid select c;
+            var cases = from c in _context.Cases where c.DoctorId == doctorid select c;
 
-			foreach (Case c in cases)
-			{
-				caseList.Add(c);
-			}
+            foreach (Case c in cases)
+            {
+                caseList.Add(c);
+            }
 
-			NewAppointmentViewModel model;
-			model = new NewAppointmentViewModel
-			{
-				Cases = caseList
-			};
+            NewAppointmentViewModel model;
+            model = new NewAppointmentViewModel
+            {
+                Cases = caseList
+            };
             return View(model);
         }
 
-        
-        
-      public ActionResult AppointmentList(string caseid)
+
+
+        public ActionResult AppointmentList(string caseid)
         {
             if (caseid != null)
             {
@@ -668,18 +670,21 @@ namespace zorgapp.Controllers {
 
                 return View(caseappointments);
             }
-                                 
+
         }
 
-            public ActionResult Link(){
-            if (TempData["message"]!= null){
-            ViewBag.Message = TempData["message"].ToString();
-            TempData.Remove("message");
+        public ActionResult Link()
+        {
+            if (TempData["message"] != null)
+            {
+                ViewBag.Message = TempData["message"].ToString();
+                TempData.Remove("message");
             }
             return View();
         }
         //links patient with doctor 
-        public ActionResult SubmitLink(int patientid, int doctorid){
+        public ActionResult SubmitLink(int patientid, int doctorid)
+        {
             Doctor doctor = _context.Doctors.FirstOrDefault(m => m.DoctorId == doctorid);
             Patient patient = _context.Patients.FirstOrDefault(y => y.PatientId == patientid);
             string docName = doctor.FirstName;
@@ -690,18 +695,21 @@ namespace zorgapp.Controllers {
 
             bool linkmade = _context.PatientsDoctorss.Contains(patientsDoctors_);
 
-            PatientsDoctors patientsDoctors = new PatientsDoctors(){
+            PatientsDoctors patientsDoctors = new PatientsDoctors()
+            {
                 PatientId = patientid,
                 DoctorId = doctorid
             };
 
-            if(!linkmade){
+            if (!linkmade)
+            {
                 _context.PatientsDoctorss.Add(patientsDoctors);
                 _context.SaveChanges();
             }
-            else if(linkmade){
+            else if (linkmade)
+            {
                 TempData["message"] = "Link has already been made";
-                return RedirectToAction("Link","Admin");
+                return RedirectToAction("Link", "Admin");
             }
 
             ViewData["Doctor"] = docName;
@@ -730,17 +738,18 @@ namespace zorgapp.Controllers {
             var patientsDoctors = from d in _context.PatientsDoctorss where d.DoctorId == docId select d;
 
             foreach (var item in patientsDoctors)
-            {   
-                if (item.PatientId != null){
-                var patient_ = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
-                Pat.Add(patient_);
+            {
+                if (item.PatientId != null)
+                {
+                    var patient_ = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
+                    Pat.Add(patient_);
                 };
 
             }
             return View(Pat);
         }
 
-        public IActionResult PatProfile (IFormCollection form)
+        public IActionResult PatProfile(IFormCollection form)
         {
             string id = form["patientid"].ToString();
             int id_ = int.Parse(id);
@@ -762,8 +771,8 @@ namespace zorgapp.Controllers {
                 {
                     medicines.Add(item);
                 }
-            }           
- 
+            }
+
             var cases_ = from c in _context.Cases where c.PatientId == id_ && c.DoctorId == doctorid select c;
             var emptycase = _context.Cases.FirstOrDefault(m => m.CaseId == "");
             List<Case> cases = new List<Case>();
@@ -778,7 +787,7 @@ namespace zorgapp.Controllers {
                     cases.Add(item);
                 }
             }
-            
+
 
             ProfileViewModel profiledata = new ProfileViewModel
             {
@@ -791,23 +800,24 @@ namespace zorgapp.Controllers {
 
 
 
-        public IActionResult AddLocalId (int patientid, string localid){
+        public IActionResult AddLocalId(int patientid, string localid)
+        {
             Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == patientid);
             patient.LocalId.Add(localid);
             _context.SaveChanges();
-            
-            return RedirectToAction("PatientList","Doctor");
+
+            return RedirectToAction("PatientList", "Doctor");
         }
 
 
         [Authorize(Roles = "Doctor")]
-        public ActionResult Message(string reciever, string subject, string text ,string reply)
+        public ActionResult Message(string reciever, string subject, string text, string reply)
         {
             Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == reciever);
-                if (reply != null)
-                {              
-                     ViewBag.reply = reply;
-                }
+            if (reply != null)
+            {
+                ViewBag.reply = reply;
+            }
 
             if (patient != null)
             {
@@ -823,7 +833,7 @@ namespace zorgapp.Controllers {
                         Text = text,
                         Date = DateTime.Now,
                         DoctorToPatient = true
-                        };
+                    };
 
                     _context.Messages.Add(message);
                     _context.SaveChanges();
@@ -869,7 +879,7 @@ namespace zorgapp.Controllers {
         public ActionResult Reply(IFormCollection form)
         {
             string reply = form["reply"].ToString();
-            ViewBag.reply = reply;                   
+            ViewBag.reply = reply;
             return View();
         }
 
@@ -883,79 +893,237 @@ namespace zorgapp.Controllers {
         public ActionResult Profile()
         {
             //Gets the username of the logged in user and sends it to the view
-			var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-			ViewBag.username = username;
-			var user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
-			string email = user.Email.ToString();
-			ViewBag.email = email;
-			var specialism = user.Specialism.ToString();
-			ViewBag.specialism = specialism;
-			var phonenumber = user.PhoneNumber;
-			ViewBag.phonenumber = phonenumber;
-			var firstname = user.FirstName.ToString();
-			ViewBag.firstname = firstname;
-			var lastname = user.LastName.ToString();
-			ViewBag.lastname = lastname;
-			return View();
+            var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            ViewBag.username = username;
+            var user = _context.Doctors.FirstOrDefault(u => u.UserName == username);
+            string email = user.Email.ToString();
+            ViewBag.email = email;
+            var specialism = user.Specialism.ToString();
+            ViewBag.specialism = specialism;
+            var phonenumber = user.PhoneNumber;
+            ViewBag.phonenumber = phonenumber;
+            var firstname = user.FirstName.ToString();
+            ViewBag.firstname = firstname;
+            var lastname = user.LastName.ToString();
+            ViewBag.lastname = lastname;
+            return View();
         }
 
         [Authorize(Roles = "Doctor")]
         public IActionResult UpdateAccount(string firstname, string lastname, string email, string phonenumber, string specialism)
-		{
-			if (firstname != null)
-			{
-				var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-				var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME);
-				USER.FirstName = firstname;
-				USER.LastName = lastname;
-				USER.Email = email;
-				USER.PhoneNumber = phonenumber.ToString();//DIT NIET MERGEN, IS TIJDELIJK
+        {
+            if (firstname != null)
+            {
+                var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+                var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME);
+                USER.FirstName = firstname;
+                USER.LastName = lastname;
+                USER.Email = email;
+                USER.PhoneNumber = phonenumber.ToString();//DIT NIET MERGEN, IS TIJDELIJK
                 USER.Specialism = specialism;
-				_context.SaveChanges();
-				return RedirectToAction("Profile", "Doctor");
-			}
-			return View();
-		}
+                _context.SaveChanges();
+                return RedirectToAction("Profile", "Doctor");
+            }
+            return View();
+        }
 
         [Authorize(Roles = "Doctor")]
         public IActionResult UpdateDoctorAccount()
-		{
-			string firstname = TempData["MyTempData"].ToString();
-			ViewData["FirstName"] = firstname;
-			return View();
+        {
+            string firstname = TempData["MyTempData"].ToString();
+            ViewData["FirstName"] = firstname;
+            return View();
         }
-		public ActionResult AddMedicines(string name, DateTime start_date, DateTime end_date, int amount, int patient_id, float mg)
-		{			List<Patient> Patientslist = new List<Patient>();
+        public ActionResult AddMedicines(string name, DateTime start_date, DateTime end_date, int amount, int patient_id, float mg)
+        {
+            List<Patient> Patientslist = new List<Patient>();
 
-			var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-			var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME);
-			int Id = USER.DoctorId;
-			var patientslist = from m in _context.PatientsDoctorss where m.DoctorId == Id select m;
-			foreach (var item in patientslist)
-				{
-				if (item.PatientId != null)
-				{
-					var patientname = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
-					Patientslist.Add (patientname) ;
-				};
+            var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME);
+            int Id = USER.DoctorId;
+            var patientslist = from m in _context.PatientsDoctorss where m.DoctorId == Id select m;
+            foreach (var item in patientslist)
+            {
+                if (item.PatientId != null)
+                {
+                    var patientname = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
+                    Patientslist.Add(patientname);
+                };
 
-			}
+            }
 
-			Medicine medicine_ = new Medicine()
-			{
-				Name = name,
-				DateStart = start_date,
-				DateEnd = end_date,
-				Amount = amount,
-				PatientId = patient_id,
-				Mg = mg
-			};
-			
-			_context.Medicines.Add(medicine_);
-			_context.SaveChanges();
+            Medicine medicine_ = new Medicine()
+            {
+                Name = name,
+                DateStart = start_date,
+                DateEnd = end_date,
+                Amount = amount,
+                PatientId = patient_id,
+                Mg = mg
+            };
 
+            _context.Medicines.Add(medicine_);
+            _context.SaveChanges();
+            return View(Patientslist);
+        }
+        //Testing begins now!
+       
+        public DatabaseContext getContext()
+        {
+            return _context;
+        }
+        public IActionResult noAccess()
+        {
+            return View();
+        }
+        [Authorize(Roles = "Doctor")]
+        public IActionResult TestPage()
+        {
+            if (User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.ToLower() != "admin")
+            {
+                return RedirectToAction("Login", "Doctor");
+            }
+            List<Tuple<string, string>> tupleList = new List<Tuple<string, string>>();
 
-			return View(Patientslist);
-		}
-	}
+            List<DoctorTest> testlist = new List<DoctorTest>();
+            {
+                testlist.Add(new AddMedicinesAlreadyLinkedTest1(this));
+
+            }
+            foreach (DoctorTest T in testlist)
+            {
+                tupleList.Add(new Tuple<string, string>(T.Id, T.Id));
+            }
+
+            TestListViewModel testlistmodel = new TestListViewModel { tuples = tupleList };
+            return View(testlistmodel);
+        }
+
+        public IActionResult StartTest(string TestId)
+        {
+            List<DoctorTest> testlist = new List<DoctorTest>();
+            {
+                testlist.Add(new AddMedicinesAlreadyLinkedTest1(this));
+
+            }
+            DoctorTest testobj = testlist.FirstOrDefault();
+            foreach (DoctorTest T in testlist)
+            {
+                if (T.Id == TestId)
+                {
+                    testobj = T;
+                }
+            }
+            TestViewModel Model = testobj.Run();
+            return View(Model);
+        }
+    }
+    internal abstract class DoctorTest
+    {
+        public abstract TestViewModel Run();
+        public DoctorController doctorController;
+        public string Id;
+        public string Description;
+        public string Steps;
+        public string Criteria;
+        public string Inputstr;
+        public string Aresult;
+        public string Eresult;
+        public bool Pass;
+    }
+
+    internal class AddMedicinesAlreadyLinkedTest1 : DoctorTest
+    {
+        private DoctorController doctorController;
+        public AddMedicinesAlreadyLinkedTest1(DoctorController dc)
+        {
+            doctorController = dc;
+            Id = "D6.Integration.AMT1";
+            Description = "Add medicine when patient and doctor are linked";
+            Steps = "Check if they are linked, try to add medecine";
+            Criteria = "Pass: Medicine is added| Fail: exeption error, medicine not added";
+            Inputstr = "All parameters and patient ID that is linked to doctor";
+            Aresult = "";
+            Eresult = "Medicine is added";
+
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = doctorController.getContext();
+            DoctorController controller = new DoctorController(doctorController.getContext());
+            int PatientID = new int();
+            int DoctorID = 1;
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+
+            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            PatientsDoctors patdoc = PatDocs.First();
+            int patientid = patdoc.PatientId;
+            string name = "Paracetamol";
+            DateTime start_date = DateTime.Now;
+            DateTime end_date = DateTime.Now;
+            int amount = 3;
+            float mg = 50;
+
+            var medicinebefore = from d in Tcontext.Medicines where d.PatientId == patientid select d;
+            int count = medicinebefore.Count();
+
+            //try to run the submitlink method with a non existing doctor 
+            try
+            {
+                controller.AddMedicines(name, start_date, end_date, amount, patientid, mg);
+            }
+            //if for some reason we get an error, the error will be viewed 
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            var medicine = from d in Tcontext.Medicines where d.PatientId == patientid select d;
+            int count2 = medicine.Count();
+            if (count2 > count)
+            {
+                Aresult = "Medicine added";
+                Pass = true;
+            }
+            else
+            {
+                Aresult = "Medicine not added";
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
 }

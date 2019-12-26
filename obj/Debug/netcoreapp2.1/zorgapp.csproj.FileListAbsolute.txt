@@ -323,3 +323,5 @@ C:\Users\ses-9\OneDrive\Bureaublad\Git repos\Project-C\obj\Debug\netcoreapp2.1\z
 C:\Users\ses-9\OneDrive\Bureaublad\Git repos\Project-C\obj\Debug\netcoreapp2.1\zorgapp.dll
 C:\Users\ses-9\OneDrive\Bureaublad\Git repos\Project-C\obj\Debug\netcoreapp2.1\zorgapp.pdb
 C:\Users\ses-9\OneDrive\Bureaublad\Git repos\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CopyComplete
+C:\Users\ses-9\OneDrive\Bureaublad\Git repos\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\TestPage.cshtml.g.cs
+C:\Users\ses-9\OneDrive\Bureaublad\Git repos\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\StartTest.cshtml.g.cs

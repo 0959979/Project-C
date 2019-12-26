@@ -27,6 +27,7 @@ namespace zorgapp.Controllers{
                 testlist.Add(new SubmitDoctorAccountTest1(this));
                 testlist.Add(new SubmitDoctorAccountTest2(this));
                 testlist.Add(new SubmitDoctorAccountTest3(this));
+
             }
         }
 
