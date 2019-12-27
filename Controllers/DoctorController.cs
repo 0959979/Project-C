@@ -1056,7 +1056,7 @@ namespace zorgapp.Controllers
             bool Pass = false;
             DatabaseContext Tcontext = doctorController.getContext();
             DoctorController controller = new DoctorController(doctorController.getContext());
-            int PatientID = new int();
+            int PatientID = 1;
             int DoctorID = 1;
             Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
 
@@ -1072,12 +1072,12 @@ namespace zorgapp.Controllers
             var medicinebefore = from d in Tcontext.Medicines where d.PatientId == patientid select d;
             int count = medicinebefore.Count();
 
-            //try to run the submitlink method with a non existing doctor 
+          
             try
             {
                 controller.AddMedicines(name, start_date, end_date, amount, patientid, mg);
             }
-            //if for some reason we get an error, the error will be viewed 
+           
             catch (Exception e)
             {
                 Pass = false;
