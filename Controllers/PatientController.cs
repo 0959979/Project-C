@@ -12,57 +12,61 @@ using Microsoft.AspNetCore.Mvc;
 using zorgapp.Models;
 using zorgapp.ViewModels;
 
-namespace zorgapp.Controllers{
+namespace zorgapp.Controllers
+{
 
-    public class PatientController : Controller{
-        private readonly DatabaseContext _context;
+    public class PatientController : Controller
+    {
+        private readonly DatabaseContext _context;
 
-        public PatientController(DatabaseContext context)
-        {
-            _context = context;
-        }
+        public PatientController(DatabaseContext context)
+        {
+            _context = context;
+        }
 
-
+        // returns view of CreateAccount
         public IActionResult CreateAccount()
-        {           
+        {
             return View();
         }
 
 
         [Route("Patient/SubmitPatientAccount")]
-        public IActionResult SubmitPatientAccount(string firstname, string lastname, string email,string phonenumber, string username, string password)
-        {          
+        // creates account voor patient
+        public IActionResult SubmitPatientAccount(string firstname, string lastname, string email, string phonenumber, string username, string password)
+        {
+            // check if all parameters are filled in
             if (firstname != null && lastname != null && email != null && phonenumber != null && username != null && password != null)
             {
-            bool valid = true;
-            {
-                Patient user = _context.Patients.FirstOrDefault(u => u.Email == email);
-                if (user != null)
-                {
-                    ViewBag.emptyfield1 = "this E-mail is already in use";
-                    valid = false;
+                bool valid = true;
+                {   // check if email is aready in use
+                    Patient user = _context.Patients.FirstOrDefault(u => u.Email == email);
+                    if (user != null)
+                    {
+                        ViewBag.emptyfield1 = "this E-mail is already in use";
+                        valid = false;
+                    }
                 }
-            }
-            {
-                Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
-                if (user != null)
                 {
-                    ViewBag.emptyfield3 = "this username is already in use";
-                    valid = false;
+                    Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
+                    if (user != null)
+                    { // check if username is aready in use
+                        ViewBag.emptyfield3 = "this username is already in use";
+                        valid = false;
+                    }
                 }
-            }
-            {
-                if (password.Count() < 8)
                 {
-                    ViewBag.emptyfield3 = "Password should be more than 8 characters long";
-                    valid = false;
+                    if (password.Count() < 8)
+                    { // check if password has enough characters (8 or more)
+                        ViewBag.emptyfield3 = "Password should be more than 8 characters long";
+                        valid = false;
+                    }
                 }
-            }
-            if (!valid)
-            {
-                return View("CreateAccount");
-            }
-            
+                if (!valid)
+                {
+                    return View("CreateAccount");
+                }
+                // create the new patient 
                 Patient patient = new Patient()
                 {
                     FirstName = firstname,
@@ -71,68 +75,89 @@ namespace zorgapp.Controllers{
                     LocalId = new List<string>(),
                     PhoneNumber = phonenumber,
                     UserName = username,
-                    Password = Program.Hash256bits(username+password),
+                    Password = Program.Hash256bits(username + password),
                     LinkCode = null,
                     LinkUses = 0,
                     CanSeeMeId = new List<int>(),
                     ICanSeeId = new List<int>()
                 };
+
+                // add patient to database
                 _context.Patients.Add(patient);
                 _context.SaveChanges();
 
                 ViewData["FirstName"] = patient.FirstName;
                 ViewData["LastName"] = patient.LastName;
-            
-            return View("SubmitPatientAccount");
+
+                return View("SubmitPatientAccount");
             }
             return View();
         }
 
-        
-        //PatientList Page
-     //   Authorizes the page so only users with the role Patient can view it
+        // Authorizes the page so only users with the role admin can view it
         [Authorize(Roles = "Admin")]
-        public IActionResult PatientList() 
-        {
-            var patients = from p in _context.Patients select p;
-
-            return View(patients);
-        }
-      public IActionResult DoctorList()
+        public IActionResult PatientList()
         {
+            // selects all patients in the database
+            var patients = from p in _context.Patients select p;
+
+            return View(patients);
+        }
+        public IActionResult DoctorList()
+        {
+            // take the username of the patient that is logged in
+
             string username_ = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+
+            // find the patient with that username
+
             Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == username_);
+
+            // take the id of the patient
+
             int patid = patient.PatientId;
+
+            // create a new list of doctors
+
             var Doc = new List<Doctor>();
+
+            // create a list of patientsdoctors (linked) where the patient logged in is linked
+
             var patientsDoctors = from d in _context.PatientsDoctorss where d.PatientId == patid select d;
 
+            // for every link made with that patient, find the doctor and add it to the list of doctors
+
             foreach (var item in patientsDoctors)
-            {   
-                if (item.DoctorId != null){
-                var doctor_ = _context.Doctors.FirstOrDefault(p => p.DoctorId == item.DoctorId);
-                Doc.Add(doctor_);
+            {
+                if (item.DoctorId != null)
+                {
+                    var doctor_ = _context.Doctors.FirstOrDefault(p => p.DoctorId == item.DoctorId);
+                    Doc.Add(doctor_);
                 };
 
             }
+            // return the view with the list of doctors linked to the logged in patient
+
             return View(Doc);
         }
-        public IActionResult DocProfile (IFormCollection form)
+        public IActionResult DocProfile(IFormCollection form)
         {
             string id = form["doctorid"].ToString();
             int id_ = int.Parse(id);
             Doctor doctor = _context.Doctors.FirstOrDefault(u => u.DoctorId == id_);
-            
+
             return View(doctor);
         }
 
 
 
-        public IActionResult AddLocalId (int patientid, string localid){
+        public IActionResult AddLocalId(int patientid, string localid)
+        {
             Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == patientid);
             patient.LocalId.Add(localid);
             _context.SaveChanges();
-            
-            return RedirectToAction("PatientList","Doctor");
+
+            return RedirectToAction("PatientList", "Doctor");
         }
 
 
@@ -326,24 +351,27 @@ namespace zorgapp.Controllers{
 
         public ActionResult Login(string username, string password, string type)
         {
-            //string Username = username;
-            //string Password = password;
-            //var UserL = from u in _context.Patients where u.UserName == Username select u;   
-            
-            var adminexists = _context.Admins.Any(x => x.UserName == "admin");
-            if(!adminexists){
-            Admin admin = new Admin(){
-                UserName = "admin",
-                Password = Program.Hash256bits("adminpassword")
-            };
+            // checks if the "standard" admin account is already created in the database
 
-            _context.Admins.Add(admin);
-            _context.SaveChanges();
+            var adminexists = _context.Admins.Any(x => x.UserName == "admin");
+            if (!adminexists)
+            {
+                // if admin does not already exist in database, create new admin account
+                Admin admin = new Admin()
+                {
+                    UserName = "admin",
+                    Password = Program.Hash256bits("adminpassword")
+                };
+                // add admin to the database
+
+                _context.Admins.Add(admin);
+                _context.SaveChanges();
             }
 
-                     
+
             if (username != null && password != null)
-            {   string pwhash = Program.Hash256bits(username+password);
+            {
+                string pwhash = Program.Hash256bits(username + password);
                 username = username.ToLower();
                 if (type == null)
                 {
@@ -357,7 +385,7 @@ namespace zorgapp.Controllers{
                         Patient user = _context.Patients.FirstOrDefault(u => u.UserName.ToLower() == username);
                         if (user != null)
                         {
-                                  if (user.Password == pwhash) 
+                            if (user.Password == pwhash)
                             {
                                 //Creates a new Identity of the user
                                 var claims = new List<Claim>
@@ -388,14 +416,14 @@ namespace zorgapp.Controllers{
                         else
                         {
                             ViewBag.emptyfield = "Username or Password is incorrect";
-                        }                        
+                        }
                     }
                     if (type == "doctor")
                     {
                         Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == username);
                         if (user != null)
                         {
-                            if (user.Password == pwhash) 
+                            if (user.Password == pwhash)
                             {
                                 //Creates a new Identity of the user
                                 var claims = new List<Claim>
@@ -430,44 +458,44 @@ namespace zorgapp.Controllers{
                     }
                     if (type == "admin")
                     {
-                       
+
                         Admin user = _context.Admins.FirstOrDefault(u => u.UserName.ToLower() == username);
                         if (user != null)
                         {
-                           if (user.Password == pwhash) 
-                           {
-                               //Creates a new Identity of the user
-                               var claims = new List<Claim>
+                            if (user.Password == pwhash)
+                            {
+                                //Creates a new Identity of the user
+                                var claims = new List<Claim>
                                {
                                    new Claim(ClaimTypes.Name, "Admin", ClaimValueTypes.String),
                                    new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString(), ClaimValueTypes.String),
                                    new Claim(ClaimTypes.Role, "Admin", ClaimValueTypes.String)
                                };
-                               var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
-                               var userPrincipal = new ClaimsPrincipal(userIdentity);
+                                var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
+                                var userPrincipal = new ClaimsPrincipal(userIdentity);
 
-                               HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                                   userPrincipal,
-                                   new AuthenticationProperties
-                                   {
-                                       ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
-                                       IsPersistent = true,
-                                       AllowRefresh = false
-                                   });
+                                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                                    userPrincipal,
+                                    new AuthenticationProperties
+                                    {
+                                        ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                                        IsPersistent = true,
+                                        AllowRefresh = false
+                                    });
 
-                               return RedirectToAction("CreateAccount", "Doctor");
-                           }
-                           else
-                           {
-                               ViewBag.emptyfield = "Username or Password is incorrect";
-                           }
+                                return RedirectToAction("CreateAccount", "Doctor");
+                            }
+                            else
+                            {
+                                ViewBag.emptyfield = "Username or Password is incorrect";
+                            }
                         }
                         else
                         {
-                           ViewBag.emptyfield = "Username or Password is incorrect";
+                            ViewBag.emptyfield = "Username or Password is incorrect";
                         }
-                    }                    
-                }               
+                    }
+                }
             }
             return View();
         }
@@ -569,33 +597,33 @@ namespace zorgapp.Controllers{
             var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             ViewBag.username = username;
             var user = _context.Patients.FirstOrDefault(u => u.UserName == username);
-			string email = user.Email.ToString();
-			ViewBag.email = email;
-			var phonenumber = user.PhoneNumber.ToString();
-			ViewBag.phonenumber = phonenumber;
-			var firstname = user.FirstName.ToString();
-			ViewBag.firstname = firstname;
-			var lastname = user.LastName.ToString();
-			ViewBag.lastname = lastname;
-			return View();
+            string email = user.Email.ToString();
+            ViewBag.email = email;
+            var phonenumber = user.PhoneNumber.ToString();
+            ViewBag.phonenumber = phonenumber;
+            var firstname = user.FirstName.ToString();
+            ViewBag.firstname = firstname;
+            var lastname = user.LastName.ToString();
+            ViewBag.lastname = lastname;
+            return View();
         }
 
         [Authorize(Roles = "Patient")]
         public IActionResult UpdateAccount(string firstname, string lastname, string email, string phonenumber)
-		{
-			if (firstname != null)
-			{
-				var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-				var USER = _context.Patients.FirstOrDefault(u => u.UserName == USERNAME);
-				USER.FirstName = firstname;
-				USER.LastName = lastname;
-				USER.Email = email;
-				USER.PhoneNumber = phonenumber.ToString();//DIT NIET MERGEN, IS TIJDELIJK
+        {
+            if (firstname != null)
+            {
+                var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+                var USER = _context.Patients.FirstOrDefault(u => u.UserName == USERNAME);
+                USER.FirstName = firstname;
+                USER.LastName = lastname;
+                USER.Email = email;
+                USER.PhoneNumber = phonenumber.ToString();//DIT NIET MERGEN, IS TIJDELIJK
                 _context.SaveChanges();
-				return RedirectToAction("Profile", "Patient");
-			}
-			return View();
-		}
+                return RedirectToAction("Profile", "Patient");
+            }
+            return View();
+        }
 
         [Authorize(Roles = "Patient")]
         public IActionResult GenerateAuthorizeCode()
@@ -877,7 +905,7 @@ namespace zorgapp.Controllers{
                 carers.Add(empty);
             }
 
-            
+
             if (careeids != null)
             {
                 foreach (var item in careeids)
@@ -923,8 +951,8 @@ namespace zorgapp.Controllers{
             }
 
             var cases = from c in _context.Cases where c.PatientId == profileid select c;
-            List<string> caseids = new List<string>();   
-            
+            List<string> caseids = new List<string>();
+
             var emptyappointment = _context.Appointments.FirstOrDefault(m => m.AppointmentId == 0);
             List<Appointment> appointments = new List<Appointment>();
             if (cases == null)
@@ -946,7 +974,7 @@ namespace zorgapp.Controllers{
                         appointments.Add(item_);
                     }
                 }
-            }           
+            }
 
             ProfileViewModel profiledata = new ProfileViewModel
             {
@@ -957,7 +985,7 @@ namespace zorgapp.Controllers{
 
             return View(profiledata);
         }
-        
+
         public ActionResult AuthorizationRevoke(int id)
         {
             string username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;

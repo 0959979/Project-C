@@ -6,12 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace zorgapp.Models
 {
-    public class PatientsDoctors{
-        public int DoctorId {get; set;}
-        public int PatientId {get; set;}
+    // model for patients and doctors linked together
+    public class PatientsDoctors
+    {
+        public int DoctorId { get; set; }
+        public int PatientId { get; set; }
 
-        public Doctor Doctor {get; set;}
-        public Patient Patient {get; set;}
+        public Doctor Doctor { get; set; }
+        public Patient Patient { get; set; }
 
     }
 }

@@ -10,30 +10,31 @@ namespace zorgapp.Models
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // creates a many to many relation between doctors and patients by doing two one to many relations
             modelBuilder.Entity<PatientsDoctors>()
-            .HasKey(x => new {x.DoctorId, x.PatientId});
+            .HasKey(x => new { x.DoctorId, x.PatientId });
             modelBuilder.Entity<PatientsDoctors>()
             .HasOne(pd => pd.Doctor)
             .WithMany(d => d.PatientsDoctorss)
             .HasForeignKey(pd => pd.DoctorId);
             modelBuilder.Entity<PatientsDoctors>()
             .HasOne(pd => pd.Patient)
-            .WithMany (p => p.PatientsDoctorss)
-            .HasForeignKey (pd => pd.PatientId);
-    
-    //https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration
-    
-        }
+            .WithMany(p => p.PatientsDoctorss)
+            .HasForeignKey(pd => pd.PatientId);
 
+            //https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration
+
+        }
+        // creates the tables in the database
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Admin> Admins { get; set; }
-        public DbSet<Message> Messages {get; set;}
-        public DbSet<Appointment> Appointments {get; set;}
-        public DbSet<Medicine> Medicines {get; set;}
-        public DbSet<Case> Cases {get; set;}
-        public DbSet<PatientsDoctors> PatientsDoctorss {get; set;}
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Medicine> Medicines { get; set; }
+        public DbSet<Case> Cases { get; set; }
+        public DbSet<PatientsDoctors> PatientsDoctorss { get; set; }
 
     }
 

@@ -2,7 +2,7 @@
 <h2>Link</h2>
 <p>Here you can link doctors to patients</p>
 
-
+@* form consisting of all parameters necessary to perform the link *@
 <form asp-action="SubmitLink" method="post">
     Patient id:<br>
   <input type="string" required name = patientid id="patientid"><br>
@@ -11,4 +11,5 @@
   <input type="submit" value = "Submit" id="submit">
 </form><br>
 
+@* view the message given from the controller *@
 <h4>@ViewBag.message</h4>
