@@ -242,3 +242,7 @@ C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\noAccess.cshtml.g.cs
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\StartTest.cshtml.g.cs
 C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\TestPage.cshtml.g.cs
+C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\StartTest.cshtml.g.cs
+C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Doctor\TestPage.cshtml.g.cs
+C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Admin\StartTest.cshtml.g.cs
+C:\Users\santa\OneDrive\Documents\GitHub\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Admin\TestPage.cshtml.g.cs
