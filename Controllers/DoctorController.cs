@@ -1081,7 +1081,7 @@ namespace zorgapp.Controllers
             catch (Exception e)
             {
                 Pass = false;
-                Aresult = e.ToString();
+                Aresult = e.Message;
                 model = new TestViewModel()
                 {
                     id = Id,
