@@ -1012,6 +1012,8 @@ namespace zorgapp.Controllers{
                 testlist.Add(new GenerateNewAuthorizeCodeTest2(this));
                 testlist.Add(new GenerateNewAuthorizeCodeTest3(this));
                 testlist.Add(new ConfirmAuthorizeCodeTest1(this));
+                testlist.Add(new ConfirmAuthorizeCodeTest2(this));
+                testlist.Add(new ConfirmAuthorizeCodeTest3(this));
             }
             foreach (PatientTest T in testlist)
             {
@@ -1030,6 +1032,8 @@ namespace zorgapp.Controllers{
                 testlist.Add(new GenerateNewAuthorizeCodeTest2(this));
                 testlist.Add(new GenerateNewAuthorizeCodeTest3(this));
                 testlist.Add(new ConfirmAuthorizeCodeTest1(this));
+                testlist.Add(new ConfirmAuthorizeCodeTest2(this));
+                testlist.Add(new ConfirmAuthorizeCodeTest3(this));
             }
             PatientTest testobj = testlist.FirstOrDefault();
             foreach (PatientTest T in testlist)
@@ -1427,6 +1431,441 @@ namespace zorgapp.Controllers{
                 else
                 {
                     Aresult = "Link between " + P.UserName + " and " + patient.UserName + " not made";
+                }
+            }
+
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class ConfirmAuthorizeCodeTest2 : PatientTest
+    {
+        public ConfirmAuthorizeCodeTest2(PatientController tc)
+        {
+            testController = tc;
+            Id = "P5.Integration.CAC2";
+            Description = "ConfirmAuthorizeCode test 2";
+            Steps = "Make sure the link is not already made. Confirm authorize code whilst logged in.";
+            Criteria = "The link must not already be made, and after the Act stage must still not be made.";
+            Inputstr = "Wrong link code";
+            Aresult = "";
+            Eresult = "Link not made";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+            DatabaseContext Tcontext = testController.getContext();
+
+
+            string code = Program.GenerateLinkCode();
+            Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
+            Patient loggedPatient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            if (loggedPatient == null)
+            {
+                Pass = false;
+                Aresult = "User Admin does not exist";
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+            if (patient == null)
+            {
+                patient = new Patient()
+                {
+                    FirstName = "Admin2",
+                    LastName = "Testaccount",
+                    Email = "Admin2testaccmail@fakeemail.fa",
+                    LocalId = new List<string>(),
+                    PhoneNumber = "06-00000000",
+                    UserName = "Admin2",
+                    Password = Program.Hash256bits("Admin2" + "password"),
+                    LinkCode = null,
+                    LinkUses = 0,
+                    CanSeeMeId = new List<int>(),
+                    ICanSeeId = new List<int>()
+                };
+                Tcontext.Patients.Add(patient);
+                Tcontext.SaveChanges();
+            }
+            else
+            {
+                if (patient.CanSeeMeId.Contains(loggedPatient.PatientId))
+                {
+                    patient.CanSeeMeId.Remove(loggedPatient.PatientId);
+                    loggedPatient.ICanSeeId.Remove(patient.PatientId);
+                }
+            }
+            controller.DbAddCode(code, 1, "Admin2");
+            Tcontext.SaveChanges();
+
+
+            //act
+            try
+            {
+                controller.ConfirmAuthorization("admin2", "wrongcodestring");
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            Patient P = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            List<int> idlist = P.ICanSeeId;
+            if (P == null)
+            {
+                Aresult = "Null";
+            }
+            else
+            {
+                if (idlist.Contains(patient.PatientId))
+                {
+                    Aresult = "Link correctly made";
+                }
+                else
+                {
+                    Aresult = "Link not made";
+                }
+            }
+
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class ConfirmAuthorizeCodeTest3 : PatientTest
+    {
+        public ConfirmAuthorizeCodeTest3(PatientController tc)
+        {
+            testController = tc;
+            Id = "P5.Integration.CAC3";
+            Description = "ConfirmAuthorizeCode test 3";
+            Steps = "Make sure there is no patient with username null. Confirm authorize code whilst logged in.";
+            Criteria = "The link must not already be made, and after the Act stage must still not be made. No error thrown";
+            Inputstr = "username = null";
+            Aresult = "";
+            Eresult = "No patient with name == null";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+            DatabaseContext Tcontext = testController.getContext();
+
+
+            string code = Program.GenerateLinkCode();
+            Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == null);
+            Patient loggedPatient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            if (loggedPatient == null)
+            {
+                Pass = false;
+                Aresult = "User Admin does not exist";
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+            if (patient != null)
+            {
+                Tcontext.Patients.Remove(patient);
+                Tcontext.SaveChanges();
+            }
+            /*else
+            {
+                if (patient.CanSeeMeId.Contains(loggedPatient.PatientId))
+                {
+                    patient.CanSeeMeId.Remove(loggedPatient.PatientId);
+                    loggedPatient.ICanSeeId.Remove(patient.PatientId);
+                }
+            }*/
+            //controller.DbAddCode(code, 1, "Admin2");
+            Tcontext.SaveChanges();
+
+
+            //act
+            try
+            {
+                controller.ConfirmAuthorization(null, code);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            Patient P = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == null);
+            List<int> idlist;
+            if (P == null)
+            {
+                Aresult = "No patient with name == null";
+            }
+            else
+            {
+                idlist = P.ICanSeeId;
+                try
+                {
+                    if (idlist.Contains(patient.PatientId))
+                    {
+                        Aresult = "Link correctly made";
+                    }
+                    else
+                    {
+                        Aresult = "Link not made";
+                    }
+                }
+                catch (Exception e)
+                {
+                    Pass = false;
+                    Aresult = e.ToString();
+                    model = new TestViewModel()
+                    {
+                        id = Id,
+                        time = DateTime.Now,
+                        description = Description,
+                        steps = Steps,
+                        criteria = Criteria,
+                        input = Inputstr,
+                        aresult = Aresult,
+                        eresult = Eresult,
+                        pass = Pass
+                    };
+                    return model;
+                }
+            }
+
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class AuthorizationRevokeTest1 : PatientTest
+    {
+        public AuthorizationRevokeTest1(PatientController tc)
+        {
+            testController = tc;
+            Id = "P5.Integration.AR1";
+            Description = "AuthorizationRevoke Test 1";
+            Steps = "Check if there is authorization between admin and admin2, then revoke it.";
+            Criteria = "Authorization must be present, and after the act stage, be removed.";
+            Inputstr = "id = admin2's Id.";
+            Aresult = "";
+            Eresult = "Link not made";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+            DatabaseContext Tcontext = testController.getContext();
+
+
+            string code = Program.GenerateLinkCode();
+            Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
+            Patient loggedPatient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            if (loggedPatient == null)
+            {
+                Pass = false;
+                Aresult = "User Admin does not exist";
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+            if (patient == null)
+            {
+                patient = new Patient()
+                {
+                    FirstName = "Admin2",
+                    LastName = "Testaccount",
+                    Email = "Admin2testaccmail@fakeemail.fa",
+                    LocalId = new List<string>(),
+                    PhoneNumber = "06-00000000",
+                    UserName = "Admin2",
+                    Password = Program.Hash256bits("Admin2" + "password"),
+                    LinkCode = null,
+                    LinkUses = 0,
+                    CanSeeMeId = new List<int>(),
+                    ICanSeeId = new List<int>()
+                };
+                Tcontext.Patients.Add(patient);
+                Tcontext.SaveChanges();
+            }
+            if (!(patient.CanSeeMeId.Contains(loggedPatient.PatientId)))
+            {
+                patient.CanSeeMeId.Add(loggedPatient.PatientId);
+            }
+            if (!(loggedPatient.CanSeeMeId.Contains(patient.PatientId)))
+            {
+                loggedPatient.ICanSeeId.Add(patient.PatientId);
+            }
+            Tcontext.SaveChanges();
+
+            //act
+            try
+            {
+                controller.AuthorizationRevoke(patient.PatientId);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            Patient P = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            List<int> idlist = P.ICanSeeId;
+            if (P == null)
+            {
+                Aresult = "Null";
+            }
+            else
+            {
+                if (idlist.Contains(patient.PatientId))
+                {
+                    Aresult = "Link made";
+                }
+                else
+                {
+                    Aresult = "Link not made";
                 }
             }
 
