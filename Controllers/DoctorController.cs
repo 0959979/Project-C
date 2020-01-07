@@ -695,8 +695,6 @@ namespace zorgapp.Controllers
             Doctor doctor = _context.Doctors.FirstOrDefault(m => m.DoctorId == doctorid);
             // search for patient with patient id filled in by user
             Patient patient = _context.Patients.FirstOrDefault(y => y.PatientId == patientid);
-            string docName = doctor.FirstName;
-            string patName = patient.FirstName;
             // create the link between the doctor and patient
             PatientsDoctors patientsDoctors_ = _context.PatientsDoctorss.FirstOrDefault(
                 p => p.PatientId == patientid && p.DoctorId == doctorid
@@ -713,6 +711,20 @@ namespace zorgapp.Controllers
                 PatientId = patientid,
                 DoctorId = doctorid
             };
+            //check if patient exists, if the patient does not exists, warn the user 
+            if (patient == null)
+            {
+                if (TempData != null)
+                { TempData["message"] = "PatientId does not exist"; }
+                return RedirectToAction("Link", "Admin");
+            }
+            //check if doctor exists, if the doctor does not exists, warn the user 
+            if (doctor == null)
+            {
+                if (TempData != null)
+                { TempData["message"] = "Doctorid does not exist"; }
+                return RedirectToAction("Link", "Admin");
+            }
 
             // if the link is not made, add the link to the database
 
@@ -729,8 +741,8 @@ namespace zorgapp.Controllers
                 return RedirectToAction("Link", "Admin");
             }
 
-            ViewData["Doctor"] = docName;
-            ViewData["Patient"] = patName;
+            ViewData["Doctor"] = doctor.FirstName;
+            ViewData["Patient"] = patient.FirstName;
 
             return View();
         }
