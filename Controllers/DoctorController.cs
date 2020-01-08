@@ -1597,13 +1597,15 @@ namespace zorgapp.Controllers {
             string caseName = "Test Case CC4";
 
             Doctor loggedDoctor = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            Patient linkedPatient = _context.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
             int docId = loggedDoctor.DoctorId;
+            int patId = linkedPatient.PatientId;
 
             //make sure the link is not present
             try
             {
                 var links = from l in _context.PatientsDoctorss where l.DoctorId == docId select l;
-                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == 1);
+                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == patId);
                 if (pl != null)
                 {
                     _context.PatientsDoctorss.Remove(pl);
@@ -1661,7 +1663,7 @@ namespace zorgapp.Controllers {
             //act
             try
             {
-                controller.CreateCase(cId, caseName, 1);
+                controller.CreateCase(cId, caseName, patId);
             }
             catch (Exception e)
             {
@@ -1746,18 +1748,20 @@ namespace zorgapp.Controllers {
             int caseamount = 0; //The amount of cases with the same Id. The test checks that if there are more than 0 cases, and we try to add a case, the amount of cases does not go up
 
             Doctor loggedDoctor = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            Patient linkedPatient = _context.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
             int docId = loggedDoctor.DoctorId;
+            int patId = linkedPatient.PatientId;
 
             //make sure the link is present
             try
             {
                 var links = from l in _context.PatientsDoctorss where l.DoctorId == docId select l;
-                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == 1);
+                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == patId);
                 if (pl == null)
                 {
                     pl = new PatientsDoctors()
                     {
-                        PatientId = 1,
+                        PatientId = patId,
                         DoctorId = docId
                     };
                     _context.PatientsDoctorss.Add(pl);
@@ -1796,7 +1800,7 @@ namespace zorgapp.Controllers {
                         CaseId = cId,
                         CaseName = caseName,
                         DoctorId = docId,
-                        PatientId = 1
+                        PatientId = patId
                     };
                     _context.Cases.Add(newcase);
                     _context.SaveChanges();
@@ -1827,7 +1831,7 @@ namespace zorgapp.Controllers {
             //act
             try
             {
-                controller.CreateCase(cId, caseName, 1);
+                controller.CreateCase(cId, caseName, patId);
             }
             catch (Exception e)
             {

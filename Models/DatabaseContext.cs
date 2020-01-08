@@ -20,6 +20,10 @@ namespace zorgapp.Models
             .HasOne(pd => pd.Patient)
             .WithMany (p => p.PatientsDoctorss)
             .HasForeignKey (pd => pd.PatientId);
+
+            //cases
+            modelBuilder.Entity<Case>()
+            .HasKey(x => new { x.DoctorId, x.CaseId });
     
     //https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration
     
