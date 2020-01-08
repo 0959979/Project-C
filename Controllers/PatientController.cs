@@ -1005,13 +1005,10 @@ namespace zorgapp.Controllers{
         {
             return View();
         }
-        [Authorize(Roles="Patient")]
+
         public IActionResult TestPage()
         {
-            if (User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.ToLower() != "admin")
-            {
-                return RedirectToAction("Login", "Patient");
-            }
+            //Login("admin", "password", "patient");
             List<Tuple<string, string>> tupleList = new List<Tuple<string, string>>();
 
             List<PatientTest> testlist = new List<PatientTest>();
@@ -1095,6 +1092,7 @@ namespace zorgapp.Controllers{
             //arrange
             bool Pass = false;
             PatientController controller = testController;
+            controller.Login("admin", "password", "patient");
 
             int uses = 3;
 
@@ -1180,6 +1178,7 @@ namespace zorgapp.Controllers{
             //arrange
             bool Pass = false;
             PatientController controller = testController;
+            controller.Login("admin", "password", "patient");
 
             int uses = -2;
 
@@ -1204,6 +1203,7 @@ namespace zorgapp.Controllers{
                     eresult = Eresult,
                     pass = Pass
                 };
+                controller.Logout();
                 return model;
             }
 
@@ -1241,6 +1241,7 @@ namespace zorgapp.Controllers{
                 eresult = Eresult,
                 pass = Pass
             };
+            controller.Logout();
             return model;
         }
     }
@@ -1265,6 +1266,7 @@ namespace zorgapp.Controllers{
             //arrange
             bool Pass = false;
             PatientController controller = testController;
+            controller.Login("admin", "password", "patient");
 
             int uses = 20;
 
@@ -1289,6 +1291,7 @@ namespace zorgapp.Controllers{
                     eresult = Eresult,
                     pass = Pass
                 };
+                controller.Logout();
                 return model;
             }
 
@@ -1326,6 +1329,7 @@ namespace zorgapp.Controllers{
                 eresult = Eresult,
                 pass = Pass
             };
+            controller.Logout();
             return model;
         }
     }
@@ -1351,7 +1355,7 @@ namespace zorgapp.Controllers{
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-
+            controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
@@ -1372,6 +1376,7 @@ namespace zorgapp.Controllers{
                     eresult = Eresult,
                     pass = Pass
                 };
+                controller.Logout();
                 return model;
             }
             if (patient == null)
@@ -1426,6 +1431,7 @@ namespace zorgapp.Controllers{
                     eresult = Eresult,
                     pass = Pass
                 };
+                controller.Logout();
                 return model;
             }
 
@@ -1469,6 +1475,7 @@ namespace zorgapp.Controllers{
                 eresult = Eresult,
                 pass = Pass
             };
+            controller.Logout();
             return model;
         }
     }
@@ -1494,7 +1501,7 @@ namespace zorgapp.Controllers{
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-
+            controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
@@ -1515,6 +1522,7 @@ namespace zorgapp.Controllers{
                     eresult = Eresult,
                     pass = Pass
                 };
+                controller.Logout();
                 return model;
             }
             if (patient == null)
@@ -1569,6 +1577,7 @@ namespace zorgapp.Controllers{
                     eresult = Eresult,
                     pass = Pass
                 };
+                controller.Logout();
                 return model;
             }
 
@@ -1612,6 +1621,7 @@ namespace zorgapp.Controllers{
                 eresult = Eresult,
                 pass = Pass
             };
+            controller.Logout();
             return model;
         }
     }
@@ -1637,7 +1647,7 @@ namespace zorgapp.Controllers{
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-
+            controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == null);
@@ -1658,6 +1668,7 @@ namespace zorgapp.Controllers{
                     eresult = Eresult,
                     pass = Pass
                 };
+                controller.Logout();
                 return model;
             }
             if (patient != null)
@@ -1698,6 +1709,7 @@ namespace zorgapp.Controllers{
                     eresult = Eresult,
                     pass = Pass
                 };
+                controller.Logout();
                 return model;
             }
 
@@ -1738,6 +1750,7 @@ namespace zorgapp.Controllers{
                         eresult = Eresult,
                         pass = Pass
                     };
+                    controller.Logout();
                     return model;
                 }
             }
@@ -1763,6 +1776,7 @@ namespace zorgapp.Controllers{
                 eresult = Eresult,
                 pass = Pass
             };
+            controller.Logout();
             return model;
         }
     }
@@ -1788,7 +1802,7 @@ namespace zorgapp.Controllers{
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-
+            controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
@@ -1809,6 +1823,7 @@ namespace zorgapp.Controllers{
                     eresult = Eresult,
                     pass = Pass
                 };
+                controller.Logout();
                 return model;
             }
             if (patient == null)
@@ -1861,6 +1876,7 @@ namespace zorgapp.Controllers{
                     eresult = Eresult,
                     pass = Pass
                 };
+                controller.Logout();
                 return model;
             }
 
@@ -1904,6 +1920,7 @@ namespace zorgapp.Controllers{
                 eresult = Eresult,
                 pass = Pass
             };
+            controller.Logout();
             return model;
         }
     }
@@ -1929,7 +1946,7 @@ namespace zorgapp.Controllers{
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-
+            controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
@@ -1950,6 +1967,7 @@ namespace zorgapp.Controllers{
                     eresult = Eresult,
                     pass = Pass
                 };
+                controller.Logout();
                 return model;
             }
             if (patient == null)
@@ -2002,6 +2020,7 @@ namespace zorgapp.Controllers{
                     eresult = Eresult,
                     pass = Pass
                 };
+                controller.Logout();
                 return model;
             }
 
@@ -2045,6 +2064,7 @@ namespace zorgapp.Controllers{
                 eresult = Eresult,
                 pass = Pass
             };
+            controller.Logout();
             return model;
         }
     }
@@ -2070,9 +2090,9 @@ namespace zorgapp.Controllers{
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
+            controller.Login("admin", "password", "patient");
 
             int revokeId = -10;
-
 
             string code = Program.GenerateLinkCode();
             Patient loggedPatient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
@@ -2121,6 +2141,7 @@ namespace zorgapp.Controllers{
                     eresult = Eresult,
                     pass = Pass
                 };
+                controller.Logout();
                 return model;
             }
 
@@ -2156,6 +2177,7 @@ namespace zorgapp.Controllers{
                 eresult = Eresult,
                 pass = Pass
             };
+            controller.Logout();
             return model;
         }
     }

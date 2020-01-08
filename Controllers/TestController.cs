@@ -42,7 +42,6 @@ namespace zorgapp.Controllers{
 
         public IActionResult TestPage()
         {
-
             //make sure the necessary accounts are present
             {
                 bool adminexists = _context.Doctors.Any(x => x.UserName == "admin"); //doctor admin
