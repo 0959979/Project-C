@@ -934,40 +934,64 @@ namespace zorgapp.Controllers
             ViewData["FirstName"] = firstname;
             return View();
         }
+        //public ActionResult AddMedicines(string name, DateTime start_date, DateTime end_date, int amount, int patient_id, float mg)
+        //{
+        //    List<Patient> Patientslist = new List<Patient>();
+
+        //    var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+        //    var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME);
+        //    int Id = USER.DoctorId;
+        //    var patientslist = from m in _context.PatientsDoctorss where m.DoctorId == Id select m;
+        //    foreach (var item in patientslist)
+        //    {
+        //        if (item.PatientId != null)
+        //        {
+        //            var patientname = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
+        //            Patientslist.Add(patientname);
+        //        };
+
+        //    }
+
+        //    Medicine medicine_ = new Medicine()
+        //    {
+        //        Name = name,
+        //        DateStart = start_date,
+        //        DateEnd = end_date,
+        //        Amount = amount,
+        //        PatientId = patient_id,
+        //        Mg = mg
+        //    };
+
+        //    _context.Medicines.Add(medicine_);
+        //    _context.SaveChanges();
+        //    return View(Patientslist);
+        //}
         public ActionResult AddMedicines(string name, DateTime start_date, DateTime end_date, int amount, int patient_id, float mg)
         {
-            List<Patient> Patientslist = new List<Patient>();
-
-            var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME);
-            int Id = USER.DoctorId;
-            var patientslist = from m in _context.PatientsDoctorss where m.DoctorId == Id select m;
-            foreach (var item in patientslist)
+            
+            if (name != null && start_date != null && end_date != null  )
             {
-                if (item.PatientId != null)
+
+                Medicine medicine_ = new Medicine()
                 {
-                    var patientname = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
-                    Patientslist.Add(patientname);
+                    Name = name,
+                    DateStart = start_date,
+                    DateEnd = end_date,
+                    Amount = amount,
+                    PatientId = patient_id,
+                    Mg = mg
                 };
 
+                _context.Medicines.Add(medicine_);
+                _context.SaveChanges();
             }
 
-            Medicine medicine_ = new Medicine()
-            {
-                Name = name,
-                DateStart = start_date,
-                DateEnd = end_date,
-                Amount = amount,
-                PatientId = patient_id,
-                Mg = mg
-            };
 
-            _context.Medicines.Add(medicine_);
-            _context.SaveChanges();
-            return View(Patientslist);
+            return View();
         }
+
         //Testing begins now!
-       
+
         public DatabaseContext getContext()
         {
             return _context;
@@ -988,6 +1012,7 @@ namespace zorgapp.Controllers
             List<DoctorTest> testlist = new List<DoctorTest>();
             {
                 testlist.Add(new AddMedicinesAlreadyLinkedTest1(this));
+                testlist.Add(new AddMedicinesMissingParameterTest1(this));
                 testlist.Add(new MakeAppointmentAlreadyLinkedTest2(this));
                 testlist.Add(new MakeAppointmentMissesParameterTest2(this));
                 testlist.Add(new AppointmentPatientNullTest2(this));
@@ -1012,6 +1037,7 @@ namespace zorgapp.Controllers
             List<DoctorTest> testlist = new List<DoctorTest>();
             {
                 testlist.Add(new AddMedicinesAlreadyLinkedTest1(this));
+                testlist.Add(new AddMedicinesMissingParameterTest1(this));
                 testlist.Add(new MakeAppointmentAlreadyLinkedTest2(this));
                 testlist.Add(new MakeAppointmentMissesParameterTest2(this));
                 testlist.Add(new AppointmentPatientNullTest2(this));
@@ -1072,10 +1098,8 @@ namespace zorgapp.Controllers
             bool Pass = false;
             DatabaseContext Tcontext = doctorController.getContext();
             DoctorController controller = new DoctorController(doctorController.getContext());
-
-            int DoctorID = 2;
-            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
-
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault();
+            int DoctorID = doctor.DoctorId;
             var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
             PatientsDoctors patdoc = PatDocs.First();
 
@@ -1126,6 +1150,115 @@ namespace zorgapp.Controllers
             {
                 Aresult = "Medicine not added";
                 Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class AddMedicinesMissingParameterTest1 : DoctorTest
+    {
+
+        public AddMedicinesMissingParameterTest1(DoctorController dc)
+        {
+            doctorController = dc;
+            Id = "D6.Integration.AMMPT2";
+            Description = "Add medicine when missing a parameter";
+            Steps = "Check if all parameters are inserted, try to add medecine";
+            Criteria = "Pass: Exeption Error: Medicine is not added | Fail: Medicine is added";
+            Inputstr = "All parameters and patient ID that is linked to doctor, except one parameter";
+            Aresult = "";
+            Eresult = "Medicine is not added";
+
+
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = doctorController.getContext();
+            DoctorController controller = new DoctorController(doctorController.getContext());           
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault();
+            int DoctorID = doctor.DoctorId;
+            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            PatientsDoctors patdoc = PatDocs.First();
+            string name = null;
+            DateTime start_date = DateTime.Now;
+            DateTime end_date = DateTime.Now;
+            int patient_id = 1;
+            int amount = 3;
+            float mg = 50;
+            var medicinebefore = from d in Tcontext.Medicines where d.PatientId == patient_id select d;
+            Medicine med = new Medicine()
+            { 
+                Name = name,
+                DateStart = start_date,
+                DateEnd = end_date,
+                Amount = amount,
+                Mg = mg
+            };
+
+            int count = medicinebefore.Count();
+            try
+            {
+                controller.AddMedicines(name, start_date, end_date, amount, patient_id, mg);
+            }
+
+            catch (Exception e)
+            {
+                Pass = true;
+                Aresult = "You are missing one or more parameters! " + e.Message;
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+          
+            var medicinePat = from d in Tcontext.Medicines where d.PatientId == patient_id select d;
+            bool contains = new bool();
+            if (medicinePat.Contains(med))
+            {
+                contains = true;
+            }
+            if (!medicinePat.Contains(med))
+             {
+                contains = false;
+            }
+          
+            if (contains )
+            {
+                Aresult = "Medicine added";
+                Pass = false;
+            }
+            if (!contains)
+            {
+                Aresult = "Medicine not added";
+                Pass = true;
             }
 
             model = new TestViewModel()
