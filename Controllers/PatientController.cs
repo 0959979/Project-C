@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using zorgapp.Models;
 using zorgapp.ViewModels;
 
@@ -17,7 +19,7 @@ namespace zorgapp.Controllers{
     public class PatientController : Controller{
         private readonly DatabaseContext _context;
 
-        public PatientController(DatabaseContext context)
+        public PatientController(DatabaseContext context)
         {
             _context = context;
         }
@@ -357,6 +359,7 @@ namespace zorgapp.Controllers{
                                 };
                                 var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
                                 var userPrincipal = new ClaimsPrincipal(userIdentity);
+                                Thread.CurrentPrincipal = new ClaimsPrincipal(userIdentity);
 
                                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                                     userPrincipal,
@@ -391,10 +394,10 @@ namespace zorgapp.Controllers{
                                 {
                                     new Claim(ClaimTypes.Name, "Doctor", ClaimValueTypes.String),
                                     new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString(), ClaimValueTypes.String),
-                                    new Claim(ClaimTypes.Role, "Doctor", ClaimValueTypes.String)
+                                    new Claim(ClaimTypes.Role, "Doctor", ClaimValueTypes.String)                                   
                                 };
                                 var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
-                                var userPrincipal = new ClaimsPrincipal(userIdentity);
+                                var userPrincipal = new ClaimsPrincipal(userIdentity);                           
 
                                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                                     userPrincipal,
@@ -1044,7 +1047,7 @@ namespace zorgapp.Controllers{
         public DatabaseContext getContext()
         {
             return _context;
-        }
+        }  
         public IActionResult noAccess()
         {
             return View();
@@ -1052,8 +1055,8 @@ namespace zorgapp.Controllers{
 
         public IActionResult TestPage()
         {
-            var userexists = _context.Doctors.Any(x => x.UserName == "lotte");
-            if (!userexists)
+            var doctorexists = _context.Doctors.Any(x => x.UserName == "lotte");
+            if (!doctorexists)
             {
                 Doctor user = new Doctor()
                 {
@@ -1071,6 +1074,28 @@ namespace zorgapp.Controllers{
                 _context.SaveChanges();
             }
 
+            var patientexists = _context.Patients.Any(x => x.UserName == "lotte");
+            if (!patientexists)
+            {
+                Patient user = new Patient()
+                {
+                    FirstName = "lotte",
+                    LastName = "lotte",
+                    Email = "lotte",
+                    LocalId = new List<string>(),
+                    PhoneNumber = "123",
+                    UserName = "lotte",
+                    Password = Program.Hash256bits("lotte" + "Lotte123"),
+                    LinkCode = null,
+                    LinkUses = 0,
+                    CanSeeMeId = new List<int>(),
+                    ICanSeeId = new List<int>()
+                };
+
+                _context.Patients.Add(user);
+                _context.SaveChanges();
+            }
+
             List<Tuple<string, string>> tupleList = new List<Tuple<string, string>>();
             
             List<PatientTest> testlist = new List<PatientTest>();
@@ -1081,6 +1106,10 @@ namespace zorgapp.Controllers{
                 testlist.Add(new MessageTest3(this));
                 testlist.Add(new MessageTest4(this));
                 testlist.Add(new MessageTest5(this));
+                testlist.Add(new LoginTest1(this));
+                testlist.Add(new LoginTest2(this));
+                testlist.Add(new LoginTest3(this));
+                testlist.Add(new LoginTest4(this));
             }
             foreach (PatientTest T in testlist)
             {
@@ -1101,6 +1130,10 @@ namespace zorgapp.Controllers{
                 testlist.Add(new MessageTest3(this));
                 testlist.Add(new MessageTest4(this));
                 testlist.Add(new MessageTest5(this));
+                testlist.Add(new LoginTest1(this));
+                testlist.Add(new LoginTest2(this));
+                testlist.Add(new LoginTest3(this));
+                testlist.Add(new LoginTest4(this));
             }
             PatientTest testobj = testlist.FirstOrDefault();
             foreach (PatientTest T in testlist)
@@ -1612,6 +1645,350 @@ namespace zorgapp.Controllers{
             else
             {
                 Aresult = "Receiver=" + mes.Receiver + " | Subject=" + mes.Subject + " | Text=" + mes.Text;
+            }
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class LoginTest1 : PatientTest
+    {
+        public LoginTest1(PatientController tc)
+        {
+            testController = tc;
+            Id = "P4.Integration.L1";
+            Description = "Login test 1";
+            Steps = "Login as a patient when all parameters are correct";
+            Criteria = "Pass: successful login | Fail: exception error";
+            Inputstr = "username='lotte', password='Lotte123' and type='patient'";
+            Aresult = "";
+            Eresult = "Patient has successfully logged in";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+
+            string username = "lotte";
+            string password = "Lotte123";
+            string type = "patient";
+
+            //act
+            try
+            {
+                controller.Login(username, password, type);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            //var user = HttpContext.Current.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var user = Thread.CurrentPrincipal?.Identity.Name;
+            if (user == null)
+            {
+                Aresult = "Null";
+            }
+            else
+            {
+                Aresult = user + " has successfully logged in";
+            }
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class LoginTest2 : PatientTest
+    {
+        public LoginTest2(PatientController tc)
+        {
+            testController = tc;
+            Id = "P4.Integration.L2";
+            Description = "Login test 2";
+            Steps = "Login as a patient but leave username empty";
+            Criteria = "Pass: fail to log in | Fail: exception error";
+            Inputstr = "username=null, password='Lotte123' and type='patient'";
+            Aresult = "";
+            Eresult = "Null";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+
+            string username = null;
+            string password = "Lotte123";
+            string type = "patient";
+
+            //act
+            try
+            {
+                controller.Login(username, password, type);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            //var user = HttpContext.Current.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var user = Thread.CurrentPrincipal?.Identity.Name;
+            if (user == null)
+            {
+                Aresult = "Null";
+            }
+            else
+            {
+                Aresult = user + " has successfully logged in";
+            }
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class LoginTest3 : PatientTest
+    {
+        public LoginTest3(PatientController tc)
+        {
+            testController = tc;
+            Id = "P4.Integration.L3";
+            Description = "Login test 3";
+            Steps = "Login as a patient but password is empty";
+            Criteria = "Pass: fail to log in | Fail: exception error";
+            Inputstr = "username='lotte', password=null and type='patient'";
+            Aresult = "";
+            Eresult = "Null";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+
+            string username = "lotte";
+            string password = null;
+            string type = "patient";
+
+            //act
+            try
+            {
+                controller.Login(username, password, type);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            //var user = HttpContext.Current.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var user = Thread.CurrentPrincipal?.Identity.Name;
+            if (user == null)
+            {
+                Aresult = "Null";
+            }
+            else
+            {
+                Aresult = user + " has successfully logged in";
+            }
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class LoginTest4 : PatientTest
+    {
+        public LoginTest4(PatientController tc)
+        {
+            testController = tc;
+            Id = "P4.Integration.L4";
+            Description = "Login test 4";
+            Steps = "Login as a patient when all parameters are filled in but password is not correct";
+            Criteria = "Pass: fail to log in | Fail: exception error";
+            Inputstr = "username='lotte', password='Lotte321' and type='patient'";
+            Aresult = "";
+            Eresult = "Null";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+
+            string username = "lotte";
+            string password = "Lotte321";
+            string type = "patient";
+
+            //act
+            try
+            {
+                controller.Login(username, password, type);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            //var user = HttpContext.Current.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var user = Thread.CurrentPrincipal?.Identity.Name;
+            if (user == null)
+            {
+                Aresult = "Null";
+            }
+            else
+            {
+                Aresult = user + " has successfully logged in";
             }
             if (Aresult == Eresult)
             {

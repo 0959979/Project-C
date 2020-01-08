@@ -13,6 +13,7 @@ using zorgapp.Models;
 using zorgapp.ViewModels;
 using zorgapp.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 
 namespace zorgapp.Controllers{
     public class TestController : Controller{
