@@ -854,16 +854,18 @@ namespace zorgapp.Controllers
                 }
             }
 
-            if (localid == null)
-            {
-                //     TempData["message"] = "Local id cannot be empty";
+            if (localid == null )
+            {   if (TempData != null){
+                TempData["message"] = "Local id cannot be empty";
+                }
                 return RedirectToAction("PatientList", "Doctor");
+
             }
             if (localidExists)
             {
-
-                //      TempData["message"] = "Local id is already added";
-
+                if (TempData != null){
+                TempData["message"] = "Local id is already added";
+                }
                 return RedirectToAction("PatientList", "Doctor");
             }
 
