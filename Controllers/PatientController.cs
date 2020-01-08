@@ -318,16 +318,20 @@ namespace zorgapp.Controllers{
             //string Username = username;
             //string Password = password;
             //var UserL = from u in _context.Patients where u.UserName == Username select u;   
-            
-            var adminexists = _context.Admins.Any(x => x.UserName == "admin");
-            if(!adminexists){
-            Admin admin = new Admin(){
-                UserName = "admin",
-                Password = Program.Hash256bits("adminpassword")
-            };
 
-            _context.Admins.Add(admin);
-            _context.SaveChanges();
+            {
+                var adminexists = _context.Admins.Any(x => x.UserName == "admin");
+                if (!adminexists)
+                {
+                    Admin admin = new Admin()
+                    {
+                        UserName = "admin",
+                        Password = Program.Hash256bits("adminpassword")
+                    };
+
+                    _context.Admins.Add(admin);
+                    _context.SaveChanges();
+                }
             }
 
                      

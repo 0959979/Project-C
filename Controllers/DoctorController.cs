@@ -310,8 +310,10 @@ namespace zorgapp.Controllers {
             if (!string.IsNullOrEmpty(Save) || !string.IsNullOrEmpty(Add))
             {
                 //ensure the case belongs to the doctor
+                Doctor luser = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                int ldoctorId = luser.DoctorId;
                 var CaseQ = from c in _context.Cases where c.CaseId == caseId select c;
-                Case curCase = CaseQ.FirstOrDefault();
+                Case curCase = CaseQ.FirstOrDefault(c => c.DoctorId == ldoctorId);
                 if (curCase == null)
                 {
                     ViewBag.SaveText = " Could not find case with caseId: " + caseId;

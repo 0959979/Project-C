@@ -42,6 +42,70 @@ namespace zorgapp.Controllers{
 
         public IActionResult TestPage()
         {
+
+            //make sure the necessary accounts are present
+            {
+                bool adminexists = _context.Doctors.Any(x => x.UserName == "admin"); //doctor admin
+                if (!adminexists)
+                {
+                    Doctor admin = new Doctor()
+                    {
+                        FirstName = "admin",
+                        LastName = "admin",
+                        LocalId = new List<string>(),
+                        Email = "admin@mail.mail",
+                        PhoneNumber = "12345678",
+                        Specialism = "-",
+                        UserName = "admin",
+                        Password = Program.Hash256bits("admin" + "password"),
+                    };
+
+                    _context.Doctors.Add(admin);
+                    _context.SaveChanges();
+                }
+
+                adminexists = _context.Doctors.Any(x => x.UserName == "admin2"); //doctor admin2
+                if (!adminexists)
+                {
+                    Doctor admin = new Doctor()
+                    {
+                        FirstName = "admin2",
+                        LastName = "admin2",
+                        LocalId = new List<string>(),
+                        Email = "admin2@mail.mail",
+                        PhoneNumber = "12345678",
+                        Specialism = "-",
+                        UserName = "admin2",
+                        Password = Program.Hash256bits("admin2" + "password"),
+                    };
+
+                    _context.Doctors.Add(admin);
+                    _context.SaveChanges();
+                }
+
+                adminexists = _context.Patients.Any(x => x.UserName == "admin"); //patient admin
+                if (!adminexists)
+                {
+                    Patient admin = new Patient()
+                    {
+                        FirstName = "admin",
+                        LastName = "admin",
+                        Email = "admin@mail.mail",
+                        LocalId = new List<string>(),
+                        PhoneNumber = "12345678",
+                        UserName = "admin",
+                        Password = Program.Hash256bits("admin" + "password"),
+                        LinkCode = null,
+                        LinkUses = 0,
+                        CanSeeMeId = new List<int>(),
+                        ICanSeeId = new List<int>()
+                    };
+
+                    _context.Patients.Add(admin);
+                    _context.SaveChanges();
+                }
+            }
+
             List<Tuple<string,string>> tupleList = new List<Tuple<string,string>>();
 
             foreach (Test T in testlist)
@@ -283,10 +347,10 @@ namespace zorgapp.Controllers{
             {
                 controller.SubmitDoctorAccount(firstName, lastName, eMail, phoneNumber, specialism, localId, userName, password);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Pass = false;
-                Aresult = "Exception Error.";
+                Aresult = e.ToString();
                 model = new TestViewModel()
                 {
                     id = Id,

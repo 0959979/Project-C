@@ -52,18 +52,17 @@ namespace zorgapp.Migrations
 
             modelBuilder.Entity("zorgapp.Models.Case", b =>
                 {
-                    b.Property<string>("CaseId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("DoctorId");
+
+                    b.Property<string>("CaseId");
 
                     b.Property<string>("CaseInfo");
 
                     b.Property<string>("CaseName");
 
-                    b.Property<int>("DoctorId");
-
                     b.Property<int>("PatientId");
 
-                    b.HasKey("CaseId");
+                    b.HasKey("DoctorId", "CaseId");
 
                     b.ToTable("Cases");
                 });
