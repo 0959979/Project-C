@@ -988,6 +988,14 @@ namespace zorgapp.Controllers
             List<DoctorTest> testlist = new List<DoctorTest>();
             {
                 testlist.Add(new AddMedicinesAlreadyLinkedTest1(this));
+                testlist.Add(new MakeAppointmentAlreadyLinkedTest2(this));
+                testlist.Add(new MakeAppointmentMissesParameterTest2(this));
+                testlist.Add(new AppointmentPatientNullTest2(this));
+                testlist.Add(new MakeAppointmentNotAlreadyLinkedTest2(this));
+                testlist.Add(new LinkAlreadyLinkedTest3(this));
+                testlist.Add(new LinkDoctorNullTest3(this));
+                testlist.Add(new LinkPatientNullTest3(this));
+                testlist.Add(new LinkDocPatsNullTest3(this));
 
             }
             foreach (DoctorTest T in testlist)
@@ -996,7 +1004,7 @@ namespace zorgapp.Controllers
             }
 
             TestListViewModel testlistmodel = new TestListViewModel { tuples = tupleList };
-            return View(testlistmodel);
+           return View(testlistmodel);
         }
 
         public IActionResult StartTest(string TestId)
@@ -1004,7 +1012,14 @@ namespace zorgapp.Controllers
             List<DoctorTest> testlist = new List<DoctorTest>();
             {
                 testlist.Add(new AddMedicinesAlreadyLinkedTest1(this));
-
+                testlist.Add(new MakeAppointmentAlreadyLinkedTest2(this));
+                testlist.Add(new MakeAppointmentMissesParameterTest2(this));
+                testlist.Add(new AppointmentPatientNullTest2(this));
+                testlist.Add(new MakeAppointmentNotAlreadyLinkedTest2(this));
+                testlist.Add(new LinkAlreadyLinkedTest3(this));
+                testlist.Add(new LinkDoctorNullTest3(this));
+                testlist.Add(new LinkPatientNullTest3(this));
+                testlist.Add(new LinkDocPatsNullTest3(this));
             }
             DoctorTest testobj = testlist.FirstOrDefault();
             foreach (DoctorTest T in testlist)
@@ -1034,17 +1049,18 @@ namespace zorgapp.Controllers
 
     internal class AddMedicinesAlreadyLinkedTest1 : DoctorTest
     {
-        private DoctorController doctorController;
+
         public AddMedicinesAlreadyLinkedTest1(DoctorController dc)
         {
             doctorController = dc;
             Id = "D6.Integration.AMT1";
             Description = "Add medicine when patient and doctor are linked";
             Steps = "Check if they are linked, try to add medecine";
-            Criteria = "Pass: Medicine is added| Fail: exeption error, medicine not added";
+            Criteria = "Pass: Medicine is added | Fail: exeption error, medicine not added";
             Inputstr = "All parameters and patient ID that is linked to doctor";
             Aresult = "";
             Eresult = "Medicine is added";
+           
 
         }
 
@@ -1056,28 +1072,29 @@ namespace zorgapp.Controllers
             bool Pass = false;
             DatabaseContext Tcontext = doctorController.getContext();
             DoctorController controller = new DoctorController(doctorController.getContext());
-            int PatientID = 1;
-            int DoctorID = 1;
+
+            int DoctorID = 2;
             Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
 
             var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
             PatientsDoctors patdoc = PatDocs.First();
-            int patientid = patdoc.PatientId;
+
             string name = "Paracetamol";
             DateTime start_date = DateTime.Now;
             DateTime end_date = DateTime.Now;
+            int patient_id = 1;
             int amount = 3;
             float mg = 50;
 
-            var medicinebefore = from d in Tcontext.Medicines where d.PatientId == patientid select d;
+            var medicinebefore = from d in Tcontext.Medicines where d.PatientId == patient_id select d;
             int count = medicinebefore.Count();
 
-          
+
             try
             {
-                controller.AddMedicines(name, start_date, end_date, amount, patientid, mg);
+                controller.AddMedicines(name, start_date, end_date, amount, patient_id, mg);
             }
-           
+
             catch (Exception e)
             {
                 Pass = false;
@@ -1098,9 +1115,9 @@ namespace zorgapp.Controllers
             }
 
             //assert
-            var medicine = from d in Tcontext.Medicines where d.PatientId == patientid select d;
+            var medicine = from d in Tcontext.Medicines where d.PatientId == patient_id select d;
             int count2 = medicine.Count();
-            if (count2 > count)
+            if (medicine != null)
             {
                 Aresult = "Medicine added";
                 Pass = true;
@@ -1109,6 +1126,808 @@ namespace zorgapp.Controllers
             {
                 Aresult = "Medicine not added";
                 Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class MakeAppointmentAlreadyLinkedTest2 : DoctorTest
+    {
+        
+        public MakeAppointmentAlreadyLinkedTest2(DoctorController dc)
+        {
+            doctorController = dc;
+            Id = "D1.Integration.MAT1";
+            Description = "Make appointment when patient and doctor are linked";
+            Steps = "Check if they are linked, try to make an apointment";
+            Criteria = "Pass:Appointment is made| Fail: exeption error, appointment is not added";
+            Inputstr = "All parameters and patient ID that is linked to doctor";
+            Aresult = "";
+            Eresult = "Appointment is made";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = doctorController.getContext();
+            DoctorController controller = new DoctorController(doctorController.getContext());
+            int PatientID = 1;
+            int DoctorID = 1;
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+
+            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            PatientsDoctors patdoc = PatDocs.First();
+            int patientid = patdoc.PatientId;
+            string caseid = "1";
+            DateTime date = DateTime.Now;
+            string info = "This is an appointment";
+          
+           
+
+            var appointmentbefore = from d in Tcontext.Appointments where d.CaseId == caseid select d;
+            int count = appointmentbefore.Count();
+
+
+            try
+            {
+                controller.CreateAppointment( caseid,  date,  info);
+            }
+
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.Message;
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            var appointmet = from d in Tcontext.Appointments where d.CaseId == caseid select d;
+            int count2 = appointmet.Count();
+            if (count2 > count)
+            {
+                Aresult = "Appointment is made";
+                Pass = true;
+            }
+            else
+            {
+                Aresult = "Appointment is not made";
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class MakeAppointmentMissesParameterTest2 : DoctorTest
+    {
+
+        public MakeAppointmentMissesParameterTest2(DoctorController dc)
+        {
+            doctorController = dc;
+            Id = "D1.Integration.MAT2";
+            Description = "Try to make an appointment when misses a parameter";
+            Steps = "Check if all parameters are complete, try to make an apointment";
+            Criteria = "Pass: Exeption error: Appointment is not made | Fail: Appointment is made";
+            Inputstr = "All parameters and patient ID that is linked to doctor";
+            Aresult = "";
+            Eresult = "Appointment is not made ";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = doctorController.getContext();
+            DoctorController controller = new DoctorController(doctorController.getContext());
+            int PatientID = 1 ;
+            int DoctorID = 1;
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+
+            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            PatientsDoctors patdoc = PatDocs.First();
+            int patientid = patdoc.PatientId;
+            string caseid = null;
+            DateTime date = DateTime.Now;
+            string info = "This is an appointment";
+
+
+
+            var appointmentbefore = from d in Tcontext.Appointments where d.CaseId == caseid select d;
+            int count = appointmentbefore.Count();
+
+
+            try
+            {
+                controller.CreateAppointment(caseid, date, info);
+            }
+
+            catch (Exception e)
+            {
+                Pass = true;
+                Aresult = "Missing a parameter, " + e.Message;
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            var appointmet = from d in Tcontext.Appointments where d.CaseId == caseid select d;
+            int count2 = appointmet.Count();
+            if (count2 > count)
+            {
+                Aresult = "Appointment is made";
+                Pass = true;
+            }
+            else
+            {
+                Aresult = "Appointment is not made";
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class AppointmentPatientNullTest2 : DoctorTest
+    {
+
+        public AppointmentPatientNullTest2(DoctorController dc)
+        {
+            doctorController = dc;
+            Id = "D1.Integration.MAT3";
+            Description = "Try to make an appointment with a nonexisting patient";
+            Steps = "Check if patient exist, try to make an appointment";
+            Criteria = "Pass: Exeption error: Appointment is not made | Fail: Appointment is made";
+            Inputstr = "All parameters and patient ID ";
+            Aresult = "";
+            Eresult = "Appointment is not made ";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = doctorController.getContext();
+            DoctorController controller = new DoctorController(doctorController.getContext());
+            int PatientID = 0;
+            int DoctorID = 1;
+            Doctor doctor = Tcontext.Doctors.First(x => x.DoctorId == DoctorID);
+
+            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            PatientsDoctors patdoc = PatDocs.First();
+            int patientid = patdoc.PatientId;
+            string caseid = "4";
+            DateTime date = DateTime.Now;
+            string info = "This is an appointment";
+
+
+
+            var appointmentbefore = from d in Tcontext.Appointments where d.CaseId == caseid select d;
+            int count = appointmentbefore.Count();
+
+
+            try
+          
+                {
+                    controller.CreateAppointment(caseid, date, info);
+                }
+            
+
+            catch (Exception e)
+            {
+                Pass = true;
+                Aresult = "Patient does not exist, " + e.Message;
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+         
+            var appointmet = from d in Tcontext.Appointments where d.CaseId == caseid select d;
+            var cas = from m in Tcontext.Cases where m.CaseId == caseid select m;
+            var pati = from m in Tcontext.Patients where m.PatientId == patientid select m;
+            int count2 = appointmet.Count();
+        
+            if (pati   == null || cas == null)
+            {
+                Aresult = "Appointment is not made";
+                Pass = true;
+            }
+            else
+            {
+                Aresult = "Appointment is made";
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class MakeAppointmentNotAlreadyLinkedTest2 : DoctorTest
+    {
+
+        public MakeAppointmentNotAlreadyLinkedTest2(DoctorController dc)
+        {
+            doctorController = dc;
+            Id = "D1.Integration.MAT4";
+            Description = "Try to make an appointment with a patient not linked to the doctr";
+            Steps = "Check if patient is linked or not, try to make an apointment";
+            Criteria = "Pass: Exeption error: Appointment is not made | Fail: Appointment is made";
+            Inputstr = "All parameters and patient ID that is linked to doctor";
+            Aresult = "";
+            Eresult = "Appointment is not made ";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = doctorController.getContext();
+            DoctorController controller = new DoctorController(doctorController.getContext());
+            int PatientID = 2;
+            int DoctorID = 1;
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+
+            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            PatientsDoctors patdoc = PatDocs.First();
+            int patientid = patdoc.PatientId;
+            string caseid = null;
+            DateTime date = DateTime.Now;
+            string info = "This is an appointment";
+
+
+
+            var appointmentbefore = from d in Tcontext.Appointments where d.CaseId == caseid select d;
+            int count = appointmentbefore.Count();
+
+
+            try
+            {
+                controller.CreateAppointment(caseid, date, info);
+            }
+
+            catch (Exception e)
+            {
+                Pass = true;
+                Aresult = "There is no link, " + e.Message;
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            var appointmet = from d in Tcontext.Appointments where d.CaseId == caseid select d;
+            int count2 = appointmet.Count();
+            if (count2 > count)
+            {
+                Aresult = "Appointment is made";
+                Pass = true;
+            }
+            else
+            {
+                Aresult = "Appointment is not made";
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class LinkAlreadyLinkedTest3 : DoctorTest
+    {
+
+        public LinkAlreadyLinkedTest3(DoctorController dc)
+        {
+            doctorController = dc;
+            Id = "D8.Integration.LALT1";
+            Description = "Doctor links a patient to another doctor if patient is already linked";
+            Steps = "Check if they are linked, try to link patient to another doctor";
+            Criteria = "Pass: Patient is linked | Fail: exeption error, patient is not linked";
+            Inputstr = "patient ID and new doctor ID";
+            Aresult = "";
+            Eresult = "Patient and doctor are linked";
+
+
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = doctorController.getContext();
+            DoctorController controller = new DoctorController(doctorController.getContext());
+            int DoctorID = 2;
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            PatientsDoctors patdoc = PatDocs.First();          
+            int patientid = 1;
+            int doctorid = 4;
+            
+        
+
+            try
+            {
+                controller.SubmitLink( patientid, doctorid);
+            }
+
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.Message;
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+         
+            Patient patient = Tcontext.Patients.FirstOrDefault(y => y.PatientId == patientid);
+            string docName = doctor.FirstName;
+            string patName = patient.FirstName;
+            PatientsDoctors patientsDoctors_ = Tcontext.PatientsDoctorss.FirstOrDefault(
+                p => p.PatientId == patientid && p.DoctorId == doctorid
+            );
+
+            bool linkmade = Tcontext.PatientsDoctorss.Contains(patientsDoctors_);
+
+            PatientsDoctors patientsDoctors = new PatientsDoctors()
+            {
+                PatientId = patientid,
+                DoctorId = doctorid
+            };
+
+            if (!linkmade)
+            {
+                Tcontext.PatientsDoctorss.Add(patientsDoctors);
+                Tcontext.SaveChanges();
+            }
+          
+            if (linkmade == true)
+            {
+                Aresult = "Link is made";
+                Pass = true;
+            }
+            else
+            {
+                Aresult = "Link is not made";
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class LinkDoctorNullTest3 : DoctorTest
+    {
+
+        public LinkDoctorNullTest3 (DoctorController dc)
+        {
+            doctorController = dc;
+            Id = "D8.Integration.LDNT2";
+            Description = "Doctor links a patient to a nonexisting doctor";
+            Steps = "Check if doctor exists, try to link him to patient";
+            Criteria = "Pass: link is not made | Fail: exeption error, link is made";
+            Inputstr = "patient ID and new doctor ID";
+            Aresult = "";
+            Eresult = "Patient and doctor are not linked";
+
+
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = doctorController.getContext();
+            DoctorController controller = new DoctorController(doctorController.getContext());
+            int DoctorID = 2;
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            PatientsDoctors patdoc = PatDocs.First();
+            int patientid = 1;
+            int doctorid = 7;
+
+
+
+            try
+            {
+                controller.SubmitLink(patientid, doctorid);
+            }
+
+            catch (Exception e)
+            {
+                Pass = true;
+                Aresult ="This doctor does not exist, " + e.Message;
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+
+            Patient patient = Tcontext.Patients.FirstOrDefault(y => y.PatientId == patientid);
+            string docName = doctor.FirstName;
+            string patName = patient.FirstName;
+            PatientsDoctors patientsDoctors_ = Tcontext.PatientsDoctorss.FirstOrDefault(
+                p => p.PatientId == patientid && p.DoctorId == doctorid
+            );
+
+            bool linkmade = Tcontext.PatientsDoctorss.Contains(patientsDoctors_);
+
+            PatientsDoctors patientsDoctors = new PatientsDoctors()
+            {
+                PatientId = patientid,
+                DoctorId = doctorid
+            };
+
+            if (!linkmade)
+            {
+               
+                Pass = true;
+            }
+
+            if (linkmade == true)
+            {
+                Aresult = "Link is made";
+                Pass = false;
+            }
+            else
+            {
+                Aresult = "Link is not made";
+                Pass = true;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class LinkPatientNullTest3 : DoctorTest
+    {
+
+        public LinkPatientNullTest3(DoctorController dc)
+        {
+            doctorController = dc;
+            Id = "D8.Integration.LPNT3";
+            Description = "Doctor links a nonexisting patient to another doctor";
+            Steps = "Check if Patient exists, try to link him to new doctor";
+            Criteria = "Pass: link is not made | Fail: exeption error, link is made";
+            Inputstr = "nonexisting patient ID and new doctor ID";
+            Aresult = "";
+            Eresult = "Patient and doctor are not linked";
+
+
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = doctorController.getContext();
+            DoctorController controller = new DoctorController(doctorController.getContext());
+            int DoctorID = 2;
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            PatientsDoctors patdoc = PatDocs.First();
+            int patientid = 9;
+            int doctorid = 1;
+
+
+
+            try
+            {
+                controller.SubmitLink(patientid, doctorid);
+            }
+
+            catch (Exception e)
+            {
+                Pass = true;
+                Aresult = "This Patient does not exist, " + e.Message;
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+
+            Patient patient = Tcontext.Patients.FirstOrDefault(y => y.PatientId == patientid);
+            string docName = doctor.FirstName;
+            string patName = patient.FirstName;
+            PatientsDoctors patientsDoctors_ = Tcontext.PatientsDoctorss.FirstOrDefault(
+                p => p.PatientId == patientid && p.DoctorId == doctorid
+            );
+
+            bool linkmade = Tcontext.PatientsDoctorss.Contains(patientsDoctors_);
+
+            PatientsDoctors patientsDoctors = new PatientsDoctors()
+            {
+                PatientId = patientid,
+                DoctorId = doctorid
+            };
+
+            if (!linkmade)
+            {
+           
+                Pass = true;
+            }
+
+            if (linkmade == true)
+            {
+                Aresult = "Link is made";
+                Pass = false;
+            }
+            else
+            {
+                Aresult = "Link is not made";
+                Pass = true;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class LinkDocPatsNullTest3 : DoctorTest
+    {
+
+        public LinkDocPatsNullTest3(DoctorController dc)
+        {
+            doctorController = dc;
+            Id = "D8.Integration.LPDNT4";
+            Description = "Doctor links a nonexisting patient to a nonexisting doctor";
+            Steps = "Check if Patient and doctor exists, try to link them ";
+            Criteria = "Pass: link is not made | Fail: exeption error, link is made";
+            Inputstr = "nonexisting patient ID and nonexisting doctor ID";
+            Aresult = "";
+            Eresult = "Patient and doctor are not linked";
+
+
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = doctorController.getContext();
+            DoctorController controller = new DoctorController(doctorController.getContext());
+            int DoctorID = 2;
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            PatientsDoctors patdoc = PatDocs.First();
+            int patientid = 9;
+            int doctorid = 9;
+
+
+
+            try
+            {
+                controller.SubmitLink(patientid, doctorid);
+            }
+
+            catch (Exception e)
+            {
+                Pass = true;
+                Aresult = "both patient and doctor do not exist, " + e.Message;
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+
+            Patient patient = Tcontext.Patients.FirstOrDefault(y => y.PatientId == patientid);
+            string docName = doctor.FirstName;
+            string patName = patient.FirstName;
+            PatientsDoctors patientsDoctors_ = Tcontext.PatientsDoctorss.FirstOrDefault(
+                p => p.PatientId == patientid && p.DoctorId == doctorid
+            );
+
+            bool linkmade = Tcontext.PatientsDoctorss.Contains(patientsDoctors_);
+
+            PatientsDoctors patientsDoctors = new PatientsDoctors()
+            {
+                PatientId = patientid,
+                DoctorId = doctorid
+            };
+
+            if (!linkmade)
+            {
+              
+                Pass = true;
+            }
+
+            if (linkmade == true)
+            {
+                Aresult = "Link is made";
+                Pass = false;
+            }
+            else
+            {
+                Aresult = "Link is not made";
+                Pass = true;
             }
 
             model = new TestViewModel()
