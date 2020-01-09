@@ -255,6 +255,7 @@ namespace zorgapp.Controllers {
                     foreach (var item in cases)
                     {
                         var appointment = from c in _context.Appointments where c.CaseId == item.CaseId select c;
+                        appointment = from c in appointment where c.DoctorId == item.DoctorId select c; //only the appointments of that doctorId
                         foreach (var app in appointment)
                         {
                             Tempappointments.Add(app);
@@ -307,7 +308,7 @@ namespace zorgapp.Controllers {
         [Authorize(Roles= "Doctor")]
         public IActionResult EditCase(string caseId, string caseNotes, string Save, string Load, string name, DateTime start_date, DateTime end_date, int amount, float mg, string Add)
         {
-            if (!string.IsNullOrEmpty(Save) || !string.IsNullOrEmpty(Add))
+            if (!string.IsNullOrEmpty(Save) || !string.IsNullOrEmpty(Add)) //check if the doctor pressed the Save or Add button, if so, run this codeblock
             {
                 //ensure the case belongs to the doctor
                 Doctor luser = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
@@ -361,6 +362,7 @@ namespace zorgapp.Controllers {
                 }
                 //save case in db
             }
+            //if the doctor has not pressed Save or Add on the editcase page...
             Case currentCase;
             string patientName;
             List<Case> caseList = new List<Case>();
@@ -378,7 +380,7 @@ namespace zorgapp.Controllers {
             //get the case
             var CaseList = from l in _context.Cases where l.DoctorId == doctorId select l;
             Case FirstCase = CaseList.FirstOrDefault();
-            if (FirstCase == null)
+            if (FirstCase == null) //True if the doctor has no cases, he will be sent to the page to create a case
             {
                 return RedirectToAction("Createcase", "Doctor");
             }
@@ -388,7 +390,7 @@ namespace zorgapp.Controllers {
             }
             var currentCaseList = from c in CaseList where c.CaseId == caseId.ToString() select c;
             currentCase = currentCaseList.FirstOrDefault();
-            if (currentCase == null)
+            if (currentCase == null) //if there is no case with the given CaseId, the doctor will be sent to the create case page
             {
                 return RedirectToAction("CreateCase","Doctor");
             }
@@ -404,7 +406,7 @@ namespace zorgapp.Controllers {
             }
 
             //get the appointments of that case
-            var AppointmentL = from a in _context.Appointments where a.CaseId == currentCase.CaseId orderby a.Date ascending select a;
+            var AppointmentL = from a in _context.Appointments where a.CaseId == currentCase.CaseId && a.DoctorId == currentCase.DoctorId orderby a.Date ascending select a;
             foreach(Appointment app in AppointmentL)
             {
                 appointments.Add(app);
@@ -444,7 +446,7 @@ namespace zorgapp.Controllers {
                 patientName = "Error: Patient with patientId '" + currentCase.PatientId.ToString() + "' not found!";
             }
 
-            CaseViewModel casemodel = new CaseViewModel
+            CaseViewModel casemodel = new CaseViewModel //all the information that is needed for the appointment page
             {
                 CurrentCase = currentCase,
                 PatientName = patientName,
@@ -586,23 +588,27 @@ namespace zorgapp.Controllers {
  	    [Authorize(Roles="Doctor")]
 		public ActionResult CreateAppointment(string caseid,DateTime date, string info)
 		{
-			if (caseid != null)
+            Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+			int doctorid = user.DoctorId;
+			if (caseid != null) //this is the case when something is submitted
 			{
 				Appointment appointment = new Appointment()
 				{
 					CaseId = caseid,
 					Date = date,
-					Info = info
+					Info = info,
+                    DoctorId = doctorid
 				};
 				_context.Appointments.Add(appointment);
 				_context.SaveChanges();
 
 				return RedirectToAction("Profile", "Doctor");
 			}
+            //the code bellow happens when the page is first visited without an appointment being made
+            //the code makes a list of all cases belonging to that doctor
 			List<Case> caseList = new List<Case>();
 
-			Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
-			int doctorid = user.DoctorId;
+			
 
 			var cases = from c in _context.Cases where c.DoctorId == doctorid select c;
 
@@ -612,7 +618,7 @@ namespace zorgapp.Controllers {
 			}
 
 			NewAppointmentViewModel model;
-			model = new NewAppointmentViewModel
+			model = new NewAppointmentViewModel //make a model containing a list of cases to pass on to the view
 			{
 				Cases = caseList
 			};
@@ -633,6 +639,7 @@ namespace zorgapp.Controllers {
 
                 var Appointment = new List<Appointment>();
                 var appointments = from a in _context.Appointments where a.CaseId == caseid select a;
+                appointments = from c in appointments where c.DoctorId == doctorid select c; //only the appointments of that doctorId
 
                 ViewBag.ID = caseid;
 

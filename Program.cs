@@ -40,12 +40,10 @@ namespace zorgapp
                     code += bytes[i].ToString("x2");
                 }
             }
-            //System.Diagnostics.Debug.WriteLine("Input int is: " + intcode.ToString());
-            //System.Diagnostics.Debug.WriteLine("Output is: " + code);
             return code;
         }
 
-        public static string Hash256bits(string rawData)
+        public static string Hash256bits(string rawData) //Takes a string and converts it to a 32 character hash
         {
             // Create a SHA256   
             using (SHA256 sha256Hash = SHA256.Create())
@@ -63,13 +61,13 @@ namespace zorgapp
             }
         }
 
-        public static List<Appointment> FilterWeek(List<Appointment> List, DateTime dateTime, int Days)
+        public static List<Appointment> FilterWeek(List<Appointment> List, DateTime dateTime, int Days) //takes a list of appointments and a date, and returns a list of appointments that are in the same week as the input date
         {
             List<Appointment> NewList = new List<Appointment>();
             foreach (var app in List)
             {
                 DateTime day = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
-                if (SameWeek(day, app.Date))//(day.AddDays(-(int)day.DayOfWeek) == app.Date.AddDays(-(int)app.Date.DayOfWeek))
+                if (SameWeek(day, app.Date))//checks if it is in the same week
                 {
                     NewList.Add(app);
                 }
@@ -83,7 +81,7 @@ namespace zorgapp
 
             return NewList;
         }
-        public static bool SameWeek(DateTime day1, DateTime day2)
+        public static bool SameWeek(DateTime day1, DateTime day2) //checks if two dates are in the same week
         {
             DateTime Day1;
             DateTime Day2;
@@ -149,9 +147,9 @@ namespace zorgapp
                     break;
             }
 
-            Day1 = Day1.AddDays(offset1);
-            Day2 = Day2.AddDays(offset2);
-            return (Day1 == Day2);
+            Day1 = Day1.AddDays(offset1);//changed the day to the monday of that week
+            Day2 = Day2.AddDays(offset2);//changed the day to the monday of that week
+            return (Day1 == Day2); //if both days are now the same day, then it is in the sameweek and thus true.
         }
 
 

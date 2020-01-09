@@ -34,6 +34,7 @@ namespace zorgapp.Controllers{
         {          
             bool valid = true;
             {
+                //checks to see if the email is in use already
                 Patient user = _context.Patients.FirstOrDefault(u => u.Email == email);
                 if (user != null)
                 {
@@ -42,6 +43,7 @@ namespace zorgapp.Controllers{
                 }
             }
             {
+                //checks to see if the username is in use already
                 Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
                 if (user != null)
                 {
@@ -49,9 +51,9 @@ namespace zorgapp.Controllers{
                     valid = false;
                 }
             }
-            if (!valid)
+            if (!valid) //if the email and/or username are already in use, valid will have been set to false and account creation will not be possible
             {
-                return View("CreateAccount"); //moet de data in de fields nog bewaren?
+                return View("CreateAccount");
             }
             
                 Patient patient = new Patient()
@@ -129,25 +131,22 @@ namespace zorgapp.Controllers{
         public ActionResult Agenda(string Previous, int dayoffset, string Next, int starthour, int endhour, string Apply)
         {
             {
-                System.Diagnostics.Debug.WriteLine("starthour: " + starthour.ToString());
-                System.Diagnostics.Debug.WriteLine("endhour: " + endhour.ToString());
-
-                if (!string.IsNullOrEmpty(Next))
+                if (!string.IsNullOrEmpty(Next)) //if the doctor pressed the next button
                 {
                     dayoffset += 7;
                     //ViewBag.Recieved = "Next, dayoffset = "+dayoffset.ToString();
                 }
-                else if (!string.IsNullOrEmpty(Previous))
+                else if (!string.IsNullOrEmpty(Previous)) //if the doctor pressed the previous button
                 {
                     dayoffset -= 7;
                     //ViewBag.Recieved = "Previous, dayoffset = " + dayoffset.ToString();
                 }
-                else if (!string.IsNullOrEmpty(Apply))
+                else if (!string.IsNullOrEmpty(Apply)) //if the doctor pressed the apply button
                 {
                     dayoffset += 0;
                     //ViewBag.Recieved = "Previous, dayoffset = " + dayoffset.ToString();
                 }
-                else
+                else //if he did not press any of the 3 above buttons
                 {
                     dayoffset = 0;
                     //ViewBag.Recieved = "None";
@@ -209,7 +208,7 @@ namespace zorgapp.Controllers{
                     //offset += 1; //Higher offset means the first point on the agenda starts earlier
                     int d;
                     FWeekday = new DateTime(Today.Year, Today.Month, Today.Day);
-                    FWeekday = FWeekday.AddDays(-offset);
+                    FWeekday = FWeekday.AddDays(-offset);//makes FWeekday equal to the first day of the week
                     for (d = 0; d < 7; d++)
                     {
                         DateTime day = Today;//DateTime.Now;
@@ -219,7 +218,7 @@ namespace zorgapp.Controllers{
                         //System.Diagnostics.Debug.WriteLine("RonanDayList: " + day.ToString());
                     }
                 }
-                //The hours and minutes
+                //The hours and minutes that will be shown
                 {
                     for (int h = starthour; h <= endhour; h++)
                     {
@@ -247,7 +246,7 @@ namespace zorgapp.Controllers{
                         Minute.Add(m);
                     }
                 }
-                //The appointments of that week
+                //Gets the appointments of that week
                 { //query door Pelle geschreven
                     Patient user = _context.Patients.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
                     int patientid = user.PatientId;
@@ -260,9 +259,10 @@ namespace zorgapp.Controllers{
                     {
                         Case.Add(item);
                     }
-                    foreach (var item in cases)
+                    foreach (var item in cases) //gets all apointments 
                     {
                         var appointment = from c in _context.Appointments where c.CaseId == item.CaseId select c;
+                        appointment = from c in appointment where c.DoctorId == item.DoctorId select c;
                         foreach (var app in appointment)
                         {
                             Tempappointments.Add(app);
@@ -608,7 +608,7 @@ namespace zorgapp.Controllers{
 
             code = Program.GenerateLinkCode(); //generates a new random code
             username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            DbAddCode(code, Uses);
+            DbAddCode(code, Uses); //adds the code to the logged in user
             /*switch(Uses)
             {
                 case "1 use":
@@ -641,7 +641,7 @@ namespace zorgapp.Controllers{
         [Authorize(Roles = "Patient")]
         public IActionResult ConfirmAuthorization(string Username, string Code)
         {
-            if (Username == null || Code == null) //als een van deze niet is ingevuld wordt er een melding gegeven in ConfirmAuthorization.cshtml
+            if (Username == null || Code == null) //If one of these is not filled in, a note will show in ConfirmAuthorization.cshtml
             {
                 ViewBag.MessageRed = "You need to enter a Username and Code to proceed";
                 return View();
@@ -652,7 +652,7 @@ namespace zorgapp.Controllers{
                 Username = Username.ToLower();
                 {
                     Patient targetP = _context.Patients.FirstOrDefault(u => u.UserName.ToLower() == Username);
-                    if (targetP == null)
+                    if (targetP == null) //the user you are trying to get authorization for does not exist
                     {
                         ViewBag.MessageRed = "You entered an incorrect code or username.";
                         ViewBag.Message1 = "One attempt has been removed from the users authorization code.\nIf the code runs out of attempts, the user will have to generate a new code.";
@@ -662,7 +662,7 @@ namespace zorgapp.Controllers{
                 }
                 {
                     //_context.SaveChanges();
-                    if (CheckAuthorizeCode(Code, Username))
+                    if (CheckAuthorizeCode(Code, Username)) //checks if the code is correct
                     {
                         //get the id of the logged in user
                         string authUsername = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.ToLower();
@@ -674,11 +674,11 @@ namespace zorgapp.Controllers{
                         }
                         else
                         {
-                            if (targetNew.CanSeeMeId == null)
+                            if (targetNew.CanSeeMeId == null) 
                             {
                                 targetNew.CanSeeMeId = new List<int>();
                             }
-                            if (!targetNew.CanSeeMeId.Contains(Authorizer.PatientId))
+                            if (!targetNew.CanSeeMeId.Contains(Authorizer.PatientId)) //make sure the user id is not already in his list
                             {
                                 targetNew.CanSeeMeId.Add(Authorizer.PatientId);
                                 if (Authorizer.ICanSeeId == null)
@@ -695,7 +695,7 @@ namespace zorgapp.Controllers{
                             return View();
                         }
                     }
-                    else
+                    else //if the code is incorrect
                     {
                         ViewBag.MessageRed = "You entered an incorrect code or username.";
                         ViewBag.Message1 = "One attempt has been removed from the users authorization code.\nIf the code runs out of attempts, the user will have to generate a new code.";
@@ -807,39 +807,39 @@ namespace zorgapp.Controllers{
                 }
             }
         }
-        public bool CheckAuthorizeCode(string code, string username)
+        public bool CheckAuthorizeCode(string code, string username) //checks if the code is correct for the given username
         {
             Patient patient = _context.Patients.FirstOrDefault(u => u.UserName.ToLower() == username.ToLower());
-            if (patient == null)
+            if (patient == null) //if the patient does not exist
             {
                 throw new Exception("Trying to check code for non-existent patient using username: " + username);
                 //return false;
             }
             else
             {
-                if (patient.LinkCode == null)
+                if (patient.LinkCode == null) //if the patient has no code currently
                 {
                     return false;
                 }
                 else
                 {
-                    if (patient.LinkUses <= 0)
+                    if (patient.LinkUses <= 0) //if the patient has a code but no uses left, remove the code
                     {
                         patient.LinkCode = null;
                         _context.SaveChanges();
                         return false;
                     }
-                    else
+                    else //the patient has a code and has uses
                     {
-                        patient.LinkUses -= 1;
-                        if (patient.LinkCode == code)
+                        patient.LinkUses -= 1; //remove one use of the code, regardless if it is correct or wrong
+                        if (patient.LinkCode == code) //check if the code is correct
                         {
-                            patient.LinkCode = null;
-                            patient.LinkUses = 0;
+                            patient.LinkCode = null; //remove the code
+                            patient.LinkUses = 0; //remove the uses
                             _context.SaveChanges();
                             return true;
                         }
-                        else
+                        else //if the code is wrong
                         {
                             if (patient.LinkUses <= 0)
                             {
@@ -942,6 +942,7 @@ namespace zorgapp.Controllers{
 
                 foreach (var item in caseids)
                 {
+
                     var appointments_ = from a in _context.Appointments where a.CaseId == item select a;
                     foreach (var item_ in appointments_)
                     {
