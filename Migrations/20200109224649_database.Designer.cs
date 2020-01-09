@@ -11,8 +11,8 @@ using zorgapp.Models;
 namespace zorgapp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191203113525_migrations")]
-    partial class migrations
+    [Migration("20200109224649_database")]
+    partial class database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -14167,19 +14167,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\saade\\.nuget\\packages\\": {}
+    "C:\\Users\\ses-9\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj",
+      "projectUniqueName": "C:\\Users\\ses-9\\OneDrive\\Bureaublad\\Git repos\\Project-C\\zorgapp.csproj",
       "projectName": "zorgapp",
-      "projectPath": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\zorgapp.csproj",
-      "packagesPath": "C:\\Users\\saade\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\saade\\Desktop\\Git repos\\Project-C\\obj\\",
+      "projectPath": "C:\\Users\\ses-9\\OneDrive\\Bureaublad\\Git repos\\Project-C\\zorgapp.csproj",
+      "packagesPath": "C:\\Users\\ses-9\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ses-9\\OneDrive\\Bureaublad\\Git repos\\Project-C\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\saade\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ses-9\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
