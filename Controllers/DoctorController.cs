@@ -1013,6 +1013,7 @@ namespace zorgapp.Controllers
             {
                 testlist.Add(new AddMedicinesAlreadyLinkedTest1(this));
                 testlist.Add(new AddMedicinesMissingParameterTest1(this));
+                testlist.Add(new AddMedicinesPatientNullTest1(this));
                 testlist.Add(new MakeAppointmentAlreadyLinkedTest2(this));
                 testlist.Add(new MakeAppointmentMissesParameterTest2(this));
                 testlist.Add(new AppointmentPatientNullTest2(this));
@@ -1021,6 +1022,7 @@ namespace zorgapp.Controllers
                 testlist.Add(new LinkDoctorNullTest3(this));
                 testlist.Add(new LinkPatientNullTest3(this));
                 testlist.Add(new LinkDocPatsNullTest3(this));
+                
 
             }
             foreach (DoctorTest T in testlist)
@@ -1038,6 +1040,7 @@ namespace zorgapp.Controllers
             {
                 testlist.Add(new AddMedicinesAlreadyLinkedTest1(this));
                 testlist.Add(new AddMedicinesMissingParameterTest1(this));
+                testlist.Add(new AddMedicinesPatientNullTest1(this));
                 testlist.Add(new MakeAppointmentAlreadyLinkedTest2(this));
                 testlist.Add(new MakeAppointmentMissesParameterTest2(this));
                 testlist.Add(new AppointmentPatientNullTest2(this));
@@ -1260,6 +1263,147 @@ namespace zorgapp.Controllers
                 Aresult = "Medicine not added";
                 Pass = true;
             }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class AddMedicinesPatientNullTest1 : DoctorTest
+    {
+
+        public AddMedicinesPatientNullTest1(DoctorController dc)
+        {
+            doctorController = dc;
+            Id = "D6.Integration.AMPNT3";
+            Description = "Add medicine to a nonexisting patient";
+            Steps = "Check if patient exists, try to add medecine";
+            Criteria = "Pass: Exception error: Medicine is not added | Fail: Medicine is added";
+            Inputstr = "All parameters and a nonexisting patient ID ";
+            Aresult = "";
+            Eresult = "Medicine is not added";
+
+
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = doctorController.getContext();
+            DoctorController controller = new DoctorController(doctorController.getContext());
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault();
+            int DoctorID = doctor.DoctorId;
+            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            PatientsDoctors patdoc = PatDocs.First();
+
+            string name = "sertan";
+            DateTime start_date = DateTime.Now;
+            DateTime end_date = DateTime.Now;
+            int patient_id = 9;
+            int amount = 3;
+            float mg = 50;
+
+            var medicinebefore = from d in Tcontext.Medicines where d.PatientId == patient_id select d;
+            int count = medicinebefore.Count();
+            Doctor doc = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+            Patient patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == patient_id);
+
+            var patients = from d in Tcontext.Patients select d;
+            bool patientExists = true;
+            if (patient == null)
+            {
+                patientExists = false;
+            }
+
+
+            //loops untill patient is found that doesnt exist 
+            for (int i = 1; patientExists; i++)
+            {
+                patient_id = i;
+                patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == patient_id);
+                if (patient == null)
+                {
+                    patientExists = false;
+                }
+            }
+
+
+            try
+            {
+                controller.AddMedicines(name, start_date, end_date, amount, patient_id, mg);
+            }
+
+            catch (Exception e)
+            {
+                Pass = true;
+                Aresult = "This patient does not exist" + e.Message;
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            var patientsDoctors = from d in Tcontext.PatientsDoctorss where d.PatientId == patient_id select d;
+            Patient pat = Tcontext.Patients.FirstOrDefault(x => x.PatientId == patient_id);
+
+            //check if link is made in the database
+            //foreach (var item in Medicines)
+            //{
+            if (patientExists == false)
+            {
+                Aresult = "Medicine is not added";
+                Pass = true;
+            }
+            //    if (item.DoctorId == doctor_.DoctorId)
+            //    {
+            //        Aresult = "Link made for Patientid:" + PatientID + " and Doctorid:" + doctor_.DoctorId;
+            //        Pass = false;
+            //    }
+            //}
+            else
+            {
+                Aresult = "Medicine Added";
+                Pass = true;
+            }
+            //}
+
+            //var medicine = from d in Tcontext.Medicines where d.PatientId == patient_id select d;
+            //var pat = from m in Tcontext.Patients where m.PatientId == patient_id select m;
+            //int count2 = medicine.Count();
+
+            //if (pat == null)
+            //{
+            //    Aresult = "Medicine is not added";
+            //    Pass = false;
+            //}
+            //else
+            //{
+            //    Aresult = "Medicine not added";
+            //    Pass = true;
+            //}
 
             model = new TestViewModel()
             {
