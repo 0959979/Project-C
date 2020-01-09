@@ -161,4 +161,3 @@ B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.dll
 B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.pdb
 B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csproj.CopyComplete
 B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\zorgapp.csprojAssemblyReference.cache
-B:\Documenten\Github\Project-C\obj\Debug\netcoreapp2.1\Razor\Views\Patient\Test.g.cshtml.cs
