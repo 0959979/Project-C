@@ -1014,6 +1014,7 @@ namespace zorgapp.Controllers
                 testlist.Add(new AddMedicinesAlreadyLinkedTest1(this));
                 testlist.Add(new AddMedicinesMissingParameterTest1(this));
                 testlist.Add(new AddMedicinesPatientNullTest1(this));
+                testlist.Add(new AddMedicinesNotAlreadyLinkedTest1(this));
                 testlist.Add(new MakeAppointmentAlreadyLinkedTest2(this));
                 testlist.Add(new MakeAppointmentMissesParameterTest2(this));
                 testlist.Add(new AppointmentPatientNullTest2(this));
@@ -1022,6 +1023,7 @@ namespace zorgapp.Controllers
                 testlist.Add(new LinkDoctorNullTest3(this));
                 testlist.Add(new LinkPatientNullTest3(this));
                 testlist.Add(new LinkDocPatsNullTest3(this));
+               
                 
 
             }
@@ -1041,6 +1043,7 @@ namespace zorgapp.Controllers
                 testlist.Add(new AddMedicinesAlreadyLinkedTest1(this));
                 testlist.Add(new AddMedicinesMissingParameterTest1(this));
                 testlist.Add(new AddMedicinesPatientNullTest1(this));
+                testlist.Add(new AddMedicinesNotAlreadyLinkedTest1(this));
                 testlist.Add(new MakeAppointmentAlreadyLinkedTest2(this));
                 testlist.Add(new MakeAppointmentMissesParameterTest2(this));
                 testlist.Add(new AppointmentPatientNullTest2(this));
@@ -1397,6 +1400,132 @@ namespace zorgapp.Controllers
             //if (pat == null)
             //{
             //    Aresult = "Medicine is not added";
+            //    Pass = false;
+            //}
+            //else
+            //{
+            //    Aresult = "Medicine not added";
+            //    Pass = true;
+            //}
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class AddMedicinesNotAlreadyLinkedTest1 : DoctorTest
+    {
+
+        public AddMedicinesNotAlreadyLinkedTest1(DoctorController dc)
+        {
+            doctorController = dc;
+            Id = "D6.Integration.AMNALT4";
+            Description = "Try to add medicine when patient and doctor are not linked";
+            Steps = "Check if they are linked, try to add medecine";
+            Criteria = "Pass: Exception error: Medicine is not added | medicine  added";
+            Inputstr = "All parameters and patient ID that is not linked to doctor";
+            Aresult = "";
+            Eresult = "Medicine is not added";
+
+
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DatabaseContext Tcontext = doctorController.getContext();
+            DoctorController controller = new DoctorController(doctorController.getContext());
+            Doctor doctor = Tcontext.Doctors.FirstOrDefault();
+            int DoctorID = doctor.DoctorId;
+            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            PatientsDoctors patdoc = PatDocs.First();
+
+            string name = "Paracetamol";
+            DateTime start_date = DateTime.Now;
+            DateTime end_date = DateTime.Now;
+            int patient_id = 4;
+            int amount = 3;
+            float mg = 50;
+
+            var medicinebefore = from d in Tcontext.Medicines where d.PatientId == patient_id select d;
+            int count = medicinebefore.Count();
+
+
+            try
+            {
+                controller.AddMedicines(name, start_date, end_date, amount, patient_id, mg);
+            }
+
+            catch (Exception e)
+            {
+                Pass = true;
+                Aresult = "This patient is not linked to this doctor!  " + e.Message;
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+
+            Patient patient = Tcontext.Patients.FirstOrDefault(y => y.PatientId == patient_id);
+            string docName = doctor.FirstName;
+            string patName = patient.FirstName;
+            PatientsDoctors patientsDoctors_ = Tcontext.PatientsDoctorss.FirstOrDefault(
+                p => p.PatientId == patient_id && p.DoctorId == DoctorID
+            );
+            var medicine = from d in Tcontext.Medicines where d.PatientId == patient_id select d;
+            int count2 = medicine.Count();
+            bool linkmade = Tcontext.PatientsDoctorss.Contains(patientsDoctors_);
+
+            PatientsDoctors patientsDoctors = new PatientsDoctors()
+            {
+                PatientId = patient_id,
+                DoctorId =DoctorID
+            };
+
+            //if (!linkmade)
+            //{
+            //    Tcontext.PatientsDoctorss.Add(patientsDoctors);
+            //    Tcontext.SaveChanges();
+            //}
+
+            if (linkmade == true)
+            {
+                Aresult = "Medicine Added";
+                Pass = false;
+            }
+            else
+            {
+                Aresult = "Medicine is not added!";
+                Pass = true;
+            }
+
+            //if (medicine != null)
+            //{
+            //    Aresult = "Medicine added";
             //    Pass = false;
             //}
             //else
