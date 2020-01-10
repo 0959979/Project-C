@@ -1479,6 +1479,11 @@ namespace zorgapp.Controllers
             PatientsDoctors patdoc = patientdoctors.First(); 
             int patientid = patdoc.PatientId;
             Patient pat = Tcontext.Patients.FirstOrDefault(u => u.PatientId == patientid);
+            if (pat.LocalId == null)
+            {
+                pat.LocalId = new List<string>();
+                Tcontext.SaveChanges();
+            }
             string LocalID = "LocalIdtest1";
             var localids = pat.LocalId;
 
