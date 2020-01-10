@@ -77,7 +77,7 @@ namespace zorgapp.Controllers
                     LocalId = new List<string>(),
                     PhoneNumber = phonenumber,
                     UserName = username,
-                    Password = Program.Hash256bits(username.ToLower()+password),
+                    Password = Program.Hash256bits(username.ToLower()+password), //the lowercase username is used to salt the password
                     LinkCode = null,
                     LinkUses = 0,
                     CanSeeMeId = new List<int>(),
@@ -164,7 +164,7 @@ namespace zorgapp.Controllers
 
 
         [Authorize(Roles = "Patient")]
-        public ActionResult Agenda(string Previous, int dayoffset, string Next, int starthour, int endhour, string Apply)
+        public ActionResult Agenda(string Previous, int dayoffset, string Next, int starthour, int endhour, string Apply) //the agenda page for the patient
         {
             {
                 if (!string.IsNullOrEmpty(Next)) //if the doctor pressed the next button
@@ -245,7 +245,7 @@ namespace zorgapp.Controllers
                     int d;
                     FWeekday = new DateTime(Today.Year, Today.Month, Today.Day);
                     FWeekday = FWeekday.AddDays(-offset);//makes FWeekday equal to the first day of the week
-                    for (d = 0; d < 7; d++)
+                    for (d = 0; d < 7; d++) //add 7 days to Day and Date. Offset is used to make the week start at the correct day
                     {
                         DateTime day = Today;//DateTime.Now;
                         day = day.AddDays(d - offset);
@@ -259,7 +259,7 @@ namespace zorgapp.Controllers
                     for (int h = starthour; h <= endhour; h++)
                     {
                         Houri.Add(h);
-                        if (AmPm)
+                        if (AmPm) //if the hours are displayed as Am/Pm
                         {
                             if (h > 12)
                             {
@@ -277,7 +277,7 @@ namespace zorgapp.Controllers
                             Hour.Add(h.ToString());
                         }
                     }
-                    for (int m = 0; m < 60; m += 5)
+                    for (int m = 0; m < 60; m += 5) //all the minutes, every 5 minutes
                     {
                         Minute.Add(m);
                     }
@@ -291,21 +291,21 @@ namespace zorgapp.Controllers
                     var Tempappointments = new List<Appointment>();
                     //var appointments = from a in _context.Appointments where a.select a;
 
-                    foreach (var item in cases)
+                    foreach (var item in cases) //change LQueryable<Case> to List<Case>
                     {
                         Case.Add(item);
                     }
                     foreach (var item in cases) //gets all apointments 
                     {
                         var appointment = from c in _context.Appointments where c.CaseId == item.CaseId select c;
-                        appointment = from c in appointment where c.DoctorId == item.DoctorId select c;
+                        appointment = from c in appointment where c.DoctorId == item.DoctorId select c; //only the appointments of that doctorId
                         foreach (var app in appointment)
                         {
                             Tempappointments.Add(app);
                         }
                         Tempappointments = Program.FilterWeek(Tempappointments, Today, 7);
                     }
-                    foreach (var item in Tempappointments)
+                    foreach (var item in Tempappointments) //change the appointment description to be a shorter string
                     {
                         string infosub;
                         infosub = item.Info.Trim();
@@ -329,7 +329,7 @@ namespace zorgapp.Controllers
                 bool sWeek;
                 DateTime c_date;
                 c_date = DateTime.Now;
-                sWeek = Program.SameWeek(Today, c_date);
+                sWeek = Program.SameWeek(Today, c_date); //wether the day used as today is actually today
                 AgendaViewModel agendamodel = new AgendaViewModel
                 {
                     Days = Day,
@@ -712,7 +712,7 @@ namespace zorgapp.Controllers
         }
 
         [Authorize(Roles = "Patient")]
-        public IActionResult GenerateAuthorizeCode()
+        public IActionResult GenerateAuthorizeCode() //the page where a new code can be generated
         {
             return View();
         }
@@ -722,26 +722,14 @@ namespace zorgapp.Controllers
             return View();
         }*/
         [Authorize(Roles = "Patient")]
-        public IActionResult GenerateNewCode(int Uses)
+        public IActionResult GenerateNewCode(int Uses) //when the patient clicks to generate a new code
         {
             string code;
             string username;
 
             code = Program.GenerateLinkCode(); //generates a new random code
-            username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value; //gets the username of the logged in patient
             DbAddCode(code, Uses); //adds the code to the logged in user
-            /*switch(Uses)
-            {
-                case "1 use":
-                    usesInt = 1;
-                    break;
-                case "2 uses":
-                    usesInt = 2;
-                    break;
-                case "3 uses":
-                    usesInt = 3;
-                    break;
-            }*/
             ViewBag.CodeGenerated = code;
             if (Uses == 1)
             {
@@ -755,7 +743,7 @@ namespace zorgapp.Controllers
             return View();
         }
         [Authorize(Roles = "Patient")]
-        public IActionResult AuthorizationForm()
+        public IActionResult AuthorizationForm() //the form where a patient can fill in a code to get authorization to see another patient
         {
             return View();
         }
@@ -770,7 +758,7 @@ namespace zorgapp.Controllers
             }
             else //username and code are both filled in
             {
-                Username = Username.ToLower();
+                Username = Username.ToLower(); //the username is not casesensitive, thus it will be made lowercase
                 {
                     Patient targetP = _context.Patients.FirstOrDefault(u => u.UserName.ToLower() == Username);
                     if (targetP == null) //the user you are trying to get authorization for does not exist
@@ -789,13 +777,13 @@ namespace zorgapp.Controllers
                         string authUsername = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.ToLower();
                         Patient Authorizer = _context.Patients.FirstOrDefault(u => u.UserName.ToLower() == authUsername);
                         Patient targetNew = _context.Patients.FirstOrDefault(u => u.UserName.ToLower() == Username);
-                        if (Authorizer == null || targetNew == null)
+                        if (Authorizer == null || targetNew == null) //if one of the two usernames does not have a matching account
                         {
                             throw new Exception("There is no user with name " + authUsername + " in the database");
                         }
-                        else
+                        else //both usernames have a matching account
                         {
-                            if (targetNew.CanSeeMeId == null) 
+                            if (targetNew.CanSeeMeId == null) //make sure the targetNew has a list to check to prevent a null error
                             {
                                 targetNew.CanSeeMeId = new List<int>();
                             }
@@ -826,10 +814,10 @@ namespace zorgapp.Controllers
 
             }
         }
-        private void DbAddCode(string code, int uses, int patientId)
+        private void DbAddCode(string code, int uses, int patientId) //adds the authorization code to the database, not used
         {
             var patient = _context.Patients.FirstOrDefault(u => u.PatientId == patientId); //get the patient according to the patientId
-            if (patient != null)
+            if (patient != null) //if true, the patient exists
             {
                 if (uses < 1)
                 {
@@ -844,17 +832,17 @@ namespace zorgapp.Controllers
                 throw new Exception("Attempted to find patient with non-existing Id: " + patientId.ToString());
             }
         }
-        private void DbAddCode(string code, int uses)
+        private void DbAddCode(string code, int uses) //adds a code without the ID, called from the generatenewcode page
         {
             var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value; //get the username
             var patient = _context.Patients.FirstOrDefault(u => u.UserName == username); //get the patient according to the username
-            if (patient != null)
+            if (patient != null) //makes sure the patient exists
             {
-                if (uses <= 0)
+                if (uses <= 0) //you have to have more than 0 uses
                 {
                     uses = 1;
                 }
-                if (uses > 3)
+                if (uses > 3) //you have to have less that 4 uses
                 {
                     uses = 3;
                 }
@@ -862,12 +850,12 @@ namespace zorgapp.Controllers
                 patient.LinkUses = uses;
                 _context.SaveChanges();
             }
-            else
+            else //if the patient does not exist
             {
                 throw new Exception("Attempted to find patient with non-existing username: " + username);
             }
         }
-        public void DbAddCode(string code, int uses, string Username)
+        public void DbAddCode(string code, int uses, string Username) //adds a code using username
         {
             var patient = _context.Patients.FirstOrDefault(u => u.UserName == Username); //get the patient according to the username
             if (patient != null)
@@ -881,45 +869,45 @@ namespace zorgapp.Controllers
                 throw new Exception("Attempted to find patient with non-existing Username: " + Username);
             }
         }
-        public bool CheckAuthorizeCode(string code, int patientId)
+        public bool CheckAuthorizeCode(string code, int patientId) //checks if the given code matches with the patient's code
         {
-            Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == patientId);
-            if (patient == null)
+            Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == patientId); //the code whose code to check
+            if (patient == null) //if this patient does not exist
             {
                 throw new Exception("Trying to check code for non-existent patient using patientId: " + patientId.ToString());
                 //return false;
             }
-            else
+            else //the patient does exist
             {
-                if (patient.LinkCode == null)
+                if (patient.LinkCode == null) //the patient has no current code, thus the code is wrong
                 {
                     return false;
                 }
-                else
+                else //the patient does have a code
                 {
-                    if (patient.LinkUses <= 0)
+                    if (patient.LinkUses <= 0) //the patient code has no uses left, thus the code is wrong
                     {
-                        patient.LinkCode = null;
+                        patient.LinkCode = null; //the code is removed, because it has no uses left
                         _context.SaveChanges();
                         return false;
                     }
-                    else
+                    else //the code has uses left
                     {
-                        patient.LinkUses -= 1;
-                        if (patient.LinkCode == code)
+                        patient.LinkUses -= 1; //one use is removed, regardless of if it is correct
+                        if (patient.LinkCode == code) //if the code is correct
                         {
-                            if (patient.LinkUses <= 0)
+                            if (patient.LinkUses <= 0) //if there are no uses left, remove the code
                             {
-                                patient.LinkCode = null;
+                                patient.LinkCode = null; //remove the code
                             }
                             _context.SaveChanges();
                             return true;
                         }
-                        else
+                        else //if the code is wrong
                         {
-                            if (patient.LinkUses <= 0)
+                            if (patient.LinkUses <= 0) //if there are no uses left, remove the code
                             {
-                                patient.LinkCode = null;
+                                patient.LinkCode = null; //remove the code
                             }
                             _context.SaveChanges();
                             return false;
@@ -962,9 +950,9 @@ namespace zorgapp.Controllers
                         }
                         else //if the code is wrong
                         {
-                            if (patient.LinkUses <= 0)
+                            if (patient.LinkUses <= 0) //if the code has uses left
                             {
-                                patient.LinkCode = null;
+                                patient.LinkCode = null; //remove the code
                             }
                             _context.SaveChanges();
                             return false;

@@ -78,7 +78,7 @@ namespace zorgapp.Controllers
                     PhoneNumber = phonenumber,
                     Specialism = specialism,
                     UserName = username,
-                    Password = Program.Hash256bits(username.ToLower()+password),
+                    Password = Program.Hash256bits(username.ToLower()+password), //the lowercase username is used to salt the password
                 };
                 // add localid to new doctor and then add the doctor to the database
                 doctor.LocalId.Add(localid);
@@ -132,33 +132,33 @@ namespace zorgapp.Controllers
             return View();
         }
         [Authorize(Roles = "Doctor")]
-        public ActionResult Agenda(string Previous, int dayoffset, string Next, int starthour, int endhour, string Apply)
+        public ActionResult Agenda(string Previous, int dayoffset, string Next, int starthour, int endhour, string Apply) //the agenda page for the doctor
         {
             {
                 System.Diagnostics.Debug.WriteLine("starthour: " + starthour.ToString());
                 System.Diagnostics.Debug.WriteLine("endhour: " + endhour.ToString());
 
-                if (!string.IsNullOrEmpty(Next))
+                if (!string.IsNullOrEmpty(Next)) //true if Next is pressed, go forward one week
                 {
                     dayoffset += 7;
                     //ViewBag.Recieved = "Next, dayoffset = "+dayoffset.ToString();
                 }
-                else if (!string.IsNullOrEmpty(Previous))
+                else if (!string.IsNullOrEmpty(Previous)) //true if Previous is pressed, go back one week
                 {
                     dayoffset -= 7;
                     //ViewBag.Recieved = "Previous, dayoffset = " + dayoffset.ToString();
                 }
-                else if (!string.IsNullOrEmpty(Apply))
+                else if (!string.IsNullOrEmpty(Apply)) //if Apply is pressed, dont move the week
                 {
                     dayoffset += 0;
                     //ViewBag.Recieved = "Previous, dayoffset = " + dayoffset.ToString();
                 }
-                else
+                else //if none of them are pressed, there is no offset, because the page is loaded for the first time
                 {
                     dayoffset = 0;
                     //ViewBag.Recieved = "None";
                 }
-                if (endhour <= starthour)
+                if (endhour <= starthour) //you cant start after you end, so starthour has to be less than endhour
                 {
                     starthour = 6;
                     endhour = 20;
@@ -174,7 +174,7 @@ namespace zorgapp.Controllers
                 List<Case> Case = new List<Case>();
                 List<Appointment> Appointment = new List<Appointment>();
                 DateTime Today = DateTime.Now;//new DateTime(2020, 4, 13);
-                Today = Today.AddDays(dayoffset);
+                Today = Today.AddDays(dayoffset);//adds the offset to 'today', to get the desired day of which the week should be shown
                 DateTime FWeekday;
                 int offset;
 
@@ -213,8 +213,8 @@ namespace zorgapp.Controllers
                     //offset += 1; //Higher offset means the first point on the agenda starts earlier
                     int d;
                     FWeekday = new DateTime(Today.Year, Today.Month, Today.Day);
-                    FWeekday = FWeekday.AddDays(-offset);
-                    for (d = 0; d < 7; d++)
+                    FWeekday = FWeekday.AddDays(-offset); //makes FWeekday equal to the first day of the week
+                    for (d = 0; d < 7; d++) //add 7 days to Day and Date. Offset is used to make the week start at the correct day
                     {
                         DateTime day = Today;//DateTime.Now;
                         day = day.AddDays(d - offset);
@@ -225,10 +225,10 @@ namespace zorgapp.Controllers
                 }
                 //The hours and minutes
                 {
-                    for (int h = starthour; h <= endhour; h++)
+                    for (int h = starthour; h <= endhour; h++) //get every hour in the range starthour-endhour
                     {
                         Houri.Add(h);
-                        if (AmPm)
+                        if (AmPm) //if the hours are displayed as Am/Pm
                         {
                             if (h > 12)
                             {
@@ -246,7 +246,7 @@ namespace zorgapp.Controllers
                             Hour.Add(h.ToString());
                         }
                     }
-                    for (int m = 0; m < 60; m += 5)
+                    for (int m = 0; m < 60; m += 5) //all the minutes, every 5 minutes
                     {
                         Minute.Add(m);
                     }
@@ -260,11 +260,11 @@ namespace zorgapp.Controllers
                     var Tempappointments = new List<Appointment>();
                     //var appointments = from a in _context.Appointments where a.select a;
 
-                    foreach (var item in cases)
+                    foreach (var item in cases) //change LQueryable<Case> to List<Case>
                     {
                         Case.Add(item);
                     }
-                    foreach (var item in cases)
+                    foreach (var item in cases) //get all the appointments of every case
                     {
                         var appointment = from c in _context.Appointments where c.CaseId == item.CaseId select c;
                         appointment = from c in appointment where c.DoctorId == item.DoctorId select c; //only the appointments of that doctorId
@@ -274,7 +274,7 @@ namespace zorgapp.Controllers
                         }
                         Tempappointments = FilterWeek(Tempappointments, Today, 7);
                     }
-                    foreach (var item in Tempappointments)
+                    foreach (var item in Tempappointments) //change the appointment description to be a shorter string
                     {
                         string infosub;
                         infosub = item.Info.Trim();
@@ -298,7 +298,7 @@ namespace zorgapp.Controllers
                 bool sWeek;
                 DateTime c_date;
                 c_date = DateTime.Now;
-                sWeek = SameWeek(Today, c_date);
+                sWeek = SameWeek(Today, c_date); //wether the day used as today is actually today
                 AgendaViewModel agendamodel = new AgendaViewModel
                 {
                     Days = Day,
@@ -327,7 +327,7 @@ namespace zorgapp.Controllers
                 int ldoctorId = luser.DoctorId;
                 var CaseQ = from c in _context.Cases where c.CaseId == caseId select c;
                 Case curCase = CaseQ.FirstOrDefault(c => c.DoctorId == ldoctorId);
-                if (curCase == null)
+                if (curCase == null) //the given caseId does not have a match for the logged in doctor
                 {
                     ViewBag.SaveText = " Could not find case with caseId: " + caseId;
                 }
@@ -335,28 +335,28 @@ namespace zorgapp.Controllers
                 {
                     Doctor doc = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
                     int docId = doc.DoctorId;
-                    if (!(curCase.DoctorId == docId))
+                    if (!(curCase.DoctorId == docId)) //the case loaded does not belong to the doctor
                     {
                         return RedirectToAction("CreateCase", "Doctor");
                     }
                     //medicine
-                    if (name != null && end_date != null && mg != null)
+                    if (name != null && end_date != null && mg != null) //if these are all not null, then the program will attempt to add medicine
                     {
                         int patId;
                         patId = curCase.PatientId;
-                        if (start_date == null || start_date.Year < DateTime.Now.Year)
+                        if (start_date == null || start_date.Year < DateTime.Now.Year) //if the start date is empty or the start date has already passed, the medicine will not be added
                         {
                             start_date = DateTime.Now;
                         }
-                        if (end_date.Year < DateTime.Now.Year)
+                        if (end_date.Year < DateTime.Now.Year) //if the end date has already passed, the medicine will not be added
                         {
                             start_date = DateTime.Now;
                         }
-                        if (amount == null)
+                        if (amount == null) //if no amount was filled in, the amount will be changed to a default of 1
                         {
                             amount = 1;
                         }
-                        Medicine newMedicine = new Medicine()
+                        Medicine newMedicine = new Medicine() //the medicine instance to be added to the database
                         {
                             Name = name,
                             DateStart = start_date,
@@ -367,7 +367,7 @@ namespace zorgapp.Controllers
                         };
                         _context.Medicines.Add(newMedicine);
                     }
-                    ViewBag.SaveText = " Changes Saved";
+                    ViewBag.SaveText = " Changes Saved";//this message will be shown next to the 'save' button if it is pressed
                     curCase.CaseInfo = caseNotes;
                     _context.Update(curCase);
                     _context.SaveChanges();
@@ -396,34 +396,34 @@ namespace zorgapp.Controllers
             {
                 return RedirectToAction("Createcase", "Doctor");
             }
-            if (caseId == null)
+            if (caseId == null) //if no caseId was given, the case displayed will automatically be the first case belonging to the doctor.
             {
                 caseId = FirstCase.CaseId;
             }
-            var currentCaseList = from c in CaseList where c.CaseId == caseId.ToString() select c;
+            var currentCaseList = from c in CaseList where c.CaseId == caseId.ToString() && c.DoctorId == doctorId select c; //select all cases with this ID belonging to that doctor
             currentCase = currentCaseList.FirstOrDefault();
             if (currentCase == null) //if there is no case with the given CaseId, the doctor will be sent to the create case page
             {
                 return RedirectToAction("CreateCase", "Doctor");
             }
-            foreach (Case c in CaseList)
+            foreach (Case c in CaseList) //change the LQueryable<Case> to a List<Case>
             {
                 caseList.Add(c);
             }
             //get the medicine from the case's patient
             var medicineL = from m in _context.Medicines where m.PatientId == currentCase.PatientId select m; //_context.Medicine in ERD
-            foreach (Medicine med in medicineL)
+            foreach (Medicine med in medicineL)//change the LQueryable<Medicine> to a List<Medicine>
             {
                 medicineList.Add(med);
             }
 
-            //get the appointments of that case
+            //get the appointments of the case
             var AppointmentL = from a in _context.Appointments where a.CaseId == currentCase.CaseId && a.DoctorId == currentCase.DoctorId orderby a.Date ascending select a;
-            foreach(Appointment app in AppointmentL)
+            foreach(Appointment app in AppointmentL)//change the LQueryable<Appointment> to a List<Appointment>
             {
                 appointments.Add(app);
             }
-            if (appointments.Count() <= 0)
+            if (appointments.Count() <= 0) //If there are no appointments for that case, have the doctor make an appointment
             {
                 return RedirectToAction("CreateAppointment", "Doctor");
             }
@@ -436,7 +436,7 @@ namespace zorgapp.Controllers
                 {
                     upcomingAppointments.Add(app);
                 }
-                else
+                else //Appointment date is earlier than today, thus the appointment goes to passedAppointments
                 {
                     passedAppointments.Add(app);
                 }
@@ -448,7 +448,7 @@ namespace zorgapp.Controllers
             {
                 patientName = pat.FirstName + " " + pat.LastName;
             }
-            else
+            else //if the patient cannot be found
             {
                 patientName = "Error: Patient with patientId '" + currentCase.PatientId.ToString() + "' not found!";
             }
@@ -468,27 +468,20 @@ namespace zorgapp.Controllers
             return View(casemodel);
         }
 
-        public List<Appointment> FilterWeek(List<Appointment> List, DateTime dateTime, int Days)
+        public List<Appointment> FilterWeek(List<Appointment> List, DateTime dateTime, int Days)//takes a list of appointments and a date, and returns a list of appointments that are in the same week as the input date
         {
             List<Appointment> NewList = new List<Appointment>();
             foreach (var app in List)
             {
                 DateTime day = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
-                if (SameWeek(day, app.Date))//(day.AddDays(-(int)day.DayOfWeek) == app.Date.AddDays(-(int)app.Date.DayOfWeek))
+                if (SameWeek(day, app.Date))//checks if it is in the same week
                 {
                     NewList.Add(app);
                 }
-                /*for (int d = 0; d < 7; d++)
-                {
-                    day = day.AddDays(1);
-                    if (day.Year == app.Date)
-                    //System.Diagnostics.Debug.WriteLine("RonanDayList: " + day.ToString());
-                }*/
             }
-
             return NewList;
         }
-        public static bool SameWeek(DateTime day1, DateTime day2)
+        public static bool SameWeek(DateTime day1, DateTime day2) //checks if two dates are in the same week
         {
             DateTime Day1;
             DateTime Day2;
@@ -554,9 +547,9 @@ namespace zorgapp.Controllers
                     break;
             }
 
-            Day1 = Day1.AddDays(offset1);
-            Day2 = Day2.AddDays(offset2);
-            return (Day1 == Day2);
+            Day1 = Day1.AddDays(offset1);//changed the day to the monday of that week
+            Day2 = Day2.AddDays(offset2);//changed the day to the monday of that week
+            return (Day1 == Day2); //if both days are now the same day, then it is in the sameweek and thus true.
         }
 
         public List<Appointment> OrderByDate(List<Appointment> List) //Sorts the appointments based on their Date. Earliest to Latest. Does not work for same day

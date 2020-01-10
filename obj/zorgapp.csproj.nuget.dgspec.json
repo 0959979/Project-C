@@ -1,28 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj": {}
+    "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj": {}
   },
   "projects": {
-    "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj": {
+    "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj",
+        "projectUniqueName": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
         "projectName": "zorgapp",
-        "projectPath": "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj",
-        "packagesPath": "/Users/yasemin/.nuget/packages/",
-        "outputPath": "/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/",
+        "projectPath": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
+        "packagesPath": "C:\\Users\\santa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/Users/yasemin/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\santa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -79,7 +81,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

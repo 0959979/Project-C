@@ -71,14 +71,7 @@ namespace zorgapp
                 {
                     NewList.Add(app);
                 }
-                /*for (int d = 0; d < 7; d++)
-                {
-                    day = day.AddDays(1);
-                    if (day.Year == app.Date)
-                    //System.Diagnostics.Debug.WriteLine("RonanDayList: " + day.ToString());
-                }*/
             }
-
             return NewList;
         }
         public static bool SameWeek(DateTime day1, DateTime day2) //checks if two dates are in the same week
