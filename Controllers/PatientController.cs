@@ -1152,6 +1152,17 @@ namespace zorgapp.Controllers
                 testlist.Add(new AuthorizationRevokeTest1(this));
                 testlist.Add(new AuthorizationRevokeTest2(this));
                 testlist.Add(new AuthorizationRevokeTest3(this));
+                testlist.Add(new MessageTest1(this));
+                testlist.Add(new MessageTest2(this));
+                testlist.Add(new MessageTest3(this));
+                testlist.Add(new MessageTest4(this));
+                testlist.Add(new MessageTest5(this));
+                testlist.Add(new LoginTest1(this));
+                testlist.Add(new LoginTest2(this));
+                testlist.Add(new LoginTest3(this));
+                testlist.Add(new LoginTest4(this));
+                testlist.Add(new LoginTest5(this));
+                testlist.Add(new LoginTest6(this));
             }
             foreach (PatientTest T in testlist)
             {
@@ -1283,91 +1294,6 @@ namespace zorgapp.Controllers
                 Pass = false;
             }
 
-            model = new TestViewModel()
-            {
-                id = Id,
-                time = DateTime.Now,
-                description = Description,
-                steps = Steps,
-                criteria = Criteria,
-                input = Inputstr,
-                aresult = Aresult,
-                eresult = Eresult,
-                pass = Pass
-            };
-            return model;
-        }
-    }
-    internal class MessageTest1 : PatientTest
-    {
-        public MessageTest1(PatientController tc)
-        {
-            testController = tc;
-            Id = "P2.Integration.M1";
-            Description = "Message test 1";
-            Steps = "Create a message where parameters are all filled and correct";
-            Criteria = "Pass: message is added to the database | Fail: exception error";
-            Inputstr = "receiver='admin2', subject='Message Test' and text='Testing the send message'";
-            Aresult = "";
-            Eresult = "Receiver=admin2 | Subject=Message Test | Text=Testing the send message";
-        }
-
-        public override TestViewModel Run()
-        {
-            TestViewModel model;
-
-            //arrange
-            bool Pass = false;
-            PatientController controller = testController;
-
-            string receiver = "admin2";
-            string subject = "Message Test";
-            string text = "Testing the send message";
-
-            //act
-            try
-            {
-                controller.Message(receiver, subject, text);
-            }
-            catch (Exception e)
-            {
-                Pass = false;
-                Aresult = e.ToString();
-                model = new TestViewModel()
-                {
-                    id = Id,
-                    time = DateTime.Now,
-                    description = Description,
-                    steps = Steps,
-                    criteria = Criteria,
-                    input = Inputstr,
-                    aresult = Aresult,
-                    eresult = Eresult,
-                    pass = Pass
-                };
-                return model;
-            }
-
-            //assert
-            DatabaseContext Tcontext = testController.getContext();
-            Message mes = Tcontext.Messages.FirstOrDefault(m => m.Receiver == receiver && m.Subject == subject && m.Text == text);
-            if (mes == null)
-            {
-                Aresult = "Message is not created";
-            }
-            else
-            {
-                Aresult = "Receiver=" + mes.Receiver + " | Subject=" + mes.Subject + " | Text=" + mes.Text;
-            }
-            if (Aresult == Eresult)
-            {
-                Pass = true;
-            }
-            else
-            {
-                Pass = false;
-            }
-         
             model = new TestViewModel()
             {
                 id = Id,
@@ -2479,6 +2405,91 @@ namespace zorgapp.Controllers
             return model;
         }
     }
+    internal class MessageTest1 : PatientTest
+    {
+        public MessageTest1(PatientController tc)
+        {
+            testController = tc;
+            Id = "P2.Integration.M1";
+            Description = "Message test 1";
+            Steps = "Create a message where parameters are all filled and correct";
+            Criteria = "Pass: message is added to the database | Fail: exception error";
+            Inputstr = "receiver='admin2', subject='Message Test' and text='Testing the send message'";
+            Aresult = "";
+            Eresult = "Receiver=admin2 | Subject=Message Test | Text=Testing the send message";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            PatientController controller = testController;
+
+            string receiver = "admin2";
+            string subject = "Message Test";
+            string text = "Testing the send message";
+
+            //act
+            try
+            {
+                controller.Message(receiver, subject, text);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            DatabaseContext Tcontext = testController.getContext();
+            Message mes = Tcontext.Messages.FirstOrDefault(m => m.Receiver == receiver && m.Subject == subject && m.Text == text);
+            if (mes == null)
+            {
+                Aresult = "Message is not created";
+            }
+            else
+            {
+                Aresult = "Receiver=" + mes.Receiver + " | Subject=" + mes.Subject + " | Text=" + mes.Text;
+            }
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+         
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
     internal class MessageTest2 : PatientTest
     {
         public MessageTest2(PatientController tc)
@@ -2844,6 +2855,7 @@ namespace zorgapp.Controllers
             string username = "admin";
             string password = "password";
             string type = "patient";
+            Thread.CurrentPrincipal = null;
 
             //act
             try
@@ -2932,6 +2944,7 @@ namespace zorgapp.Controllers
             string username = null;
             string password = "password";
             string type = "patient";
+            Thread.CurrentPrincipal = null;
 
             //act
             try
@@ -3020,6 +3033,7 @@ namespace zorgapp.Controllers
             string username = "admin";
             string password = null;
             string type = "patient";
+            Thread.CurrentPrincipal = null;
 
             //act
             try
@@ -3108,6 +3122,7 @@ namespace zorgapp.Controllers
             string username = "admin";
             string password = "wordpass";
             string type = "patient";
+            Thread.CurrentPrincipal = null;
 
             //act
             try
@@ -3196,6 +3211,7 @@ namespace zorgapp.Controllers
             string username = "Admin";
             string password = "password";
             string type = "patient";
+            Thread.CurrentPrincipal = null;
 
             //act
             try
@@ -3284,6 +3300,7 @@ namespace zorgapp.Controllers
             string username = "adminu";
             string password = "password";
             string type = "patient";
+            Thread.CurrentPrincipal = null;
 
             //act
             try
