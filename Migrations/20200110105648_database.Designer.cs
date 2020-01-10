@@ -11,7 +11,7 @@ using zorgapp.Models;
 namespace zorgapp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200108135150_database")]
+    [Migration("20200110105648_database")]
     partial class database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,10 @@ namespace zorgapp.Migrations
                     b.HasKey("AdminId");
 
                     b.ToTable("Admins");
+
+                    b.HasData(
+                        new { AdminId = 1, Password = "749f09bade8aca755660eeb17792da880218d4fbdc4e25fbec279d7fe9f65d70", UserName = "admin" }
+                    );
                 });
 
             modelBuilder.Entity("zorgapp.Models.Appointment", b =>
@@ -44,6 +48,8 @@ namespace zorgapp.Migrations
                     b.Property<string>("CaseId");
 
                     b.Property<DateTime>("Date");
+
+                    b.Property<int>("DoctorId");
 
                     b.Property<string>("Info");
 
@@ -93,6 +99,12 @@ namespace zorgapp.Migrations
                     b.HasKey("DoctorId");
 
                     b.ToTable("Doctors");
+
+                    b.HasData(
+                        new { DoctorId = 1, Email = "admin@mail.mail", FirstName = "admin", LastName = "admin", Password = "749f09bade8aca755660eeb17792da880218d4fbdc4e25fbec279d7fe9f65d70", PhoneNumber = "12345678", Specialism = "-", UserName = "admin" },
+                        new { DoctorId = 2, Email = "admin2@mail.mail", FirstName = "admin2", LastName = "admin2", Password = "af3d131396a3c479f9d31c2b9ef5ff9b4c4d1f222087eb24049311402c856702", PhoneNumber = "12345678", Specialism = "-", UserName = "admin2" },
+                        new { DoctorId = 3, Email = "admin3@mail.mail", FirstName = "admin3", LastName = "admin3", Password = "72c535b1171f05c58533f9a031ff6445ed4ae3460063c06816eca3040655b6af", PhoneNumber = "12345678", Specialism = "-", UserName = "admin3" }
+                    );
                 });
 
             modelBuilder.Entity("zorgapp.Models.Medicine", b =>
@@ -173,6 +185,12 @@ namespace zorgapp.Migrations
                     b.HasIndex("DoctorId");
 
                     b.ToTable("Patients");
+
+                    b.HasData(
+                        new { PatientId = 1, Email = "admin@mail.mail", FirstName = "admin", LastName = "admin", LinkUses = 0, Password = "749f09bade8aca755660eeb17792da880218d4fbdc4e25fbec279d7fe9f65d70", PhoneNumber = "12345678", UserName = "admin" },
+                        new { PatientId = 2, Email = "adminu@mail.mail", FirstName = "Adminu", LastName = "Adminu", LinkUses = 0, Password = "63d9f3a3580e4f30308f489aab55087c455db7020658363deb062727b7afceb9", PhoneNumber = "12345678", UserName = "Adminu" },
+                        new { PatientId = 3, Email = "admin3@mail.mail", FirstName = "Admin3", LastName = "Admin3", LinkUses = 0, Password = "72c535b1171f05c58533f9a031ff6445ed4ae3460063c06816eca3040655b6af", PhoneNumber = "12345678", UserName = "Admin3" }
+                    );
                 });
 
             modelBuilder.Entity("zorgapp.Models.PatientsDoctors", b =>
@@ -186,6 +204,10 @@ namespace zorgapp.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("PatientsDoctorss");
+
+                    b.HasData(
+                        new { DoctorId = 1, PatientId = 1 }
+                    );
                 });
 
             modelBuilder.Entity("zorgapp.Models.Patient", b =>

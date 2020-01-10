@@ -319,7 +319,7 @@ namespace zorgapp.Controllers{
             //string Password = password;
             //var UserL = from u in _context.Patients where u.UserName == Username select u;   
 
-            {
+            /*{ THIS IS ADDED IN THE DATABASE CONTEXT
                 var adminexists = _context.Admins.Any(x => x.UserName == "admin");
                 if (!adminexists)
                 {
@@ -332,7 +332,7 @@ namespace zorgapp.Controllers{
                     _context.Admins.Add(admin);
                     _context.SaveChanges();
                 }
-            }
+            }*/
 
                      
             if (username != null && password != null)
@@ -1028,7 +1028,7 @@ namespace zorgapp.Controllers{
             {
                 tupleList.Add(new Tuple<string, string>(T.Id, T.Id));
             }
-
+            Login("admin", "password", "patient");
             TestListViewModel testlistmodel = new TestListViewModel { tuples = tupleList };
             return View(testlistmodel);
         }
@@ -1093,7 +1093,7 @@ namespace zorgapp.Controllers{
             //arrange
             bool Pass = false;
             PatientController controller = testController;
-            controller.Login("admin", "password", "patient");
+            //controller.Login("admin", "password", "Patient");
 
             int uses = 3;
 
@@ -1179,7 +1179,7 @@ namespace zorgapp.Controllers{
             //arrange
             bool Pass = false;
             PatientController controller = testController;
-            controller.Login("admin", "password", "patient");
+            //controller.Login("admin", "password", "Patient");
 
             int uses = -2;
 
@@ -1267,7 +1267,7 @@ namespace zorgapp.Controllers{
             //arrange
             bool Pass = false;
             PatientController controller = testController;
-            controller.Login("admin", "password", "patient");
+            //controller.Login("admin", "password", "patient");
 
             int uses = 20;
 
@@ -1356,7 +1356,7 @@ namespace zorgapp.Controllers{
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-            controller.Login("admin", "password", "patient");
+            //controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
@@ -1502,7 +1502,7 @@ namespace zorgapp.Controllers{
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-            controller.Login("admin", "password", "patient");
+            //controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
@@ -1648,7 +1648,7 @@ namespace zorgapp.Controllers{
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-            controller.Login("admin", "password", "patient");
+            //controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == null);
@@ -1803,7 +1803,7 @@ namespace zorgapp.Controllers{
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-            controller.Login("admin", "password", "patient");
+            //controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
@@ -1947,7 +1947,7 @@ namespace zorgapp.Controllers{
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-            controller.Login("admin", "password", "patient");
+            //controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
@@ -2091,7 +2091,7 @@ namespace zorgapp.Controllers{
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-            controller.Login("admin", "password", "patient");
+            //controller.Login("admin", "password", "patient");
 
             int revokeId = -10;
 
