@@ -1827,15 +1827,6 @@ namespace zorgapp.Controllers
 
             //assert
             Patient P = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == null);
-            //ensure the lists exist to avoid null errors
-            if (P.ICanSeeId == null)
-            {
-                P.ICanSeeId = new List<int>();
-            }
-            if (P.CanSeeMeId == null)
-            {
-                P.CanSeeMeId = new List<int>();
-            }
             List<int> idlist;
             if (P == null)
             {
@@ -1843,6 +1834,15 @@ namespace zorgapp.Controllers
             }
             else
             {
+                //ensure the lists exist to avoid null errors
+                if (P.ICanSeeId == null)
+                {
+                    P.ICanSeeId = new List<int>();
+                }
+                if (P.CanSeeMeId == null)
+                {
+                    P.CanSeeMeId = new List<int>();
+                }
                 idlist = P.ICanSeeId;
                 try
                 {
