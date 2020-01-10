@@ -811,15 +811,17 @@ namespace zorgapp.Controllers
 
         public IActionResult PatProfile(IFormCollection form)
         {
-
+            //Gets the patientId from the view and converts it into an int
             string id = form["patientid"].ToString();
             int id_ = int.Parse(id);
+            //Gets the patient data and doctorId
             Patient patient = _context.Patients.FirstOrDefault(u => u.PatientId == id_);
             string doctorusername = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             Doctor doctor = _context.Doctors.FirstOrDefault(u => u.UserName == doctorusername);
             int doctorid = doctor.DoctorId;
-
+            //Creates a list of medicines from the patient
             var medicines_ = from m in _context.Medicines where m.PatientId == id_ select m;
+            //If the patient has no medicines then an empty list will be sent
             var emptymedicine = _context.Medicines.FirstOrDefault(m => m.MedicineId == 0);
             List<Medicine> medicines = new List<Medicine>();
             if (medicines_ == null)
@@ -834,7 +836,9 @@ namespace zorgapp.Controllers
                 }
             }
 
+            //Creates a list of cases from the patient
             var cases_ = from c in _context.Cases where c.PatientId == id_ && c.DoctorId == doctorid select c;
+            //If the patient has no cases then an empty list will be sent
             var emptycase = _context.Cases.FirstOrDefault(m => m.CaseId == "");
             List<Case> cases = new List<Case>();
             if (cases_ == null)
@@ -849,7 +853,7 @@ namespace zorgapp.Controllers
                 }
             }
 
-
+            //Creates a new ViewModel and sends it to the view
             ProfileViewModel profiledata = new ProfileViewModel
             {
                 UserInfo = patient,
@@ -916,28 +920,32 @@ namespace zorgapp.Controllers
 
 
         [Authorize(Roles = "Doctor")]
-        public ActionResult Message(string reciever, string subject, string text)
+        public ActionResult Message(string receiver, string subject, string text)
         {
-            Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == reciever);               
+            //Gets the information of the patient
+            Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == receiver);   
+            //Check if patient exists
             if (patient != null)
             {
+                //Check if subject is empty
                 if (string.IsNullOrEmpty(subject))
                 {
                     ViewBag.emptyfield = "You need enter a subject to send a message.";
                 }
+                //Check if text is empty
                 else if (string.IsNullOrEmpty(text))
                 {
                     ViewBag.emptyfield = "You need to enter a message to send it.";                    
                 }
                 else
-
                 {
+                    //Creates a new Message
                     var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
                     Doctor doctor = _context.Doctors.FirstOrDefault(u => u.UserName == username);
                     Message message = new Message()
                     {
                         Sender = username,
-                        Receiver = reciever,
+                        Receiver = receiver,
                         Subject = subject,
                         Text = text,
                         Date = DateTime.Now,
@@ -949,11 +957,13 @@ namespace zorgapp.Controllers
                     return RedirectToAction("MessageSend", "Doctor");
                 }
             }
-            else if (string.IsNullOrEmpty(reciever))
+            //When the receiver field is empty
+            else if (string.IsNullOrEmpty(receiver))
             {
                 ViewBag.emptyfield = "You need to enter a receiver to send a message";
             }
-            else if (!(string.IsNullOrEmpty(reciever)))
+            //When receiver doesn't exist in the database
+            else if (!(string.IsNullOrEmpty(receiver)))
             {
                 ViewBag.emptyfield = "User not found";
             }
@@ -963,9 +973,12 @@ namespace zorgapp.Controllers
         [Authorize(Roles = "Doctor")]
         public ActionResult Inbox()
         {
+            //Gets the information of the logged in doctor
             Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            //if user has no messages an empty message list is sent
             var message = from m in _context.Messages where m.Text == "" select m;
             var check = from m in _context.Messages where m.DoctorToPatient == false && m.Receiver == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value select m;
+            //check if the user has any messages
             if (message != check)
             {
                 message = from m in _context.Messages where m.DoctorToPatient == false && m.Receiver == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value orderby m.Date descending select m;

@@ -368,22 +368,26 @@ namespace zorgapp.Controllers
                 _context.SaveChanges();
             }
 
-
+            //check if username and password are filled in
             if (username != null && password != null)
-            {   string pwhash = Program.Hash256bits(username.ToLower()+password);
+            {
+                string pwhash = Program.Hash256bits(username.ToLower()+password);
                 username = username.ToLower();
+                //check if an account type has been selected
                 if (type == null)
                 {
                     ViewBag.emptyfield = "Please select an account type";
                 }
                 else
                 {
+                    //when a patient logs in
                     if (type == "patient")
                     {
-
+                        //check if username exists in the database
                         Patient user = _context.Patients.FirstOrDefault(u => u.UserName.ToLower() == username);
                         if (user != null)
                         {
+                            //check if password is correct
                             if (user.Password == pwhash)
                             {
                                 //Creates a new Identity of the user
@@ -396,7 +400,7 @@ namespace zorgapp.Controllers
                                 var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
                                 var userPrincipal = new ClaimsPrincipal(userIdentity);
                                 Thread.CurrentPrincipal = new ClaimsPrincipal(userIdentity);
-
+                                //loggin the user in
                                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                                     userPrincipal,
                                     new AuthenticationProperties
@@ -408,21 +412,26 @@ namespace zorgapp.Controllers
 
                                 return RedirectToAction("Inbox", "Patient");
                             }
+                            //if password is incorrect
                             else
                             {
                                 ViewBag.emptyfield = "Username or Password is incorrect";
                             }
                         }
+                        //if username is incorrect
                         else
                         {
                             ViewBag.emptyfield = "Username or Password is incorrect";
                         }
                     }
+                    //when a doctor logs in
                     if (type == "doctor")
                     {
+                        //check is username exists in the database
                         Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == username);
                         if (user != null)
                         {
+                            //check if password is correct
                             if (user.Password == pwhash)
                             {
                                 //Creates a new Identity of the user
@@ -434,7 +443,7 @@ namespace zorgapp.Controllers
                                 };
                                 var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
                                 var userPrincipal = new ClaimsPrincipal(userIdentity);                           
-
+                                //logs the user in
                                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                                     userPrincipal,
                                     new AuthenticationProperties
@@ -446,22 +455,26 @@ namespace zorgapp.Controllers
 
                                 return RedirectToAction("Inbox", "Doctor");
                             }
+                            //if password is incorrect
                             else
                             {
                                 ViewBag.emptyfield = "Username or Password is incorrect";
                             }
                         }
+                        //if username is incorrect
                         else
                         {
                             ViewBag.emptyfield = "Username or Password is incorrect";
                         }
                     }
+                    //when admin logs in
                     if (type == "admin")
                     {
-
+                        //check if username exists in the database
                         Admin user = _context.Admins.FirstOrDefault(u => u.UserName.ToLower() == username);
                         if (user != null)
                         {
+                            //check if password is correct
                             if (user.Password == pwhash)
                             {
                                 //Creates a new Identity of the user
@@ -473,7 +486,7 @@ namespace zorgapp.Controllers
                                };
                                 var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
                                 var userPrincipal = new ClaimsPrincipal(userIdentity);
-
+                                //logs the user in
                                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                                     userPrincipal,
                                     new AuthenticationProperties
@@ -485,11 +498,13 @@ namespace zorgapp.Controllers
 
                                 return RedirectToAction("CreateAccount", "Doctor");
                             }
+                            //if password is incorrect
                             else
                             {
                                 ViewBag.emptyfield = "Username or Password is incorrect";
                             }
                         }
+                        //if username is incorrect
                         else
                         {
                             ViewBag.emptyfield = "Username or Password is incorrect";
@@ -503,19 +518,23 @@ namespace zorgapp.Controllers
         [Authorize(Roles = "Patient")]
         public ActionResult Message(string reciever, string subject, string text)
         {
+            //Check if patient exists
             Doctor doctor = _context.Doctors.FirstOrDefault(u => u.UserName == reciever);
             if (doctor != null)
             {
+                //Check if subject is empty
                 if (string.IsNullOrEmpty(subject))
                 {
                     ViewBag.emptyfield = "You need enter a subject to send a message.";
                 }
+                //Check if text is empty
                 else if (string.IsNullOrEmpty(text))
                 {
                     ViewBag.emptyfield = "You need enter a message to send it.";                   
                 }
                 else
                 {
+                    //Creates a new Message and adds it to the database
                     var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
                     Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == username);
                     Message message = new Message()
@@ -533,10 +552,12 @@ namespace zorgapp.Controllers
                     return RedirectToAction("MessageSend", "Patient");
                 }
             }
+            //When the receiver field is empty
             else if (string.IsNullOrEmpty(reciever))
             {
                 ViewBag.emptyfield = "You need to enter a receiver to send a message";
             }
+            //When receiver doesn't exist in the database
             else if (!(string.IsNullOrEmpty(reciever)))
             {
                 ViewBag.emptyfield = "User not found";
@@ -547,9 +568,12 @@ namespace zorgapp.Controllers
         [Authorize(Roles = "Patient")]
         public ActionResult Inbox()
         {
+            //Gets the information of the logged in doctor
             Patient user = _context.Patients.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            //if user has no messages an empty message list is sent
             var message = from m in _context.Messages where m.Text == "" select m;
             var check = from m in _context.Messages where m.DoctorToPatient == true && m.Receiver == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value select m;
+            //check if the user has any messages
             if (message != check)
             {
                 message = from m in _context.Messages where m.DoctorToPatient == true && m.Receiver == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value orderby m.Date descending select m;
@@ -561,9 +585,12 @@ namespace zorgapp.Controllers
         [Authorize(Roles = "Patient")]
         public ActionResult SentMessages()
         {
+            //Gets the information of the logged in doctor
             Patient user = _context.Patients.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            //if user has no messages an empty message list is sent
             var message = from m in _context.Messages where m.Text == "" select m;
             var check = from m in _context.Messages where m.DoctorToPatient == false && m.Sender == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value select m;
+            //check if the user has any messages
             if (message != check)
             {
                 message = from m in _context.Messages where m.DoctorToPatient == false && m.Sender == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value orderby m.Date descending select m;
@@ -573,27 +600,23 @@ namespace zorgapp.Controllers
 
         public ActionResult Reply(IFormCollection form)
         {
+            //Gets the reply username from another view and uses it in the reply view
             string reply = form["reply"].ToString();
             ViewBag.reply = reply;
             return View();
         }
 
         [Authorize(Roles = "Patient")]
-        public ActionResult MessageDisplay(int index)
-        {
-
-            return View();
-        }
-
-        [Authorize(Roles = "Patient")]
         public ActionResult MessageSend()
         {
+            //a confirmation page for when a message is successfully send
             return View();
         }
 
 
         public ActionResult Logout()
         {
+            //logs the user out
             HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
@@ -953,6 +976,7 @@ namespace zorgapp.Controllers
 
         public ActionResult AuthorizationList()
         {
+            //Gets the patientId of the current user
             string username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
             int id = user.PatientId;
@@ -967,41 +991,47 @@ namespace zorgapp.Controllers
                 user.CanSeeMeId = new List<int>();
             }
 
+            //Creates new lists
             List<int> carerids = user.CanSeeMeId;
             List<Patient> carers = new List<Patient>();
 
             List<int> careeids = user.ICanSeeId;
             List<Patient> carees = new List<Patient>();
 
+            //check if list is empty
             if (carerids != null)
             {
+                //adds items to a new list
                 foreach (var item in carerids)
                 {
                     Patient carer = _context.Patients.FirstOrDefault(u => u.PatientId == item);
                     carers.Add(carer);
                 }
             }
+            //if list is empty send an empty list to avoid null errors
             else
             {
                 Patient empty = _context.Patients.FirstOrDefault(u => u.UserName == "");
                 carers.Add(empty);
             }
 
-
+            //check if list is empty
             if (careeids != null)
             {
+                //adds items to a new list
                 foreach (var item in careeids)
                 {
                     Patient caree = _context.Patients.FirstOrDefault(u => u.PatientId == item);
                     carees.Add(caree);
                 }
             }
+            //if list is empty send an empty list to avoid null errors
             else
             {
                 Patient empty = _context.Patients.FirstOrDefault(u => u.UserName == "");
                 carees.Add(empty);
             }
-
+            //creates a new ViewModel to send to the view
             CareViewModel carelist = new CareViewModel
             {
                 Carers = carers,
@@ -1013,19 +1043,23 @@ namespace zorgapp.Controllers
 
         public ActionResult ProfileVisit(IFormCollection form)
         {
+            //gets a patientId from the view
             string idstring = form["reply"].ToString();
             int profileid = int.Parse(idstring);
             Patient patient = _context.Patients.FirstOrDefault(p => p.PatientId == profileid);
 
+
             var medicines_ = from m in _context.Medicines where m.PatientId == profileid select m;
             var emptymedicine = _context.Medicines.FirstOrDefault(m => m.MedicineId == 0);
             List<Medicine> medicines = new List<Medicine>();
+            //when user has no medicines add an empty medicine list to avoid null errors
             if (medicines_ == null)
             {
                 medicines.Add(emptymedicine);
             }
             else
             {
+                //adds medicines to a new list
                 foreach (var item in medicines_)
                 {
                     medicines.Add(item);
@@ -1037,28 +1071,30 @@ namespace zorgapp.Controllers
 
             var emptyappointment = _context.Appointments.FirstOrDefault(m => m.AppointmentId == 0);
             List<Appointment> appointments = new List<Appointment>();
+            //when user has no cases add an empty appointment list to avoid null errors
             if (cases == null)
             {
                 appointments.Add(emptyappointment);
             }
             else
             {
+                //adds cases to a new list
                 foreach (var item in cases)
                 {
                     caseids.Add(item.CaseId);
                 }
-
+                //loops through the list to get the appointments that belong to the cases
                 foreach (var item in caseids)
                 {
-
                     var appointments_ = from a in _context.Appointments where a.CaseId == item select a;
+                    //adds appointments to a new list
                     foreach (var item_ in appointments_)
                     {
                         appointments.Add(item_);
                     }
                 }
             }
-
+            //Creates a new ViewModel to send lists to the view
             ProfileViewModel profiledata = new ProfileViewModel
             {
                 UserInfo = patient,
@@ -1071,6 +1107,7 @@ namespace zorgapp.Controllers
 
         public ActionResult AuthorizationRevoke(int id)
         {
+            //gets a patientId from the view
             string username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
             int userid = user.PatientId;
@@ -1086,7 +1123,7 @@ namespace zorgapp.Controllers
             {
                 user.CanSeeMeId = new List<int>();
             }
-
+            //creates a new list without the user that gets revoked
             foreach (var item in user.CanSeeMeId)
             {
                 if (item != id)
@@ -1094,6 +1131,7 @@ namespace zorgapp.Controllers
                     newlist.Add(item);
                 }
             }
+            //replaces old list with new one
             user.CanSeeMeId = newlist;
             _context.SaveChanges();
 
@@ -1103,7 +1141,7 @@ namespace zorgapp.Controllers
                 return RedirectToAction("AuthorizationList", "Patient");
             }
 
-            //ensure the lists exist to avoid null errors
+            //creates a new list without the user that gets revoked
             if (user2.ICanSeeId == null)
             {
                 user2.ICanSeeId = new List<int>();
@@ -1112,7 +1150,7 @@ namespace zorgapp.Controllers
             {
                 user2.CanSeeMeId = new List<int>();
             }
-
+            //replaces old list with new one
             foreach (var item in user.ICanSeeId)
             {
                 if (item != userid)
