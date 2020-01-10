@@ -29,7 +29,7 @@ namespace zorgapp.Models
             modelBuilder.Entity<Doctor>()
             .HasData(new Doctor()
             {
-                DoctorId = 1,
+                DoctorId = -1,
                 FirstName = "admin",
                 LastName = "admin",
                 //LocalId = new List<string>(),
@@ -41,7 +41,7 @@ namespace zorgapp.Models
             },
             new Doctor()
             {
-                DoctorId = 2,
+                DoctorId = -2,
                 FirstName = "admin2",
                 LastName = "admin2",
                 //LocalId = new List<string>(),
@@ -53,7 +53,7 @@ namespace zorgapp.Models
             },
             new Doctor()
             {
-                DoctorId = 3,
+                DoctorId = -3,
                 FirstName = "admin3",
                 LastName = "admin3",
                 //LocalId = new List<string>(),
@@ -68,7 +68,7 @@ namespace zorgapp.Models
             modelBuilder.Entity<Patient>()
             .HasData(new Patient()
             {
-                PatientId = 1,
+                PatientId = -1,
                 FirstName = "admin",
                 LastName = "admin",
                 Email = "admin@mail.mail",
@@ -83,7 +83,7 @@ namespace zorgapp.Models
             },
             new Patient()
             {
-                PatientId = 2,
+                PatientId = -2,
                 FirstName = "Adminu",
                 LastName = "Adminu",
                 Email = "adminu@mail.mail",
@@ -98,7 +98,7 @@ namespace zorgapp.Models
             },
             new Patient()
             {
-                PatientId = 3,
+                PatientId = -3,
                 FirstName = "Admin3",
                 LastName = "Admin3",
                 Email = "admin3@mail.mail",
@@ -116,7 +116,7 @@ namespace zorgapp.Models
             modelBuilder.Entity<Admin>()
             .HasData(new Admin()
             {
-                AdminId = 1,
+                AdminId = -1,
                 UserName = "admin",
                 Password = Program.Hash256bits("adminpassword")
             }
@@ -126,8 +126,8 @@ namespace zorgapp.Models
             modelBuilder.Entity<PatientsDoctors>()
             .HasData(new PatientsDoctors()
             {
-                PatientId = 1,
-                DoctorId = 1
+                PatientId = -1,
+                DoctorId = -1
             }
             );
 

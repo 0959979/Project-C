@@ -681,7 +681,7 @@ namespace zorgapp.Controllers{
                             if (!targetNew.CanSeeMeId.Contains(Authorizer.PatientId)) //make sure the user id is not already in his list
                             {
                                 targetNew.CanSeeMeId.Add(Authorizer.PatientId);
-                                if (Authorizer.ICanSeeId == null)
+                                if (Authorizer.ICanSeeId == null) //ensure the list exists to avoid null errors
                                 {
                                     Authorizer.ICanSeeId = new List<int>();
                                 }
@@ -859,6 +859,16 @@ namespace zorgapp.Controllers{
             Patient user = _context.Patients.FirstOrDefault(u => u.UserName == username);
             int id = user.PatientId;
 
+            //ensure the lists exist to avoid null errors
+            if (user.ICanSeeId == null)
+            {
+                user.ICanSeeId = new List<int>();
+            }
+            if (user.CanSeeMeId == null)
+            {
+                user.CanSeeMeId = new List<int>();
+            }
+
             List<int> carerids = user.CanSeeMeId;
             List<Patient> carers = new List<Patient>();
 
@@ -969,6 +979,16 @@ namespace zorgapp.Controllers{
             List<int> newlist = new List<int>();
             List<int> newlist2 = new List<int>();
 
+            //ensure the lists exist to avoid null errors
+            if (user.ICanSeeId == null)
+            {
+                user.ICanSeeId = new List<int>();
+            }
+            if (user.CanSeeMeId == null)
+            {
+                user.CanSeeMeId = new List<int>();
+            }
+
             foreach (var item in user.CanSeeMeId)
             {
                 if (item != id)
@@ -984,6 +1004,17 @@ namespace zorgapp.Controllers{
             {
                 return RedirectToAction("AuthorizationList", "Patient");
             }
+
+            //ensure the lists exist to avoid null errors
+            if (user2.ICanSeeId == null)
+            {
+                user2.ICanSeeId = new List<int>();
+            }
+            if (user2.CanSeeMeId == null)
+            {
+                user2.CanSeeMeId = new List<int>();
+            }
+
             foreach (var item in user.ICanSeeId)
             {
                 if (item != userid)
@@ -1401,6 +1432,24 @@ namespace zorgapp.Controllers{
             }
             else
             {
+                //ensure the lists exist to avoid null errors
+                if (patient.ICanSeeId == null)
+                {
+                    patient.ICanSeeId = new List<int>();
+                }
+                if (patient.CanSeeMeId == null)
+                {
+                    patient.CanSeeMeId = new List<int>();
+                }
+                if (loggedPatient.ICanSeeId == null)
+                {
+                    loggedPatient.ICanSeeId = new List<int>();
+                }
+                if (loggedPatient.CanSeeMeId == null)
+                {
+                    loggedPatient.CanSeeMeId = new List<int>();
+                }
+
                 if (patient.CanSeeMeId.Contains(loggedPatient.PatientId))
                 {
                     patient.CanSeeMeId.Remove(loggedPatient.PatientId);
@@ -1438,6 +1487,10 @@ namespace zorgapp.Controllers{
 
             //assert
             Patient P = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            if (P.ICanSeeId == null)
+            {
+                P.ICanSeeId = new List<int>();
+            }
             List<int> idlist = P.ICanSeeId;
             if (P == null)
             {
@@ -1547,6 +1600,24 @@ namespace zorgapp.Controllers{
             }
             else
             {
+                //ensure the lists exist to avoid null errors
+                if (patient.ICanSeeId == null)
+                {
+                    patient.ICanSeeId = new List<int>();
+                }
+                if (patient.CanSeeMeId == null)
+                {
+                    patient.CanSeeMeId = new List<int>();
+                }
+                if (loggedPatient.ICanSeeId == null)
+                {
+                    loggedPatient.ICanSeeId = new List<int>();
+                }
+                if (loggedPatient.CanSeeMeId == null)
+                {
+                    loggedPatient.CanSeeMeId = new List<int>();
+                }
+
                 if (patient.CanSeeMeId.Contains(loggedPatient.PatientId))
                 {
                     patient.CanSeeMeId.Remove(loggedPatient.PatientId);
@@ -1584,6 +1655,13 @@ namespace zorgapp.Controllers{
 
             //assert
             Patient P = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+
+            //ensure the lists exist to avoid null errors
+            if (P.ICanSeeId == null)
+            {
+                P.ICanSeeId = new List<int>();
+            }
+
             List<int> idlist = P.ICanSeeId;
             if (P == null)
             {
@@ -1716,6 +1794,15 @@ namespace zorgapp.Controllers{
 
             //assert
             Patient P = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == null);
+            //ensure the lists exist to avoid null errors
+            if (P.ICanSeeId == null)
+            {
+                P.ICanSeeId = new List<int>();
+            }
+            if (P.CanSeeMeId == null)
+            {
+                P.CanSeeMeId = new List<int>();
+            }
             List<int> idlist;
             if (P == null)
             {
@@ -1846,9 +1933,17 @@ namespace zorgapp.Controllers{
                 Tcontext.Patients.Add(patient);
                 Tcontext.SaveChanges();
             }
+            if (patient.ICanSeeId == null)
+            {
+                patient.ICanSeeId = new List<int>();
+            }
             if (!(patient.ICanSeeId.Contains(loggedPatient.PatientId)))
             {
                 patient.ICanSeeId.Add(loggedPatient.PatientId);
+            }
+            if (loggedPatient.CanSeeMeId == null)
+            {
+                loggedPatient.CanSeeMeId = new List<int>();
             }
             if (!(loggedPatient.CanSeeMeId.Contains(patient.PatientId)))
             {
@@ -1990,11 +2085,19 @@ namespace zorgapp.Controllers{
                 Tcontext.Patients.Add(patient);
                 Tcontext.SaveChanges();
             }
-            if (patient.ICanSeeId.Contains(loggedPatient.PatientId))
+            if (patient.ICanSeeId == null)
+            {
+                patient.ICanSeeId = new List<int>();
+            }
+            else if (patient.ICanSeeId.Contains(loggedPatient.PatientId))
             {
                 patient.ICanSeeId.Remove(loggedPatient.PatientId);
             }
-            if (loggedPatient.CanSeeMeId.Contains(patient.PatientId))
+            if (loggedPatient.CanSeeMeId == null)
+            {
+                loggedPatient.CanSeeMeId = new List<int>();
+            }
+            else if (loggedPatient.CanSeeMeId.Contains(patient.PatientId))
             {
                 loggedPatient.CanSeeMeId.Remove(patient.PatientId);
             }
