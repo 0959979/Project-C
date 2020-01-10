@@ -595,7 +595,8 @@ namespace zorgapp.Controllers
   
  	    [Authorize(Roles="Doctor")]
 		public ActionResult CreateAppointment(string caseid,DateTime date, string info)
-		{
+		{                
+
             Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
 			int doctorid = user.DoctorId;
 			if (caseid != null) //this is the case when something is submitted
@@ -609,7 +610,6 @@ namespace zorgapp.Controllers
 				};
 				_context.Appointments.Add(appointment);
 				_context.SaveChanges();
-
 
 				return RedirectToAction("Profile", "Doctor");
 			}
@@ -699,7 +699,7 @@ namespace zorgapp.Controllers
 
         }
 
-        public ActionResult Link()
+  public ActionResult Link()
         {
             // return the view of Link and if a tempdata named "message" is not null, put the tempdata in a viewbag to return to the view
             if (TempData["message"] != null)
@@ -758,7 +758,8 @@ namespace zorgapp.Controllers
 
             else if (linkmade)
             {
-                TempData["message"] = "Link has already been made";
+                if (TempData != null)
+                {TempData["message"] = "Link has already been made";}
                 return RedirectToAction("Link", "Admin");
             }
 
@@ -767,7 +768,6 @@ namespace zorgapp.Controllers
 
             return View();
         }
-
 
         //Doctorlist Page
         //Authorizes the page so only users with the role admin can view it
@@ -1043,26 +1043,50 @@ namespace zorgapp.Controllers
             ViewData["FirstName"] = firstname;
             return View();
         }
+        // public ActionResult AddMedicines(string name, DateTime start_date, DateTime end_date, int amount, int patient_id, float mg)
+        // {
+        //     List<Patient> Patientslist = new List<Patient>();
+
+        //     var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+        //     var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME);
+        //     int Id = USER.DoctorId;
+        //     var patientslist = from m in _context.PatientsDoctorss where m.DoctorId == Id select m;
+        //     foreach (var item in patientslist)
+        //     {
+        //         if (item.PatientId != null)
+        //         {
+        //             var patientname = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
+        //             Patientslist.Add(patientname);
+        //         };
+
+		// 	}
+
+        //     if (name != null)
+        //     {
+        //         Medicine medicine_ = new Medicine()
+        //         {
+        //             Name = name,
+        //             DateStart = start_date,
+        //             DateEnd = end_date,
+        //             Amount = amount,
+        //             PatientId = patient_id,
+        //             Mg = mg
+        //         };
+
+        //         _context.Medicines.Add(medicine_);
+        //         _context.SaveChanges();
+        //     }
+
+
+        //     return View(Patientslist);
+		// }
+
         public ActionResult AddMedicines(string name, DateTime start_date, DateTime end_date, int amount, int patient_id, float mg)
         {
-            List<Patient> Patientslist = new List<Patient>();
-
-            var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME);
-            int Id = USER.DoctorId;
-            var patientslist = from m in _context.PatientsDoctorss where m.DoctorId == Id select m;
-            foreach (var item in patientslist)
+            
+            if (name != null && start_date != null && end_date != null  )
             {
-                if (item.PatientId != null)
-                {
-                    var patientname = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
-                    Patientslist.Add(patientname);
-                };
 
-			}
-
-            if (name != null)
-            {
                 Medicine medicine_ = new Medicine()
                 {
                     Name = name,
@@ -1078,9 +1102,8 @@ namespace zorgapp.Controllers
             }
 
 
-            return View(Patientslist);
-		}
-
+            return View();
+        }
     
 
 
@@ -1116,7 +1139,6 @@ namespace zorgapp.Controllers
                 testlist.Add(new AddMedicinesNotAlreadyLinkedTest1(this));
                 testlist.Add(new MakeAppointmentAlreadyLinkedTest2(this));
                 testlist.Add(new MakeAppointmentMissesParameterTest2(this));
-                testlist.Add(new AppointmentPatientNullTest2(this));
                 testlist.Add(new MakeAppointmentNotAlreadyLinkedTest2(this));
                 testlist.Add(new LinkAlreadyLinkedTest3(this));
                 testlist.Add(new LinkDoctorNullTest3(this));
@@ -1148,7 +1170,6 @@ namespace zorgapp.Controllers
                 testlist.Add(new AddMedicinesNotAlreadyLinkedTest1(this));
                 testlist.Add(new MakeAppointmentAlreadyLinkedTest2(this));
                 testlist.Add(new MakeAppointmentMissesParameterTest2(this));
-                testlist.Add(new AppointmentPatientNullTest2(this));
                 testlist.Add(new MakeAppointmentNotAlreadyLinkedTest2(this));
                 testlist.Add(new LinkAlreadyLinkedTest3(this));
                 testlist.Add(new LinkDoctorNullTest3(this));
@@ -2239,67 +2260,15 @@ namespace zorgapp.Controllers
             };
             return model;
         }
-    }
-        //    _context.Medicines.Add(medicine_);
-        //    _context.SaveChanges();
-        //    return View(Patientslist);
-        //}
-        public ActionResult AddMedicines(string name, DateTime start_date, DateTime end_date, int amount, int patient_id, float mg)
-        {
-            
-            if (name != null && start_date != null && end_date != null  )
-            {
-
-                Medicine medicine_ = new Medicine()
-                {
-                    Name = name,
-                    DateStart = start_date,
-                    DateEnd = end_date,
-                    Amount = amount,
-                    PatientId = patient_id,
-                    Mg = mg
-                };
-
-                _context.Medicines.Add(medicine_);
-                _context.SaveChanges();
-            }
+    } 
 
 
-            return View();
-        }
-
-        //Testing begins now!
-
-        public DatabaseContext getContext()
-        {
-            return _context;
-        }
-        public IActionResult noAccess()
-        {
-            return View();
-        }
-        [Authorize(Roles = "Doctor")]
-
-    internal abstract class DoctorTest
-    {
-        public abstract TestViewModel Run();
-        public DoctorController doctorController;
-        public string Id;
-        public string Description;
-        public string Steps;
-        public string Criteria;
-        public string Inputstr;
-        public string Aresult;
-        public string Eresult;
-        public bool Pass;
-    }
 
     internal class AddMedicinesAlreadyLinkedTest1 : DoctorTest
     {
-
         public AddMedicinesAlreadyLinkedTest1(DoctorController dc)
         {
-            doctorController = dc;
+            testController = dc;
             Id = "D6.Integration.AMT1";
             Description = "Add medicine when patient and doctor are linked";
             Steps = "Check if they are linked, try to add medecine";
@@ -2317,8 +2286,8 @@ namespace zorgapp.Controllers
 
             //arrange
             bool Pass = false;
-            DatabaseContext Tcontext = doctorController.getContext();
-            DoctorController controller = new DoctorController(doctorController.getContext());
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = new DoctorController(testController.getContext());
             Doctor doctor = Tcontext.Doctors.FirstOrDefault();
             int DoctorID = doctor.DoctorId;
             var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
@@ -2393,7 +2362,7 @@ namespace zorgapp.Controllers
 
         public AddMedicinesMissingParameterTest1(DoctorController dc)
         {
-            doctorController = dc;
+            testController = dc;
             Id = "D6.Integration.AMMPT2";
             Description = "Add medicine when missing a parameter";
             Steps = "Check if all parameters are inserted, try to add medecine";
@@ -2411,8 +2380,8 @@ namespace zorgapp.Controllers
 
             //arrange
             bool Pass = false;
-            DatabaseContext Tcontext = doctorController.getContext();
-            DoctorController controller = new DoctorController(doctorController.getContext());           
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = new DoctorController(testController.getContext());           
             Doctor doctor = Tcontext.Doctors.FirstOrDefault();
             int DoctorID = doctor.DoctorId;
             var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
@@ -2502,7 +2471,7 @@ namespace zorgapp.Controllers
 
         public AddMedicinesPatientNullTest1(DoctorController dc)
         {
-            doctorController = dc;
+            testController = dc;
             Id = "D6.Integration.AMPNT3";
             Description = "Add medicine to a nonexisting patient";
             Steps = "Check if patient exists, try to add medecine";
@@ -2520,8 +2489,8 @@ namespace zorgapp.Controllers
 
             //arrange
             bool Pass = false;
-            DatabaseContext Tcontext = doctorController.getContext();
-            DoctorController controller = new DoctorController(doctorController.getContext());
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = new DoctorController(testController.getContext());
             Doctor doctor = Tcontext.Doctors.FirstOrDefault();
             int DoctorID = doctor.DoctorId;
             var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
@@ -2643,7 +2612,7 @@ namespace zorgapp.Controllers
 
         public AddMedicinesNotAlreadyLinkedTest1(DoctorController dc)
         {
-            doctorController = dc;
+            testController = dc;
             Id = "D6.Integration.AMNALT4";
             Description = "Try to add medicine when patient and doctor are not linked";
             Steps = "Check if they are linked, try to add medecine";
@@ -2661,8 +2630,8 @@ namespace zorgapp.Controllers
 
             //arrange
             bool Pass = false;
-            DatabaseContext Tcontext = doctorController.getContext();
-            DoctorController controller = new DoctorController(doctorController.getContext());
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = new DoctorController(testController.getContext());
             Doctor doctor = Tcontext.Doctors.FirstOrDefault();
             int DoctorID = doctor.DoctorId;
             var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
@@ -2671,7 +2640,7 @@ namespace zorgapp.Controllers
             string name = "Paracetamol";
             DateTime start_date = DateTime.Now;
             DateTime end_date = DateTime.Now;
-            int patient_id = 4;
+            int patient_id = -2;
             int amount = 3;
             float mg = 50;
 
@@ -2769,7 +2738,7 @@ namespace zorgapp.Controllers
         
         public MakeAppointmentAlreadyLinkedTest2(DoctorController dc)
         {
-            doctorController = dc;
+            testController = dc;
             Id = "D1.Integration.MAT1";
             Description = "Make appointment when patient and doctor are linked";
             Steps = "Check if they are linked, try to make an apointment";
@@ -2785,22 +2754,41 @@ namespace zorgapp.Controllers
 
             //arrange
             bool Pass = false;
-            DatabaseContext Tcontext = doctorController.getContext();
-            DoctorController controller = new DoctorController(doctorController.getContext());
-            int PatientID = 1;
-            int DoctorID = 1;
-            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = testController;//new DoctorController(testController.getContext());
+            
+            Doctor user = Tcontext.Doctors.FirstOrDefault(u => u.UserName == "admin");
+			int doctorid = user.DoctorId;
 
-            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
+            // int PatientID = -1;
+            // int DoctorID = -1;
+
+            var PatDocs = from d in Tcontext.PatientsDoctorss select d;
             PatientsDoctors patdoc = PatDocs.First();
             int patientid = patdoc.PatientId;
+            //int doctorid = patdoc.DoctorId;
             string caseid = "1";
             DateTime date = DateTime.Now;
             string info = "This is an appointment";
           
-           
+            var caseL = from c in Tcontext.Cases where c.CaseId == caseid && c.DoctorId == doctorid select c;
+            Case case1 = caseL.FirstOrDefault();
+            if (case1 == null)
+            {
+                case1 = new Case()
+                {
+                    
+                    CaseId = caseid,
+                    CaseInfo = "Test case 1",
+                    CaseName = "Case name 1",
+                    PatientId = patientid,
+                    DoctorId = doctorid
+                };
+                Tcontext.Cases.Add(case1);
+                Tcontext.SaveChanges();
+            }
 
-            var appointmentbefore = from d in Tcontext.Appointments where d.CaseId == caseid select d;
+            var appointmentbefore = from d in Tcontext.Appointments where d.CaseId == caseid && d.DoctorId == doctorid select d;
             int count = appointmentbefore.Count();
 
 
@@ -2862,7 +2850,7 @@ namespace zorgapp.Controllers
 
         public MakeAppointmentMissesParameterTest2(DoctorController dc)
         {
-            doctorController = dc;
+            testController = dc;
             Id = "D1.Integration.MAT2";
             Description = "Try to make an appointment when misses a parameter";
             Steps = "Check if all parameters are complete, try to make an apointment";
@@ -2878,14 +2866,22 @@ namespace zorgapp.Controllers
 
             //arrange
             bool Pass = false;
-            DatabaseContext Tcontext = doctorController.getContext();
-            DoctorController controller = new DoctorController(doctorController.getContext());
-            int PatientID = 1 ;
-            int DoctorID = 1;
-            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = testController;//new DoctorController(testController.getContext());
+            int PatientID = -1 ;
+            Doctor user = Tcontext.Doctors.FirstOrDefault(u => u.UserName == "admin");
+			int doctorid = user.DoctorId;
 
-            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
-            PatientsDoctors patdoc = PatDocs.First();
+            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == doctorid select d;
+            PatientsDoctors patdoc = PatDocs.FirstOrDefault();
+            if (patdoc == null)
+            {
+                patdoc = new PatientsDoctors()
+                {
+                    PatientId = PatientID,
+                    DoctorId = doctorid
+                };
+            }
             int patientid = patdoc.PatientId;
             string caseid = null;
             DateTime date = DateTime.Now;
@@ -2927,12 +2923,12 @@ namespace zorgapp.Controllers
             if (count2 > count)
             {
                 Aresult = "Appointment is made";
-                Pass = true;
+                Pass = false;
             }
             else
             {
                 Aresult = "Appointment is not made";
-                Pass = false;
+                Pass = true;
             }
 
             model = new TestViewModel()
@@ -2950,111 +2946,13 @@ namespace zorgapp.Controllers
             return model;
         }
     }
-    internal class AppointmentPatientNullTest2 : DoctorTest
-    {
-
-        public AppointmentPatientNullTest2(DoctorController dc)
-        {
-            doctorController = dc;
-            Id = "D1.Integration.MAT3";
-            Description = "Try to make an appointment with a nonexisting patient";
-            Steps = "Check if patient exist, try to make an appointment";
-            Criteria = "Pass: Exeption error: Appointment is not made | Fail: Appointment is made";
-            Inputstr = "All parameters and patient ID ";
-            Aresult = "";
-            Eresult = "Appointment is not made ";
-        }
-
-        public override TestViewModel Run()
-        {
-            TestViewModel model;
-
-            //arrange
-            bool Pass = false;
-            DatabaseContext Tcontext = doctorController.getContext();
-            DoctorController controller = new DoctorController(doctorController.getContext());
-            int PatientID = 0;
-            int DoctorID = 1;
-            Doctor doctor = Tcontext.Doctors.First(x => x.DoctorId == DoctorID);
-
-            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
-            PatientsDoctors patdoc = PatDocs.First();
-            int patientid = patdoc.PatientId;
-            string caseid = "4";
-            DateTime date = DateTime.Now;
-            string info = "This is an appointment";
-
-
-
-            var appointmentbefore = from d in Tcontext.Appointments where d.CaseId == caseid select d;
-            int count = appointmentbefore.Count();
-
-
-            try
-          
-                {
-                    controller.CreateAppointment(caseid, date, info);
-                }
-            
-
-            catch (Exception e)
-            {
-                Pass = true;
-                Aresult = "Patient does not exist, " + e.Message;
-                model = new TestViewModel()
-                {
-                    id = Id,
-                    time = DateTime.Now,
-                    description = Description,
-                    steps = Steps,
-                    criteria = Criteria,
-                    input = Inputstr,
-                    aresult = Aresult,
-                    eresult = Eresult,
-                    pass = Pass
-                };
-                return model;
-            }
-
-            //assert
-         
-            var appointmet = from d in Tcontext.Appointments where d.CaseId == caseid select d;
-            var cas = from m in Tcontext.Cases where m.CaseId == caseid select m;
-            var pati = from m in Tcontext.Patients where m.PatientId == patientid select m;
-            int count2 = appointmet.Count();
-        
-            if (pati   == null || cas == null)
-            {
-                Aresult = "Appointment is not made";
-                Pass = true;
-            }
-            else
-            {
-                Aresult = "Appointment is made";
-                Pass = false;
-            }
-
-            model = new TestViewModel()
-            {
-                id = Id,
-                time = DateTime.Now,
-                description = Description,
-                steps = Steps,
-                criteria = Criteria,
-                input = Inputstr,
-                aresult = Aresult,
-                eresult = Eresult,
-                pass = Pass
-            };
-            return model;
-        }
-    }
+ 
     internal class MakeAppointmentNotAlreadyLinkedTest2 : DoctorTest
     {
 
         public MakeAppointmentNotAlreadyLinkedTest2(DoctorController dc)
         {
-            doctorController = dc;
+            testController = dc;
             Id = "D1.Integration.MAT4";
             Description = "Try to make an appointment with a patient not linked to the doctr";
             Steps = "Check if patient is linked or not, try to make an apointment";
@@ -3070,11 +2968,10 @@ namespace zorgapp.Controllers
 
             //arrange
             bool Pass = false;
-            DatabaseContext Tcontext = doctorController.getContext();
-            DoctorController controller = new DoctorController(doctorController.getContext());
-            int PatientID = 2;
-            int DoctorID = 1;
-            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = testController;//new DoctorController(testController.getContext());
+            Doctor user = Tcontext.Doctors.FirstOrDefault(u => u.UserName == "admin");
+			int DoctorID = user.DoctorId;
 
             var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
             PatientsDoctors patdoc = PatDocs.First();
@@ -3096,7 +2993,7 @@ namespace zorgapp.Controllers
 
             catch (Exception e)
             {
-                Pass = true;
+                Pass = false;
                 Aresult = "There is no link, " + e.Message;
                 model = new TestViewModel()
                 {
@@ -3119,12 +3016,12 @@ namespace zorgapp.Controllers
             if (count2 > count)
             {
                 Aresult = "Appointment is made";
-                Pass = true;
+                Pass = false;
             }
             else
             {
                 Aresult = "Appointment is not made";
-                Pass = false;
+                Pass = true;
             }
 
             model = new TestViewModel()
@@ -3147,7 +3044,7 @@ namespace zorgapp.Controllers
 
         public LinkAlreadyLinkedTest3(DoctorController dc)
         {
-            doctorController = dc;
+            testController = dc;
             Id = "D8.Integration.LALT1";
             Description = "Doctor links a patient to another doctor if patient is already linked";
             Steps = "Check if they are linked, try to link patient to another doctor";
@@ -3165,26 +3062,22 @@ namespace zorgapp.Controllers
 
             //arrange
             bool Pass = false;
-            DatabaseContext Tcontext = doctorController.getContext();
-            DoctorController controller = new DoctorController(doctorController.getContext());
-            int DoctorID = 2;
-            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
-            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
-            PatientsDoctors patdoc = PatDocs.First();          
-            int patientid = 1;
-            int doctorid = 4;
-            
-        
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = new DoctorController(testController.getContext());         
+            int patientid = -1;
+            int doctorid = -1;
+            Doctor doc = Tcontext.Doctors.FirstOrDefault(y => y.DoctorId == doctorid);
+            Patient pat = Tcontext.Patients.FirstOrDefault(y => y.PatientId == patientid);
 
             try
             {
-                controller.SubmitLink( patientid, doctorid);
+                controller.SubmitLink(patientid,doctorid);
             }
 
             catch (Exception e)
             {
                 Pass = false;
-                Aresult = e.Message;
+                Aresult = e.ToString();
                 model = new TestViewModel()
                 {
                     id = Id,
@@ -3201,9 +3094,6 @@ namespace zorgapp.Controllers
             }
 
          
-            Patient patient = Tcontext.Patients.FirstOrDefault(y => y.PatientId == patientid);
-            string docName = doctor.FirstName;
-            string patName = patient.FirstName;
             PatientsDoctors patientsDoctors_ = Tcontext.PatientsDoctorss.FirstOrDefault(
                 p => p.PatientId == patientid && p.DoctorId == doctorid
             );
@@ -3253,7 +3143,7 @@ namespace zorgapp.Controllers
 
         public LinkDoctorNullTest3 (DoctorController dc)
         {
-            doctorController = dc;
+            testController = dc;
             Id = "D8.Integration.LDNT2";
             Description = "Doctor links a patient to a nonexisting doctor";
             Steps = "Check if doctor exists, try to link him to patient";
@@ -3271,14 +3161,10 @@ namespace zorgapp.Controllers
 
             //arrange
             bool Pass = false;
-            DatabaseContext Tcontext = doctorController.getContext();
-            DoctorController controller = new DoctorController(doctorController.getContext());
-            int DoctorID = 2;
-            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
-            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
-            PatientsDoctors patdoc = PatDocs.First();
-            int patientid = 1;
-            int doctorid = 7;
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = new DoctorController(testController.getContext());
+            int patientid = -1;
+            int doctorid = -1000;
 
 
 
@@ -3289,7 +3175,7 @@ namespace zorgapp.Controllers
 
             catch (Exception e)
             {
-                Pass = true;
+                Pass = false;
                 Aresult ="This doctor does not exist, " + e.Message;
                 model = new TestViewModel()
                 {
@@ -3306,10 +3192,6 @@ namespace zorgapp.Controllers
                 return model;
             }
 
-
-            Patient patient = Tcontext.Patients.FirstOrDefault(y => y.PatientId == patientid);
-            string docName = doctor.FirstName;
-            string patName = patient.FirstName;
             PatientsDoctors patientsDoctors_ = Tcontext.PatientsDoctorss.FirstOrDefault(
                 p => p.PatientId == patientid && p.DoctorId == doctorid
             );
@@ -3324,19 +3206,14 @@ namespace zorgapp.Controllers
 
             if (!linkmade)
             {
-               
+                Aresult = "Link is not made";
                 Pass = true;
             }
 
-            if (linkmade == true)
+            if (linkmade)
             {
                 Aresult = "Link is made";
                 Pass = false;
-            }
-            else
-            {
-                Aresult = "Link is not made";
-                Pass = true;
             }
 
             model = new TestViewModel()
@@ -3359,7 +3236,7 @@ namespace zorgapp.Controllers
 
         public LinkPatientNullTest3(DoctorController dc)
         {
-            doctorController = dc;
+            testController = dc;
             Id = "D8.Integration.LPNT3";
             Description = "Doctor links a nonexisting patient to another doctor";
             Steps = "Check if Patient exists, try to link him to new doctor";
@@ -3377,14 +3254,10 @@ namespace zorgapp.Controllers
 
             //arrange
             bool Pass = false;
-            DatabaseContext Tcontext = doctorController.getContext();
-            DoctorController controller = new DoctorController(doctorController.getContext());
-            int DoctorID = 2;
-            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
-            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
-            PatientsDoctors patdoc = PatDocs.First();
-            int patientid = 9;
-            int doctorid = 1;
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = new DoctorController(testController.getContext());
+            int patientid = -1000;
+            int doctorid = -1;
 
 
 
@@ -3395,7 +3268,7 @@ namespace zorgapp.Controllers
 
             catch (Exception e)
             {
-                Pass = true;
+                Pass = false;
                 Aresult = "This Patient does not exist, " + e.Message;
                 model = new TestViewModel()
                 {
@@ -3413,24 +3286,16 @@ namespace zorgapp.Controllers
             }
 
 
-            Patient patient = Tcontext.Patients.FirstOrDefault(y => y.PatientId == patientid);
-            string docName = doctor.FirstName;
-            string patName = patient.FirstName;
             PatientsDoctors patientsDoctors_ = Tcontext.PatientsDoctorss.FirstOrDefault(
                 p => p.PatientId == patientid && p.DoctorId == doctorid
             );
 
             bool linkmade = Tcontext.PatientsDoctorss.Contains(patientsDoctors_);
 
-            PatientsDoctors patientsDoctors = new PatientsDoctors()
-            {
-                PatientId = patientid,
-                DoctorId = doctorid
-            };
 
             if (!linkmade)
             {
-           
+                Aresult = "Link is not made";
                 Pass = true;
             }
 
@@ -3439,11 +3304,7 @@ namespace zorgapp.Controllers
                 Aresult = "Link is made";
                 Pass = false;
             }
-            else
-            {
-                Aresult = "Link is not made";
-                Pass = true;
-            }
+
 
             model = new TestViewModel()
             {
@@ -3465,7 +3326,7 @@ namespace zorgapp.Controllers
 
         public LinkDocPatsNullTest3(DoctorController dc)
         {
-            doctorController = dc;
+            testController = dc;
             Id = "D8.Integration.LPDNT4";
             Description = "Doctor links a nonexisting patient to a nonexisting doctor";
             Steps = "Check if Patient and doctor exists, try to link them ";
@@ -3483,14 +3344,10 @@ namespace zorgapp.Controllers
 
             //arrange
             bool Pass = false;
-            DatabaseContext Tcontext = doctorController.getContext();
-            DoctorController controller = new DoctorController(doctorController.getContext());
-            int DoctorID = 2;
-            Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
-            var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
-            PatientsDoctors patdoc = PatDocs.First();
-            int patientid = 9;
-            int doctorid = 9;
+            DatabaseContext Tcontext = testController.getContext();
+            DoctorController controller = new DoctorController(testController.getContext());
+            int patientid = -10000;
+            int doctorid = -10000;
 
 
 
@@ -3501,7 +3358,7 @@ namespace zorgapp.Controllers
 
             catch (Exception e)
             {
-                Pass = true;
+                Pass = false;
                 Aresult = "both patient and doctor do not exist, " + e.Message;
                 model = new TestViewModel()
                 {
@@ -3519,24 +3376,18 @@ namespace zorgapp.Controllers
             }
 
 
-            Patient patient = Tcontext.Patients.FirstOrDefault(y => y.PatientId == patientid);
-            string docName = doctor.FirstName;
-            string patName = patient.FirstName;
+
             PatientsDoctors patientsDoctors_ = Tcontext.PatientsDoctorss.FirstOrDefault(
                 p => p.PatientId == patientid && p.DoctorId == doctorid
             );
 
             bool linkmade = Tcontext.PatientsDoctorss.Contains(patientsDoctors_);
 
-            PatientsDoctors patientsDoctors = new PatientsDoctors()
-            {
-                PatientId = patientid,
-                DoctorId = doctorid
-            };
+
 
             if (!linkmade)
             {
-              
+                Aresult = "Link is not made";
                 Pass = true;
             }
 
@@ -3545,11 +3396,8 @@ namespace zorgapp.Controllers
                 Aresult = "Link is made";
                 Pass = false;
             }
-            else
-            {
-                Aresult = "Link is not made";
-                Pass = true;
-            }
+
+
 
             model = new TestViewModel()
             {
@@ -3566,4 +3414,5 @@ namespace zorgapp.Controllers
             return model;
         }
     }
+
 }

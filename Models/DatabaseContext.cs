@@ -73,14 +73,12 @@ namespace zorgapp.Models
                 FirstName = "admin",
                 LastName = "admin",
                 Email = "admin@mail.mail",
-                //LocalId = new List<string>(),
                 PhoneNumber = "12345678",
                 UserName = "admin",
                 Password = Program.Hash256bits("admin" + "password"),
                 LinkCode = null,
-                LinkUses = 0/*,
-                CanSeeMeId = new List<int>(),
-                ICanSeeId = new List<int>()*/
+                LinkUses = 0
+
             },
             new Patient()
             {
@@ -88,14 +86,11 @@ namespace zorgapp.Models
                 FirstName = "Adminu",
                 LastName = "Adminu",
                 Email = "adminu@mail.mail",
-                //LocalId = new List<string>(),
                 PhoneNumber = "12345678",
                 UserName = "Adminu",
                 Password = Program.Hash256bits("adminu" + "password"),
                 LinkCode = null,
-                LinkUses = 0/*,
-                CanSeeMeId = new List<int>(),
-                ICanSeeId = new List<int>()*/
+                LinkUses = 0
             },
             new Patient()
             {
@@ -103,14 +98,11 @@ namespace zorgapp.Models
                 FirstName = "Admin3",
                 LastName = "Admin3",
                 Email = "admin3@mail.mail",
-                //LocalId = new List<string>(),
                 PhoneNumber = "12345678",
                 UserName = "Admin3",
                 Password = Program.Hash256bits("admin3" + "password"),
                 LinkCode = null,
-                LinkUses = 0/*,
-                CanSeeMeId = new List<int>(),
-                ICanSeeId = new List<int>()*/
+                LinkUses = 0
             }
             );
 
