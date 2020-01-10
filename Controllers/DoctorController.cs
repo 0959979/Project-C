@@ -78,7 +78,7 @@ namespace zorgapp.Controllers
                     PhoneNumber = phonenumber,
                     Specialism = specialism,
                     UserName = username,
-                    Password = Program.Hash256bits(username + password),
+                    Password = Program.Hash256bits(username.ToLower()+password),
                 };
                 // add localid to new doctor and then add the doctor to the database
                 doctor.LocalId.Add(localid);
@@ -916,17 +916,21 @@ namespace zorgapp.Controllers
 
 
         [Authorize(Roles = "Doctor")]
-        public ActionResult Message(string reciever, string subject, string text, string reply)
+        public ActionResult Message(string reciever, string subject, string text)
         {
-            Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == reciever);
-            if (reply != null)
-            {
-                ViewBag.reply = reply;
-            }
-
+            Patient patient = _context.Patients.FirstOrDefault(u => u.UserName == reciever);               
             if (patient != null)
             {
-                if (text != null && text != "")
+                if (string.IsNullOrEmpty(subject))
+                {
+                    ViewBag.emptyfield = "You need enter a subject to send a message.";
+                }
+                else if (string.IsNullOrEmpty(text))
+                {
+                    ViewBag.emptyfield = "You need to enter a message to send it.";                    
+                }
+                else
+
                 {
                     var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
                     Doctor doctor = _context.Doctors.FirstOrDefault(u => u.UserName == username);
@@ -944,12 +948,12 @@ namespace zorgapp.Controllers
                     _context.SaveChanges();
                     return RedirectToAction("MessageSend", "Doctor");
                 }
-                else
-                {
-                    ViewBag.emptyfield = "You need to type in a message to send it.";
-                }
             }
-            else if (reciever != null)
+            else if (string.IsNullOrEmpty(reciever))
+            {
+                ViewBag.emptyfield = "You need to enter a receiver to send a message";
+            }
+            else if (!(string.IsNullOrEmpty(reciever)))
             {
                 ViewBag.emptyfield = "User not found";
             }
@@ -1055,24 +1059,28 @@ namespace zorgapp.Controllers
                     Patientslist.Add(patientname);
                 };
 
-            }
+			}
 
-            Medicine medicine_ = new Medicine()
+            if (name != null)
             {
-                Name = name,
-                DateStart = start_date,
-                DateEnd = end_date,
-                Amount = amount,
-                PatientId = patient_id,
-                Mg = mg
-            };
+                Medicine medicine_ = new Medicine()
+                {
+                    Name = name,
+                    DateStart = start_date,
+                    DateEnd = end_date,
+                    Amount = amount,
+                    PatientId = patient_id,
+                    Mg = mg
+                };
 
-            _context.Medicines.Add(medicine_);
-            _context.SaveChanges();
+                _context.Medicines.Add(medicine_);
+                _context.SaveChanges();
+            }
 
 
             return View(Patientslist);
-        }
+		}
+
     
 
 
