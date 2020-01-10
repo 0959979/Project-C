@@ -864,8 +864,15 @@ namespace zorgapp.Controllers
         public IActionResult AddLocalId(int patientid, string localid)
         {
             Patient pat = _context.Patients.FirstOrDefault(u => u.PatientId == patientid);
-            var localids = pat.LocalId;
             bool localidExists = false;
+
+            if (pat.LocalId == null)
+            {
+                pat.LocalId = new List<string>();
+                _context.SaveChanges();
+            }
+            
+            var localids = pat.LocalId;
 
             foreach (var item in localids)
             {
@@ -1066,7 +1073,7 @@ namespace zorgapp.Controllers
 
             return View(Patientslist);
         }
-    }
+    
 
 
         //TESTING

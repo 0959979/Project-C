@@ -167,16 +167,16 @@ namespace zorgapp.Migrations
             migrationBuilder.InsertData(
                 table: "Admins",
                 columns: new[] { "AdminId", "Password", "UserName" },
-                values: new object[] { 1, "749f09bade8aca755660eeb17792da880218d4fbdc4e25fbec279d7fe9f65d70", "admin" });
+                values: new object[] { -1, "749f09bade8aca755660eeb17792da880218d4fbdc4e25fbec279d7fe9f65d70", "admin" });
 
             migrationBuilder.InsertData(
                 table: "Doctors",
                 columns: new[] { "DoctorId", "Email", "FirstName", "LastName", "LocalId", "Password", "PhoneNumber", "Specialism", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "admin@mail.mail", "admin", "admin", null, "749f09bade8aca755660eeb17792da880218d4fbdc4e25fbec279d7fe9f65d70", "12345678", "-", "admin" },
-                    { 2, "admin2@mail.mail", "admin2", "admin2", null, "af3d131396a3c479f9d31c2b9ef5ff9b4c4d1f222087eb24049311402c856702", "12345678", "-", "admin2" },
-                    { 3, "admin3@mail.mail", "admin3", "admin3", null, "72c535b1171f05c58533f9a031ff6445ed4ae3460063c06816eca3040655b6af", "12345678", "-", "admin3" }
+                    { -1, "admin@mail.mail", "admin", "admin", null, "749f09bade8aca755660eeb17792da880218d4fbdc4e25fbec279d7fe9f65d70", "12345678", "-", "admin" },
+                    { -2, "admin2@mail.mail", "admin2", "admin2", null, "af3d131396a3c479f9d31c2b9ef5ff9b4c4d1f222087eb24049311402c856702", "12345678", "-", "admin2" },
+                    { -3, "admin3@mail.mail", "admin3", "admin3", null, "72c535b1171f05c58533f9a031ff6445ed4ae3460063c06816eca3040655b6af", "12345678", "-", "admin3" }
                 });
 
             migrationBuilder.InsertData(
@@ -184,15 +184,15 @@ namespace zorgapp.Migrations
                 columns: new[] { "PatientId", "CanSeeMeId", "DoctorId", "Email", "FirstName", "ICanSeeId", "LastName", "LinkCode", "LinkUses", "LocalId", "Password", "PhoneNumber", "UserName" },
                 values: new object[,]
                 {
-                    { 1, null, null, "admin@mail.mail", "admin", null, "admin", null, 0, null, "749f09bade8aca755660eeb17792da880218d4fbdc4e25fbec279d7fe9f65d70", "12345678", "admin" },
-                    { 2, null, null, "adminu@mail.mail", "Adminu", null, "Adminu", null, 0, null, "63d9f3a3580e4f30308f489aab55087c455db7020658363deb062727b7afceb9", "12345678", "Adminu" },
-                    { 3, null, null, "admin3@mail.mail", "Admin3", null, "Admin3", null, 0, null, "72c535b1171f05c58533f9a031ff6445ed4ae3460063c06816eca3040655b6af", "12345678", "Admin3" }
+                    { -1, null, null, "admin@mail.mail", "admin", null, "admin", null, 0, null, "749f09bade8aca755660eeb17792da880218d4fbdc4e25fbec279d7fe9f65d70", "12345678", "admin" },
+                    { -2, null, null, "adminu@mail.mail", "Adminu", null, "Adminu", null, 0, null, "63d9f3a3580e4f30308f489aab55087c455db7020658363deb062727b7afceb9", "12345678", "Adminu" },
+                    { -3, null, null, "admin3@mail.mail", "Admin3", null, "Admin3", null, 0, null, "72c535b1171f05c58533f9a031ff6445ed4ae3460063c06816eca3040655b6af", "12345678", "Admin3" }
                 });
 
             migrationBuilder.InsertData(
                 table: "PatientsDoctorss",
                 columns: new[] { "DoctorId", "PatientId" },
-                values: new object[] { 1, 1 });
+                values: new object[] { -1, -1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Patients_DoctorId",

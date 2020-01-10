@@ -690,8 +690,8 @@ namespace zorgapp.Controllers
             bool Pass = false;
             DatabaseContext Tcontext = testController.getContext();
             AdminController controller = new AdminController(testController.getContext());
-            int PatientID = 1;
-            int DoctorID = 1;
+            int PatientID = -1;
+            int DoctorID = -1;
             Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
 
             Patient patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
@@ -703,7 +703,7 @@ namespace zorgapp.Controllers
             bool linkmade = Tcontext.PatientsDoctorss.Contains(patientsDoctors_);
 
             //loops untill patient is found where doc is not already linked
-            for (int i = 1; linkmade; i++)
+            for (int i = -3; linkmade; i++)
             {
                 PatientID = i;
                 patientsDoctors_ = Tcontext.PatientsDoctorss.FirstOrDefault(
@@ -819,7 +819,7 @@ namespace zorgapp.Controllers
             DatabaseContext Tcontext = testController.getContext();
             AdminController controller = new AdminController(testController.getContext());
             int PatientID = new int();
-            int DoctorID = 1;
+            int DoctorID = -1;
             Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
 
             Patient patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
@@ -926,7 +926,7 @@ namespace zorgapp.Controllers
             bool Pass = false;
             DatabaseContext Tcontext = testController.getContext();
             AdminController controller = new AdminController(testController.getContext());
-            int PatientID = 1;
+            int PatientID = -1;
             int DoctorID = new int();
             Doctor doctor = Tcontext.Doctors.FirstOrDefault(x => x.DoctorId == DoctorID);
             Patient patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
@@ -939,7 +939,7 @@ namespace zorgapp.Controllers
 
 
             //loops untill doctor is found that doesnt exist 
-            for (int i = 1; doctorExists; i++)
+            for (int i = -3; doctorExists; i++)
             {
                 DoctorID = i;
                 doctor = Tcontext.Doctors.FirstOrDefault(p => p.DoctorId == DoctorID);
@@ -1602,6 +1602,13 @@ namespace zorgapp.Controllers
             var localids = pat.LocalId;
             bool localidExists = false;
 
+            if (pat.LocalId == null)
+            {
+                pat.LocalId = new List<string>();
+                Tcontext.SaveChanges();
+
+            }
+
             //act
             try
             {
@@ -1692,6 +1699,12 @@ namespace zorgapp.Controllers
             Patient pat = Tcontext.Patients.FirstOrDefault(u => u.PatientId == patientid);
             var localids = pat.LocalId;
             string LocalID = localids.First();
+
+            if (pat.LocalId == null)
+            {
+                pat.LocalId = new List<string>();
+                Tcontext.SaveChanges();
+            }
 
             if (LocalID == null)
             {
