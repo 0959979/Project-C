@@ -64,7 +64,7 @@ namespace zorgapp.Controllers{
                     LocalId = new List<string>(),
                     PhoneNumber = phonenumber,
                     UserName = username,
-                    Password = Program.Hash256bits(username+password),
+                    Password = Program.Hash256bits(username.ToLower()+password),
                     LinkCode = null,
                     LinkUses = 0,
                     CanSeeMeId = new List<int>(),
@@ -1126,7 +1126,7 @@ namespace zorgapp.Controllers{
                     LocalId = new List<string>(),
                     PhoneNumber = "12345678",
                     UserName = "Adminu",
-                    Password = Program.Hash256bits("Adminu" + "password"),
+                    Password = Program.Hash256bits("adminu" + "password"),
                     LinkCode = null,
                     LinkUses = 0,
                     CanSeeMeId = new List<int>(),
@@ -1311,7 +1311,6 @@ namespace zorgapp.Controllers{
             //arrange
             bool Pass = false;
             PatientController controller = testController;
-            controller.Login("admin", "password", "patient");
 
             string receiver = "admin2";
             string subject = "Message Test";
@@ -1344,7 +1343,6 @@ namespace zorgapp.Controllers{
             //assert
             DatabaseContext Tcontext = testController.getContext();
             Message mes = Tcontext.Messages.FirstOrDefault(m => m.Receiver == receiver && m.Subject == subject && m.Text == text);
-            controller.Logout();
             if (mes == null)
             {
                 Aresult = "Message is not created";
@@ -1398,7 +1396,6 @@ namespace zorgapp.Controllers{
             //arrange
             bool Pass = false;
             PatientController controller = testController;
-            controller.Login("admin", "password", "patient");
 
             string receiver = null;
             string subject = "Message Test";
@@ -1431,7 +1428,6 @@ namespace zorgapp.Controllers{
             //assert
             DatabaseContext Tcontext = testController.getContext();
             Message mes = Tcontext.Messages.FirstOrDefault(m => m.Receiver == receiver && m.Subject == subject && m.Text == text);
-            controller.Logout();
             if (mes == null)
             {
                 Aresult = "Message is not created";
@@ -1485,7 +1481,6 @@ namespace zorgapp.Controllers{
             //arrange
             bool Pass = false;
             PatientController controller = testController;
-            controller.Login("admin", "password", "patient");
 
             string receiver = "admin2";
             string subject = null;
@@ -1518,7 +1513,6 @@ namespace zorgapp.Controllers{
             //assert
             DatabaseContext Tcontext = testController.getContext();
             Message mes = Tcontext.Messages.FirstOrDefault(m => m.Receiver == receiver && m.Subject == subject && m.Text == text);
-            controller.Logout();
             if (mes == null)
             {
                 Aresult = "Message is not created";
@@ -1572,7 +1566,6 @@ namespace zorgapp.Controllers{
             //arrange
             bool Pass = false;
             PatientController controller = testController;
-            controller.Login("admin", "password", "patient");
 
             string receiver = "admin2";
             string subject = "Message Test";
@@ -1605,7 +1598,6 @@ namespace zorgapp.Controllers{
             //assert
             DatabaseContext Tcontext = testController.getContext();
             Message mes = Tcontext.Messages.FirstOrDefault(m => m.Receiver == receiver && m.Subject == subject && m.Text == text);
-            controller.Logout();
             if (mes == null)
             {
                 Aresult = "Message is not created";
@@ -1659,7 +1651,6 @@ namespace zorgapp.Controllers{
             //arrange
             bool Pass = false;
             PatientController controller = testController;
-            controller.Login("admin", "password", "patient");
 
             string receiver = "peter";
             string subject = "Message Test";
@@ -1692,7 +1683,6 @@ namespace zorgapp.Controllers{
             //assert
             DatabaseContext Tcontext = testController.getContext();
             Message mes = Tcontext.Messages.FirstOrDefault(m => m.Receiver == receiver && m.Subject == subject && m.Text == text);
-            controller.Logout();
             if (mes == null)
             {
                 Aresult = "Message is not created";

@@ -65,7 +65,7 @@ namespace zorgapp.Controllers {
                     PhoneNumber = phonenumber,
                     Specialism = specialism,
                     UserName = username,
-                    Password = Program.Hash256bits(username+password),
+                    Password = Program.Hash256bits(username.ToLower()+password),
                 };
                 doctor.LocalId.Add(localid);
                 _context.Doctors.Add(doctor);
