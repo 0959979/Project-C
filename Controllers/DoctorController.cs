@@ -101,10 +101,21 @@ namespace zorgapp.Controllers
         [Authorize(Roles = "Doctor")]
         public ActionResult CreateCase(string caseid, string casename, int patientid)
         {
-            if (caseid != null)
+            if (caseid != null && casename != null)
             {
                 Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
                 int doctorid = user.DoctorId;
+                PatientsDoctors linkedpatient = _context.PatientsDoctorss.FirstOrDefault(u => u.DoctorId == doctorid && u.PatientId == patientid);
+                if (linkedpatient == null)
+                {
+                    return View();
+                }
+                Case ecase = _context.Cases.FirstOrDefault(c => c.CaseId == caseid && c.DoctorId == doctorid);
+                if (ecase != null)
+                {
+                    ViewBag.emptyfield1 = "A case with case Id '"+ecase.CaseId+"' already exists!";
+                    return View();
+                }
                 Case newcase = new Case()
                 {
                     CaseId = caseid,
@@ -256,6 +267,7 @@ namespace zorgapp.Controllers
                     foreach (var item in cases)
                     {
                         var appointment = from c in _context.Appointments where c.CaseId == item.CaseId select c;
+                        appointment = from c in appointment where c.DoctorId == item.DoctorId select c; //only the appointments of that doctorId
                         foreach (var app in appointment)
                         {
                             Tempappointments.Add(app);
@@ -308,11 +320,13 @@ namespace zorgapp.Controllers
         [Authorize(Roles = "Doctor")]
         public IActionResult EditCase(string caseId, string caseNotes, string Save, string Load, string name, DateTime start_date, DateTime end_date, int amount, float mg, string Add)
         {
-            if (!string.IsNullOrEmpty(Save) || !string.IsNullOrEmpty(Add))
+            if (!string.IsNullOrEmpty(Save) || !string.IsNullOrEmpty(Add)) //check if the doctor pressed the Save or Add button, if so, run this codeblock
             {
                 //ensure the case belongs to the doctor
+                Doctor luser = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+                int ldoctorId = luser.DoctorId;
                 var CaseQ = from c in _context.Cases where c.CaseId == caseId select c;
-                Case curCase = CaseQ.FirstOrDefault();
+                Case curCase = CaseQ.FirstOrDefault(c => c.DoctorId == ldoctorId);
                 if (curCase == null)
                 {
                     ViewBag.SaveText = " Could not find case with caseId: " + caseId;
@@ -360,6 +374,7 @@ namespace zorgapp.Controllers
                 }
                 //save case in db
             }
+            //if the doctor has not pressed Save or Add on the editcase page...
             Case currentCase;
             string patientName;
             List<Case> caseList = new List<Case>();
@@ -377,7 +392,7 @@ namespace zorgapp.Controllers
             //get the case
             var CaseList = from l in _context.Cases where l.DoctorId == doctorId select l;
             Case FirstCase = CaseList.FirstOrDefault();
-            if (FirstCase == null)
+            if (FirstCase == null) //True if the doctor has no cases, he will be sent to the page to create a case
             {
                 return RedirectToAction("Createcase", "Doctor");
             }
@@ -387,7 +402,7 @@ namespace zorgapp.Controllers
             }
             var currentCaseList = from c in CaseList where c.CaseId == caseId.ToString() select c;
             currentCase = currentCaseList.FirstOrDefault();
-            if (currentCase == null)
+            if (currentCase == null) //if there is no case with the given CaseId, the doctor will be sent to the create case page
             {
                 return RedirectToAction("CreateCase", "Doctor");
             }
@@ -403,8 +418,8 @@ namespace zorgapp.Controllers
             }
 
             //get the appointments of that case
-            var AppointmentL = from a in _context.Appointments where a.CaseId == currentCase.CaseId orderby a.Date ascending select a;
-            foreach (Appointment app in AppointmentL)
+            var AppointmentL = from a in _context.Appointments where a.CaseId == currentCase.CaseId && a.DoctorId == currentCase.DoctorId orderby a.Date ascending select a;
+            foreach(Appointment app in AppointmentL)
             {
                 appointments.Add(app);
             }
@@ -438,7 +453,7 @@ namespace zorgapp.Controllers
                 patientName = "Error: Patient with patientId '" + currentCase.PatientId.ToString() + "' not found!";
             }
 
-            CaseViewModel casemodel = new CaseViewModel
+            CaseViewModel casemodel = new CaseViewModel //all the information that is needed for the appointment page
             {
                 CurrentCase = currentCase,
                 PatientName = patientName,
@@ -577,26 +592,31 @@ namespace zorgapp.Controllers
             return newList;
         }
 
-        [Authorize(Roles = "Doctor")]
-        public ActionResult CreateAppointment(string caseid, DateTime date, string info)
-        {
-            if (caseid != null)
-            {
-                Appointment appointment = new Appointment()
-                {
-                    CaseId = caseid,
-                    Date = date,
-                    Info = info
-                };
-                _context.Appointments.Add(appointment);
-                _context.SaveChanges();
-
-                return RedirectToAction("Profile", "Doctor");
-            }
-            List<Case> caseList = new List<Case>();
-
+  
+ 	    [Authorize(Roles="Doctor")]
+		public ActionResult CreateAppointment(string caseid,DateTime date, string info)
+		{
             Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
-            int doctorid = user.DoctorId;
+			int doctorid = user.DoctorId;
+			if (caseid != null) //this is the case when something is submitted
+			{
+				Appointment appointment = new Appointment()
+				{
+					CaseId = caseid,
+					Date = date,
+					Info = info,
+                    DoctorId = doctorid
+				};
+				_context.Appointments.Add(appointment);
+				_context.SaveChanges();
+
+
+				return RedirectToAction("Profile", "Doctor");
+			}
+            //the code bellow happens when the page is first visited without an appointment being made
+            //the code makes a list of all cases belonging to that doctor
+			List<Case> caseList = new List<Case>();
+
 
             var cases = from c in _context.Cases where c.DoctorId == doctorid select c;
 
@@ -606,7 +626,7 @@ namespace zorgapp.Controllers
             }
 
             NewAppointmentViewModel model;
-            model = new NewAppointmentViewModel
+			model = new NewAppointmentViewModel //make a model containing a list of cases to pass on to the view
             {
                 Cases = caseList
             };
@@ -627,6 +647,7 @@ namespace zorgapp.Controllers
 
                 var Appointment = new List<Appointment>();
                 var appointments = from a in _context.Appointments where a.CaseId == caseid select a;
+                appointments = from c in appointments where c.DoctorId == doctorid select c; //only the appointments of that doctorId
 
                 ViewBag.ID = caseid;
 
@@ -1044,6 +1065,1140 @@ namespace zorgapp.Controllers
 
 
             return View(Patientslist);
+        }
+    }
+
+
+        //TESTING
+        public DatabaseContext getContext()
+        {
+            return _context;
+        }
+        public IActionResult noAccess()
+        {
+            return View();
+        }
+        [Authorize(Roles = "Doctor")]
+        public IActionResult TestPage()
+        {
+            if (User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.ToLower() != "admin")
+            {
+                return RedirectToAction("Login", "Patient");
+            }
+            List<Tuple<string, string>> tupleList = new List<Tuple<string, string>>();
+
+            List<DoctorTest> testlist = new List<DoctorTest>();
+            {
+                testlist.Add(new CreateCaseTest1(this));
+                testlist.Add(new CreateCaseTest2(this));
+                testlist.Add(new CreateCaseTest3(this));
+                testlist.Add(new CreateCaseTest4(this));
+                testlist.Add(new CreateCaseTest5(this));
+                testlist.Add(new CreateCaseTest6(this));
+            }
+            foreach (DoctorTest T in testlist)
+            {
+                tupleList.Add(new Tuple<string, string>(T.Id, T.Id));
+            }
+
+            TestListViewModel testlistmodel = new TestListViewModel { tuples = tupleList };
+            return View(testlistmodel);
+        }
+
+        public IActionResult StartTest(string TestId)
+        {
+            List<DoctorTest> testlist = new List<DoctorTest>();
+            {
+                testlist.Add(new CreateCaseTest1(this));
+                testlist.Add(new CreateCaseTest2(this));
+                testlist.Add(new CreateCaseTest3(this));
+                testlist.Add(new CreateCaseTest4(this));
+                testlist.Add(new CreateCaseTest5(this));
+                testlist.Add(new CreateCaseTest6(this));
+            }
+            DoctorTest testobj = testlist.FirstOrDefault();
+            foreach (DoctorTest T in testlist)
+            {
+                if (T.Id == TestId)
+                {
+                    testobj = T;
+                }
+            }
+            TestViewModel Model = testobj.Run();
+            return View(Model);
+        }
+    }
+    internal abstract class DoctorTest
+    {
+        public abstract TestViewModel Run();
+        public DoctorController testController;
+        public string Id;
+        public string Description;
+        public string Steps;
+        public string Criteria;
+        public string Inputstr;
+        public string Aresult;
+        public string Eresult;
+        public bool Pass;
+    }
+    internal class TemplateTest : DoctorTest
+    {
+        public TemplateTest(DoctorController tc)
+        {
+            testController = tc;
+            Id = ".Integration.";
+            Description = " test 1";
+            Steps = "Check if true == true";
+            Criteria = "true must be true";
+            Inputstr = "true";
+            Aresult = "";
+            Eresult = "True";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DoctorController controller = testController;
+
+            //act
+            try
+            {
+                if (true == true)
+                {
+                    Aresult = "True";
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class CreateCaseTest1 : DoctorTest
+    {
+        public CreateCaseTest1(DoctorController tc)
+        {
+            testController = tc;
+            Id = "D5.Integration.CC1";
+            Description = "Create Case test 1";
+            Steps = "Make sure the doctor is linked and the case does not already exist, then create the case.";
+            Criteria = "The case must not be present before the run phase, and present after this phase.";
+            Inputstr = "All fields filled in";
+            Aresult = "";
+            Eresult = "Case with Id " + "TCC1" + " and name " + "Test Case CC1";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DoctorController controller = testController;
+            DatabaseContext _context = controller.getContext();
+            string cId = "TCC1";
+
+            Doctor loggedDoctor = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            int docId = loggedDoctor.DoctorId;
+
+            //make sure the link is present
+            try
+            {
+                var links = from l in _context.PatientsDoctorss where l.DoctorId == docId select l;
+                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == 1);
+                if (pl == null)
+                {
+                    pl = new PatientsDoctors()
+                    {
+                        PatientId = 1,
+                        DoctorId = docId
+                    };
+                    _context.PatientsDoctorss.Add(pl);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+            //make sure the case does not already exist
+            try
+            {
+                var cases = from c in _context.Cases where c.DoctorId == docId select c;
+                Case pl = cases.FirstOrDefault(u => u.CaseId == cId);
+                if (pl != null)                {
+                    _context.Cases.Remove(pl);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //act
+            try
+            {
+                controller.CreateCase(cId,"Test Case CC1",1);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            var casel = from c in _context.Cases where c.DoctorId == docId select c;
+            Case ncase = casel.FirstOrDefault(u => u.CaseId == cId);
+
+            if (ncase == null)
+            {
+                Aresult = "Case with Id "+cId+" is null";
+            }
+            else
+            {
+                Aresult = "Case with Id " + ncase.CaseId + " and name "+ncase.CaseName;
+            }
+
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class CreateCaseTest2 : DoctorTest
+    {
+        public CreateCaseTest2(DoctorController tc)
+        {
+            testController = tc;
+            Id = "D5.Integration.CC2";
+            Description = "Create Case test 2";
+            Steps = "Make sure the doctor is linked and the case does not already exist, then create the case.";
+            Criteria = "The case must not be present before the run phase, and still not after this phase.";
+            Inputstr = "All fields filled in except caseId, which is null";
+            Aresult = "";
+            Eresult = "Case with Id " + "TCC2" + " is null";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DoctorController controller = testController;
+            DatabaseContext _context = controller.getContext();
+            string cId = "TCC2";
+            string caseName = "Test Case CC2";
+
+            Doctor loggedDoctor = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            int docId = loggedDoctor.DoctorId;
+
+            //make sure the link is present
+            try
+            {
+                var links = from l in _context.PatientsDoctorss where l.DoctorId == docId select l;
+                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == 1);
+                if (pl == null)
+                {
+                    pl = new PatientsDoctors()
+                    {
+                        PatientId = 1,
+                        DoctorId = docId
+                    };
+                    _context.PatientsDoctorss.Add(pl);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+            //make sure the case does not already exist
+            try
+            {
+                var cases = from c in _context.Cases where c.DoctorId == docId select c;
+                Case pl = cases.FirstOrDefault(u => u.CaseName == caseName);
+                if (pl != null)
+                {
+                    _context.Cases.Remove(pl);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //act
+            try
+            {
+                controller.CreateCase(null, caseName, 1);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            var casel = from c in _context.Cases where c.DoctorId == docId select c;
+            Case ncase = casel.FirstOrDefault(u => u.CaseName == caseName);
+
+            if (ncase == null)
+            {
+                Aresult = "Case with Id " + cId + " is null";
+            }
+            else
+            {
+                Aresult = "Case with Id " + ncase.CaseId + " and name " + ncase.CaseName;
+            }
+
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class CreateCaseTest3 : DoctorTest
+    {
+        public CreateCaseTest3(DoctorController tc)
+        {
+            testController = tc;
+            Id = "D5.Integration.CC3";
+            Description = "Create Case test 3";
+            Steps = "Make sure the doctor is linked and the case does not already exist, then create the case.";
+            Criteria = "The case must not be present before the run phase, and still not after this phase.";
+            Inputstr = "All fields filled in except caseName, which is null";
+            Aresult = "";
+            Eresult = "Case with Id " + "TCC3" + " is null";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DoctorController controller = testController;
+            DatabaseContext _context = controller.getContext();
+            string cId = "TCC3";
+
+            Doctor loggedDoctor = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            int docId = loggedDoctor.DoctorId;
+
+            //make sure the link is present
+            try
+            {
+                var links = from l in _context.PatientsDoctorss where l.DoctorId == docId select l;
+                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == 1);
+                if (pl == null)
+                {
+                    pl = new PatientsDoctors()
+                    {
+                        PatientId = 1,
+                        DoctorId = docId
+                    };
+                    _context.PatientsDoctorss.Add(pl);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+            //make sure the case does not already exist
+            try
+            {
+                var cases = from c in _context.Cases where c.DoctorId == docId select c;
+                Case pl = cases.FirstOrDefault(u => u.CaseId == cId);
+                if (pl != null)
+                {
+                    _context.Cases.Remove(pl);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //act
+            try
+            {
+                controller.CreateCase(cId, null, 1);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            var casel = from c in _context.Cases where c.DoctorId == docId select c;
+            Case ncase = casel.FirstOrDefault(u => u.CaseId == cId);
+
+            if (ncase == null)
+            {
+                Aresult = "Case with Id " + cId + " is null";
+            }
+            else
+            {
+                Aresult = "Case with Id " + ncase.CaseId + " and name " + ncase.CaseName;
+            }
+
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class CreateCaseTest4 : DoctorTest
+    {
+        public CreateCaseTest4(DoctorController tc)
+        {
+            testController = tc;
+            Id = "D5.Integration.CC4";
+            Description = "Create Case test 4";
+            Steps = "Make sure the doctor is not linked and the case does not already exist, then create the case.";
+            Criteria = "The case must not be present before the run phase, and still not after this phase.";
+            Inputstr = "All fields filled with the patientId being that of an unlinked patient, which is null";
+            Aresult = "";
+            Eresult = "Case with Id " + "TCC4" + " is null";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DoctorController controller = testController;
+            DatabaseContext _context = controller.getContext();
+            string cId = "TCC4";
+            string caseName = "Test Case CC4";
+
+            Doctor loggedDoctor = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            Patient linkedPatient = _context.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            int docId = loggedDoctor.DoctorId;
+            int patId = linkedPatient.PatientId;
+
+            //make sure the link is not present
+            try
+            {
+                var links = from l in _context.PatientsDoctorss where l.DoctorId == docId select l;
+                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == patId);
+                if (pl != null)
+                {
+                    _context.PatientsDoctorss.Remove(pl);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+            //make sure the case does not already exist
+            try
+            {
+                var cases = from c in _context.Cases where c.DoctorId == docId select c;
+                Case pl = cases.FirstOrDefault(u => u.CaseId == cId);
+                if (pl != null)
+                {
+                    _context.Cases.Remove(pl);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //act
+            try
+            {
+                controller.CreateCase(cId, caseName, patId);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            var casel = from c in _context.Cases where c.DoctorId == docId select c;
+            Case ncase = casel.FirstOrDefault(u => u.CaseId == cId);
+
+            if (ncase == null)
+            {
+                Aresult = "Case with Id " + cId + " is null";
+            }
+            else
+            {
+                Aresult = "Case with Id " + ncase.CaseId + " and name " + ncase.CaseName;
+            }
+
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class CreateCaseTest5 : DoctorTest
+    {
+        public CreateCaseTest5(DoctorController tc)
+        {
+            testController = tc;
+            Id = "D5.Integration.CC5";
+            Description = "Create Case test 5";
+            Steps = "Make sure the doctor is not linked and the case does not already exist, then create the case.";
+            Criteria = "The case must not be present before the run phase, and still not after this phase.";
+            Inputstr = "All fields filled with the patientId being that of an unlinked patient, which is null";
+            Aresult = "";
+            Eresult = "No new cases with Id TCC5 have been added";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DoctorController controller = testController;
+            DatabaseContext _context = controller.getContext();
+            string cId = "TCC5";
+            string caseName = "Test Case CC5";
+            int caseamount = 0; //The amount of cases with the same Id. The test checks that if there are more than 0 cases, and we try to add a case, the amount of cases does not go up
+
+            Doctor loggedDoctor = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            Patient linkedPatient = _context.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            int docId = loggedDoctor.DoctorId;
+            int patId = linkedPatient.PatientId;
+
+            //make sure the link is present
+            try
+            {
+                var links = from l in _context.PatientsDoctorss where l.DoctorId == docId select l;
+                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == patId);
+                if (pl == null)
+                {
+                    pl = new PatientsDoctors()
+                    {
+                        PatientId = patId,
+                        DoctorId = docId
+                    };
+                    _context.PatientsDoctorss.Add(pl);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+            //make sure the case already exists
+            try
+            {
+                var casesq = from c in _context.Cases where c.DoctorId == docId select c;
+                var caseswidq = from c in casesq where c.CaseId == cId select c;
+                caseamount = caseswidq.Count();
+                //Case pl = cases.FirstOrDefault(u => u.CaseId == cId);
+                if (caseamount <= 0)
+                {
+                    Case newcase = new Case()
+                    {
+                        CaseId = cId,
+                        CaseName = caseName,
+                        DoctorId = docId,
+                        PatientId = patId
+                    };
+                    _context.Cases.Add(newcase);
+                    _context.SaveChanges();
+                    casesq = from c in _context.Cases where c.DoctorId == docId select c;
+                    caseswidq = from c in casesq where c.CaseId == cId select c;
+                    caseamount = caseswidq.Count();
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //act
+            try
+            {
+                controller.CreateCase(cId, caseName, patId);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            var cases = from c in _context.Cases where c.DoctorId == docId select c;
+            var caseswid = from c in cases where c.CaseId == cId select c;
+            int newcaseamount = caseswid.Count();
+
+            if (newcaseamount < caseamount)
+            {
+                Aresult = (newcaseamount - caseamount).ToString() + " cases with Id TCC5 have been removed, from " + caseamount + " to " + newcaseamount;
+            }
+            else if (newcaseamount > caseamount)
+            {
+                Aresult = (caseamount - newcaseamount).ToString() + " new cases with Id TCC5 have been added, from " + caseamount + " to " + newcaseamount;
+            }
+            else
+            {
+                Aresult = "No new cases with Id TCC5 have been added";
+            }
+
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
+    internal class CreateCaseTest6 : DoctorTest
+    {
+        public CreateCaseTest6(DoctorController tc)
+        {
+            testController = tc;
+            Id = "D5.Integration.CC6";
+            Description = "Create Case test 6";
+            Steps = "Make sure the doctor is linked and the case does not already exist, then create the case.";
+            Criteria = "The case must not be present before the run phase, but present afterwards.";
+            Inputstr = "All fields filled with the a caseId the logged doctor is not using, but a different doctor is.";
+            Aresult = "";
+            Eresult = "Case with Id " + "TCC6" + " and name " + "Test Case CC6";
+        }
+
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            DoctorController controller = testController;
+            DatabaseContext _context = controller.getContext();
+            string cId = "TCC6";
+            string caseName = "Test Case CC6";
+
+            Doctor loggedDoctor = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            Doctor otherDoctor = _context.Doctors.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
+            Patient linkedPatient = _context.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin".ToLower());
+            int docId = loggedDoctor.DoctorId;
+            int otherId = otherDoctor.DoctorId;
+            int patId = linkedPatient.PatientId;
+
+            //make sure the link is present
+            try
+            {
+                var links = from l in _context.PatientsDoctorss where l.DoctorId == docId select l;
+                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == patId);
+                if (pl == null)
+                {
+                    pl = new PatientsDoctors()
+                    {
+                        PatientId = patId,
+                        DoctorId = docId
+                    };
+                    _context.PatientsDoctorss.Add(pl);
+                    _context.SaveChanges();
+                }
+
+                links = from l in _context.PatientsDoctorss where l.DoctorId == otherId select l; //the links from the other doctor
+                pl = links.FirstOrDefault(u => u.PatientId == patId);
+                if (pl == null)
+                {
+                    pl = new PatientsDoctors()
+                    {
+                        PatientId = patId,
+                        DoctorId = otherId
+                    };
+                    _context.PatientsDoctorss.Add(pl);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+            //make sure the case does not already exist
+            try
+            {
+                var cases = from c in _context.Cases where c.DoctorId == docId select c;
+                Case pl = cases.FirstOrDefault(u => u.CaseId == cId);
+                if (pl != null)
+                {
+                    _context.Cases.Remove(pl);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+            //make sure the other doctor does have the case
+            try
+            {
+                var cases = from c in _context.Cases where c.DoctorId == otherId select c;
+                Case pl = cases.FirstOrDefault(u => u.CaseId == cId);
+                if (pl == null)
+                {
+                    pl = new Case()
+                    {
+                        CaseId = cId,
+                        CaseName = caseName,
+                        DoctorId = otherId,
+                        PatientId = patId,
+                        CaseInfo = ""
+                    };
+                    _context.Cases.Add(pl);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //act
+            try
+            {
+                controller.CreateCase(cId, caseName, patId);
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            var casel = from c in _context.Cases where c.DoctorId == docId select c;
+            Case ncase = casel.FirstOrDefault(u => u.CaseId == cId);
+
+            if (ncase == null)
+            {
+                Aresult = "Case with Id " + cId + " is null";
+            }
+            else
+            {
+                Aresult = "Case with Id " + ncase.CaseId + " and name " + ncase.CaseName;
+            }
+
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
         }
     }
 }

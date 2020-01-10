@@ -9,10 +9,11 @@ namespace zorgapp.Models
 
     public class Appointment
     {
-        public int AppointmentId { get; set; }
-        public DateTime Date { get; set; }
-        public string CaseId { get; set; }
-        public string Info { get; set; }
+        public int AppointmentId {get;set;}
+        public DateTime Date {get;set;}
+        public string CaseId {get;set;}
+        public string Info {get;set; }
+        public int DoctorId { get; set; }
 
     }
 }

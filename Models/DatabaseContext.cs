@@ -19,8 +19,118 @@ namespace zorgapp.Models
             .HasForeignKey(pd => pd.DoctorId);
             modelBuilder.Entity<PatientsDoctors>()
             .HasOne(pd => pd.Patient)
-            .WithMany(p => p.PatientsDoctorss)
-            .HasForeignKey(pd => pd.PatientId);
+            .WithMany (p => p.PatientsDoctorss)
+            .HasForeignKey (pd => pd.PatientId);
+
+            //cases
+            modelBuilder.Entity<Case>()
+            .HasKey(x => new { x.DoctorId, x.CaseId });
+
+            //make sure the necessary accounts are present
+            modelBuilder.Entity<Doctor>()
+            .HasData(new Doctor()
+            {
+                DoctorId = 1,
+                FirstName = "admin",
+                LastName = "admin",
+                //LocalId = new List<string>(),
+                Email = "admin@mail.mail",
+                PhoneNumber = "12345678",
+                Specialism = "-",
+                UserName = "admin",
+                Password = Program.Hash256bits("admin" + "password")
+            },
+            new Doctor()
+            {
+                DoctorId = 2,
+                FirstName = "admin2",
+                LastName = "admin2",
+                //LocalId = new List<string>(),
+                Email = "admin2@mail.mail",
+                PhoneNumber = "12345678",
+                Specialism = "-",
+                UserName = "admin2",
+                Password = Program.Hash256bits("admin2" + "password")
+            },
+            new Doctor()
+            {
+                DoctorId = 3,
+                FirstName = "admin3",
+                LastName = "admin3",
+                //LocalId = new List<string>(),
+                Email = "admin3@mail.mail",
+                PhoneNumber = "12345678",
+                Specialism = "-",
+                UserName = "admin3",
+                Password = Program.Hash256bits("admin3" + "password")
+            }
+            );
+
+            modelBuilder.Entity<Patient>()
+            .HasData(new Patient()
+            {
+                PatientId = 1,
+                FirstName = "admin",
+                LastName = "admin",
+                Email = "admin@mail.mail",
+                //LocalId = new List<string>(),
+                PhoneNumber = "12345678",
+                UserName = "admin",
+                Password = Program.Hash256bits("admin" + "password"),
+                LinkCode = null,
+                LinkUses = 0/*,
+                CanSeeMeId = new List<int>(),
+                ICanSeeId = new List<int>()*/
+            },
+            new Patient()
+            {
+                PatientId = 2,
+                FirstName = "Adminu",
+                LastName = "Adminu",
+                Email = "adminu@mail.mail",
+                //LocalId = new List<string>(),
+                PhoneNumber = "12345678",
+                UserName = "Adminu",
+                Password = Program.Hash256bits("adminu" + "password"),
+                LinkCode = null,
+                LinkUses = 0/*,
+                CanSeeMeId = new List<int>(),
+                ICanSeeId = new List<int>()*/
+            },
+            new Patient()
+            {
+                PatientId = 3,
+                FirstName = "Admin3",
+                LastName = "Admin3",
+                Email = "admin3@mail.mail",
+                //LocalId = new List<string>(),
+                PhoneNumber = "12345678",
+                UserName = "Admin3",
+                Password = Program.Hash256bits("admin3" + "password"),
+                LinkCode = null,
+                LinkUses = 0/*,
+                CanSeeMeId = new List<int>(),
+                ICanSeeId = new List<int>()*/
+            }
+            );
+
+            modelBuilder.Entity<Admin>()
+            .HasData(new Admin()
+            {
+                AdminId = 1,
+                UserName = "admin",
+                Password = Program.Hash256bits("adminpassword")
+            }
+            );
+
+            //link between patient 1 and doctor 1
+            modelBuilder.Entity<PatientsDoctors>()
+            .HasData(new PatientsDoctors()
+            {
+                PatientId = 1,
+                DoctorId = 1
+            }
+            );
 
             //https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration
 

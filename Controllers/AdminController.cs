@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using zorgapp.Models;
+using zorgapp.ViewModels;
 
 namespace zorgapp.Controllers
 {
@@ -94,9 +96,175 @@ namespace zorgapp.Controllers
 
             return View();
         }
+        //    public ActionResult Login(string username, string password)
+        //     {
+        //         var adminexists = _context.Admins.Any(x => x.UserName == "admin");
+        //         if(!adminexists){
+        //         Admin admin = new Admin(){
+        //             UserName = "admin",
+        //             Password = "password"
+        //         };
 
+        //         _context.Admins.Add(admin);
+        //         _context.SaveChanges();
+        //         }
+
+
+        //         Admin user = _context.Admins.FirstOrDefault(u => u.UserName == username);
+        //         if (user != null)
+        //         {
+        //             if (user.Password == password)
+        //             {
+        //                 return RedirectToAction("Profile", "Admin");
+        //             }
+        //             else
+        //             {
+        //                 ViewBag.emptyfield = "Username or Password is incorrect";
+        //             }
+        //         }
+        //         else if (username != null)
+        //         {
+        //             ViewBag.emptyfield = "Username or Password is incorrect";
+        //         }
+        //         return View();
+        //     }
+
+        //TESTING
+        public DatabaseContext getContext()
+        {
+            return _context;
+        }
+        public IActionResult noAccess()
+        {
+            return View();
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult TestPage()
+        {
+            if (User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.ToLower() != "admin")
+            {
+                return RedirectToAction("Login", "Patient");
+            }
+            List<Tuple<string, string>> tupleList = new List<Tuple<string, string>>();
+
+            List<AdminTest> testlist = new List<AdminTest>();
+            {
+                testlist.Add(new TemplateTestA(this));
+            }
+            foreach (AdminTest T in testlist)
+            {
+                tupleList.Add(new Tuple<string, string>(T.Id, T.Id));
+            }
+
+            TestListViewModel testlistmodel = new TestListViewModel { tuples = tupleList };
+            return View(testlistmodel);
+        }
+
+        public IActionResult StartTest(string TestId)
+        {
+            List<AdminTest> testlist = new List<AdminTest>();
+            {
+                testlist.Add(new TemplateTestA(this));
+            }
+            AdminTest testobj = testlist.FirstOrDefault();
+            foreach (AdminTest T in testlist)
+            {
+                if (T.Id == TestId)
+                {
+                    testobj = T;
+                }
+            }
+            TestViewModel Model = testobj.Run();
+            return View(Model);
+        }
     }
+    internal abstract class AdminTest
+    {
+        public abstract TestViewModel Run();
+        public AdminController testController;
+        public string Id;
+        public string Description;
+        public string Steps;
+        public string Criteria;
+        public string Inputstr;
+        public string Aresult;
+        public string Eresult;
+        public bool Pass;
+    }
+    internal class TemplateTestA : AdminTest
+    {
+        public TemplateTestA(AdminController tc)
+        {
+            testController = tc;
+            Id = ".Integration.";
+            Description = " test 1";
+            Steps = "Check if true == true";
+            Criteria = "true must be true";
+            Inputstr = "true";
+            Aresult = "";
+            Eresult = "True";
+        }
 
+        public override TestViewModel Run()
+        {
+            TestViewModel model;
+
+            //arrange
+            bool Pass = false;
+            AdminController controller = testController;
+
+            //act
+            try
+            {
+                if (true == true)
+                {
+                    Aresult = "True";
+                }
+            }
+            catch (Exception e)
+            {
+                Pass = false;
+                Aresult = e.ToString();
+                model = new TestViewModel()
+                {
+                    id = Id,
+                    time = DateTime.Now,
+                    description = Description,
+                    steps = Steps,
+                    criteria = Criteria,
+                    input = Inputstr,
+                    aresult = Aresult,
+                    eresult = Eresult,
+                    pass = Pass
+                };
+                return model;
+            }
+
+            //assert
+            if (Aresult == Eresult)
+            {
+                Pass = true;
+            }
+            else
+            {
+                Pass = false;
+            }
+
+            model = new TestViewModel()
+            {
+                id = Id,
+                time = DateTime.Now,
+                description = Description,
+                steps = Steps,
+                criteria = Criteria,
+                input = Inputstr,
+                aresult = Aresult,
+                eresult = Eresult,
+                pass = Pass
+            };
+            return model;
+        }
+    }
 }
 
 

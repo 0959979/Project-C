@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using zorgapp.Models;
 using zorgapp.ViewModels;
 using zorgapp.Controllers;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace zorgapp.Controllers
 {
@@ -124,7 +125,7 @@ namespace zorgapp.Controllers
 
             string firstName = "Harry";
             string lastName = "Jones";
-            string eMail = "HarryJ@email.com";
+            string eMail = "HarryJ1@email.com";
             string phoneNumber = "06-24685344";
             string specialism = "Bone fractures";
             string localId = "2515T1";
