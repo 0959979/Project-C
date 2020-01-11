@@ -934,7 +934,7 @@ namespace zorgapp.Controllers
                 }
                 else
                 {
-                    //Creates a new Message
+                    //Creates a new Message and adds it to the database
                     var username = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
                     Doctor doctor = _context.Doctors.FirstOrDefault(u => u.UserName == username);
                     Message message = new Message()
@@ -984,9 +984,12 @@ namespace zorgapp.Controllers
         [Authorize(Roles = "Doctor")]
         public ActionResult SentMessages()
         {
+            //Gets the information of the logged in doctor
             Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            //if user has no messages an empty message list is sent
             var message = from m in _context.Messages where m.Text == "" select m;
             var check = from m in _context.Messages where m.DoctorToPatient == true && m.Sender == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value select m;
+            //check if the user has any messages
             if (message != check)
             {
                 message = from m in _context.Messages where m.DoctorToPatient == true && m.Sender == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value orderby m.Date descending select m;
@@ -995,6 +998,7 @@ namespace zorgapp.Controllers
         }
         public ActionResult Reply(IFormCollection form)
         {
+            //Gets the reply username from another view and uses it in the reply view
             string reply = form["reply"].ToString();
             ViewBag.reply = reply;
             return View();
@@ -1003,6 +1007,7 @@ namespace zorgapp.Controllers
         [Authorize(Roles = "Doctor")]
         public ActionResult MessageSend()
         {
+            //a confirmation page for when a message is successfully send
             return View();
         }
 
