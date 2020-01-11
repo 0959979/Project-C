@@ -1287,12 +1287,12 @@ namespace zorgapp.Controllers
             try
             {
                 var links = from l in _context.PatientsDoctorss where l.DoctorId == docId select l;
-                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == 1);
+                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == -1);
                 if (pl == null)
                 {
                     pl = new PatientsDoctors()
                     {
-                        PatientId = 1,
+                        PatientId = -1,
                         DoctorId = docId
                     };
                     _context.PatientsDoctorss.Add(pl);
@@ -1349,7 +1349,7 @@ namespace zorgapp.Controllers
             //act
             try
             {
-                controller.CreateCase(cId,"Test Case CC1",1);
+                controller.CreateCase(cId,"Test Case CC1",-1);
             }
             catch (Exception e)
             {
@@ -1439,12 +1439,12 @@ namespace zorgapp.Controllers
             try
             {
                 var links = from l in _context.PatientsDoctorss where l.DoctorId == docId select l;
-                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == 1);
+                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == -1);
                 if (pl == null)
                 {
                     pl = new PatientsDoctors()
                     {
-                        PatientId = 1,
+                        PatientId = -1,
                         DoctorId = docId
                     };
                     _context.PatientsDoctorss.Add(pl);
@@ -1502,7 +1502,7 @@ namespace zorgapp.Controllers
             //act
             try
             {
-                controller.CreateCase(null, caseName, 1);
+                controller.CreateCase(null, caseName, -1);
             }
             catch (Exception e)
             {
@@ -1591,12 +1591,12 @@ namespace zorgapp.Controllers
             try
             {
                 var links = from l in _context.PatientsDoctorss where l.DoctorId == docId select l;
-                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == 1);
+                PatientsDoctors pl = links.FirstOrDefault(u => u.PatientId == -1);
                 if (pl == null)
                 {
                     pl = new PatientsDoctors()
                     {
-                        PatientId = 1,
+                        PatientId = -1,
                         DoctorId = docId
                     };
                     _context.PatientsDoctorss.Add(pl);
@@ -1654,7 +1654,7 @@ namespace zorgapp.Controllers
             //act
             try
             {
-                controller.CreateCase(cId, null, 1);
+                controller.CreateCase(cId, null, -1);
             }
             catch (Exception e)
             {

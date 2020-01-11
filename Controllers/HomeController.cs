@@ -36,22 +36,31 @@ namespace zorgapp.Controllers
             }
 
             Patient pat = _context.Patients.FirstOrDefault(u => u.PatientId == -1);
-            if (pat.LocalId == null)
+            if (pat.LocalId == null || pat.ICanSeeId == null || pat.CanSeeMeId == null)
             {
                 pat.LocalId = new List<String>();
+                pat.ICanSeeId = new List<int>();
+                pat.CanSeeMeId = new List<int>();
+
             }
 
             Patient pat2 = _context.Patients.FirstOrDefault(u => u.PatientId == -2);
-            if (pat2.LocalId == null)
+            if (pat2.LocalId == null || pat2.ICanSeeId == null || pat2.CanSeeMeId == null)
             {
                 pat2.LocalId = new List<String>();
+                pat2.ICanSeeId = new List<int>();
+                pat2.CanSeeMeId = new List<int>();
+
             }
 
 
             Patient pat3 = _context.Patients.FirstOrDefault(u => u.PatientId == -3);
-            if (pat3.LocalId == null)
+            if (pat3.LocalId == null || pat3.ICanSeeId == null || pat3.CanSeeMeId == null)
             {
                 pat3.LocalId = new List<String>();
+                pat3.ICanSeeId = new List<int>();
+                pat3.CanSeeMeId = new List<int>();
+
             }
             _context.SaveChanges();
             return View();

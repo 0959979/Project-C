@@ -384,7 +384,7 @@ namespace zorgapp.Controllers
             bool doctorExists = false;
 
             //loops untill doctor is found that exists 
-            for (int i = 1; !doctorExists; i++)
+            for (int i = -5; !doctorExists; i++)
             {
                 DoctorID = i;
                 doctor = Tcontext.Doctors.FirstOrDefault(p => p.DoctorId == DoctorID);
@@ -482,7 +482,7 @@ namespace zorgapp.Controllers
             bool doctorExists = false;
 
             //loops untill doctor is found that exists 
-            for (int i = 1; !doctorExists; i++)
+            for (int i = -5; !doctorExists; i++)
             {
                 DoctorID = i;
                 doctor = Tcontext.Doctors.FirstOrDefault(p => p.DoctorId == DoctorID);
@@ -1289,7 +1289,7 @@ namespace zorgapp.Controllers
             bool patientExists = false;
 
             //loops untill doctor is found that exists 
-            for (int i = 1; !patientExists; i++)
+            for (int i = -5; !patientExists; i++)
             {
                 PatientID = i;
                 patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
@@ -1385,7 +1385,7 @@ namespace zorgapp.Controllers
             bool patientExists = false;
 
             //loops untill doctor is found that exists 
-            for (int i = 1; !patientExists; i++)
+            for (int i = -5; !patientExists; i++)
             {
                 PatientID = i;
                 patient = Tcontext.Patients.FirstOrDefault(p => p.PatientId == PatientID);
