@@ -11,7 +11,7 @@
 
 <form asp-action="Message" method="post">
     Recipient username:<br>
-    <input type="text" required name=reciever id="reciever" value="@ViewBag.reply"><br>
+    <input type="text" required name=receiver id="receiver" value="@ViewBag.reply"><br>
     Subject:<br>
     <input type="string" required name=subject id="subject"><br>
     Message:<br>
@@ -22,27 +22,3 @@
 <h4>@ViewBag.emptyfield</h4>
 
 </html>
-@*<!DOCTYPE html>
-    <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta charset="utf-8" />
-        <title>
-        </title>
-    </head>
-    <body>
-        <form asp-action="Message" id="Message" method="post" runat="server">
-            <input type="string" id="sendto" rows="2" cols="40" placeholder=" Naam doctor"></input>
-            <br>
-            <input type="string" id="message" rows="15" cols="40" align="center" placeholder=" Schrijf uw bericht hier"></input>
-            <br>
-            <input id="submit" type="submit" value="Send" />
-        </form>
-        @*<form id="message" runat="server">
-                <textarea id="message" rows="15" cols="40" align="center" placeholder=" Schrijf uw bericht hier"></textarea>
-            </form>
-            <form id="Message" runat="server">
-                <input id="Message" type="submit" value="Send" />
-            </form>
-    <h4>@ViewBag.emptyfield</h4>
-    </body>
-    </html>*@

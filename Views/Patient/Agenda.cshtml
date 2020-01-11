@@ -22,11 +22,6 @@
                 <th></th>
 
                 <th><input type="submit" name="next" value="Next" /></th>
-                <th>
-                    <input type="button"
-                           value="Create appointment"
-                           onclick="location.href='@Url.Action("CreateAppointment","Doctor")'" />
-                </th>
                 <th>From <input type="number" name="starthour" value="@Model.Hoursi.First()" min="0" max="24" pattern="[0-9]" /></th>
                 <th>To <input type="number" name="endhour" value="@Model.Hoursi.Last()" min="0" max="24" pattern="[0-9]" /></th>
                 <th><input type="submit" name="apply" value="Apply" /></th>

@@ -516,21 +516,26 @@ namespace zorgapp.Controllers
         }
 
         [Authorize(Roles = "Patient")]
-        public ActionResult Message(string reciever, string subject, string text)
+        public ActionResult Message(string receiver, string subject, string text)
         {
             //Check if patient exists
-            Doctor doctor = _context.Doctors.FirstOrDefault(u => u.UserName == reciever);
+            Doctor doctor = _context.Doctors.FirstOrDefault(u => u.UserName == receiver);
             if (doctor != null)
             {
                 //Check if subject is empty
                 if (string.IsNullOrEmpty(subject))
                 {
-                    ViewBag.emptyfield = "You need enter a subject to send a message.";
+                    ViewBag.emptyfield = "You need to enter a subject to send a message.";
                 }
                 //Check if text is empty
                 else if (string.IsNullOrEmpty(text))
                 {
-                    ViewBag.emptyfield = "You need enter a message to send it.";                   
+                    ViewBag.emptyfield = "You need to enter a message to send it.";                   
+                }
+                //When the receiver field is empty
+                else if (string.IsNullOrEmpty(receiver))
+                {
+                    ViewBag.emptyfield = "You need to enter a receiver to send a message";
                 }
                 else
                 {
@@ -540,7 +545,7 @@ namespace zorgapp.Controllers
                     Message message = new Message()
                     {
                         Sender = username,
-                        Receiver = reciever,
+                        Receiver = receiver,
                         Subject = subject,
                         Text = text,
                         Date = DateTime.Now,
@@ -552,13 +557,8 @@ namespace zorgapp.Controllers
                     return RedirectToAction("MessageSend", "Patient");
                 }
             }
-            //When the receiver field is empty
-            else if (string.IsNullOrEmpty(reciever))
-            {
-                ViewBag.emptyfield = "You need to enter a receiver to send a message";
-            }
             //When receiver doesn't exist in the database
-            else if (!(string.IsNullOrEmpty(reciever)))
+            else if (!(string.IsNullOrEmpty(receiver)))
             {
                 ViewBag.emptyfield = "User not found";
             }

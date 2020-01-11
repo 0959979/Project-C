@@ -33,7 +33,7 @@ namespace zorgapp.Controllers
         public IActionResult SubmitDoctorAccount(string firstname, string lastname, string email, string phonenumber, string specialism, string localid, string username, string password)
         {
             // check if all parameters are filled in
-            if (firstname != null && lastname != null && email != null && phonenumber != null && specialism != null && localid != null && username != null && password != null)
+            if (firstname != null && lastname != null && email != null && phonenumber != null && specialism != null && username != null && password != null)
             {
                 bool valid = true;
                 {
@@ -81,7 +81,9 @@ namespace zorgapp.Controllers
                     Password = Program.Hash256bits(username.ToLower()+password), //the lowercase username is used to salt the password
                 };
                 // add localid to new doctor and then add the doctor to the database
+                if(localid != null){
                 doctor.LocalId.Add(localid);
+                }
                 _context.Doctors.Add(doctor);
                 _context.SaveChanges();
 
@@ -109,6 +111,7 @@ namespace zorgapp.Controllers
                 PatientsDoctors linkedpatient = _context.PatientsDoctorss.FirstOrDefault(u => u.DoctorId == doctorid && u.PatientId == patientid);
                 if (linkedpatient == null)
                 {
+                    ViewBag.emptyfield1 = "You're not linked to patient with id " + patientid.ToString();
                     return View();
                 }
                 Case ecase = _context.Cases.FirstOrDefault(c => c.CaseId == caseid && c.DoctorId == doctorid);
@@ -925,12 +928,17 @@ namespace zorgapp.Controllers
                 //Check if subject is empty
                 if (string.IsNullOrEmpty(subject))
                 {
-                    ViewBag.emptyfield = "You need enter a subject to send a message.";
+                    ViewBag.emptyfield = "You need to enter a subject to send a message.";
                 }
                 //Check if text is empty
                 else if (string.IsNullOrEmpty(text))
                 {
                     ViewBag.emptyfield = "You need to enter a message to send it.";                    
+                }
+                //When the receiver field is empty
+                else if (string.IsNullOrEmpty(receiver))
+                {
+                    ViewBag.emptyfield = "You need to enter a receiver to send a message";
                 }
                 else
                 {
@@ -951,12 +959,7 @@ namespace zorgapp.Controllers
                     _context.SaveChanges();
                     return RedirectToAction("MessageSend", "Doctor");
                 }
-            }
-            //When the receiver field is empty
-            else if (string.IsNullOrEmpty(receiver))
-            {
-                ViewBag.emptyfield = "You need to enter a receiver to send a message";
-            }
+            }          
             //When receiver doesn't exist in the database
             else if (!(string.IsNullOrEmpty(receiver)))
             {
@@ -2266,15 +2269,13 @@ namespace zorgapp.Controllers
             bool Pass = false;
             DatabaseContext Tcontext = testController.getContext();
             DoctorController controller = new DoctorController(testController.getContext());
-            Doctor doctor = Tcontext.Doctors.FirstOrDefault();
-            int DoctorID = doctor.DoctorId;
+            int DoctorID = -1;
             var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
-            PatientsDoctors patdoc = PatDocs.First();
 
             string name = "Paracetamol";
             DateTime start_date = DateTime.Now;
             DateTime end_date = DateTime.Now;
-            int patient_id = 1;
+            int patient_id = -1;
             int amount = 3;
             float mg = 50;
 
@@ -2361,13 +2362,12 @@ namespace zorgapp.Controllers
             DatabaseContext Tcontext = testController.getContext();
             DoctorController controller = new DoctorController(testController.getContext());           
             Doctor doctor = Tcontext.Doctors.FirstOrDefault();
-            int DoctorID = doctor.DoctorId;
+            int DoctorID = -1;
             var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
-            PatientsDoctors patdoc = PatDocs.First();
             string name = null;
             DateTime start_date = DateTime.Now;
             DateTime end_date = DateTime.Now;
-            int patient_id = 1;
+            int patient_id = -1;
             int amount = 3;
             float mg = 50;
             var medicinebefore = from d in Tcontext.Medicines where d.PatientId == patient_id select d;
@@ -2388,7 +2388,7 @@ namespace zorgapp.Controllers
 
             catch (Exception e)
             {
-                Pass = true;
+                Pass = false;
                 Aresult = "You are missing one or more parameters! " + e.Message;
                 model = new TestViewModel()
                 {
@@ -2470,14 +2470,13 @@ namespace zorgapp.Controllers
             DatabaseContext Tcontext = testController.getContext();
             DoctorController controller = new DoctorController(testController.getContext());
             Doctor doctor = Tcontext.Doctors.FirstOrDefault();
-            int DoctorID = doctor.DoctorId;
+            int DoctorID = -1;
             var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
-            PatientsDoctors patdoc = PatDocs.First();
 
             string name = "sertan";
             DateTime start_date = DateTime.Now;
             DateTime end_date = DateTime.Now;
-            int patient_id = 9;
+            int patient_id = -1;
             int amount = 3;
             float mg = 50;
 
@@ -2513,7 +2512,7 @@ namespace zorgapp.Controllers
 
             catch (Exception e)
             {
-                Pass = true;
+                Pass = false;
                 Aresult = "This patient does not exist" + e.Message;
                 model = new TestViewModel()
                 {
@@ -2611,9 +2610,8 @@ namespace zorgapp.Controllers
             DatabaseContext Tcontext = testController.getContext();
             DoctorController controller = new DoctorController(testController.getContext());
             Doctor doctor = Tcontext.Doctors.FirstOrDefault();
-            int DoctorID = doctor.DoctorId;
+            int DoctorID = -1;
             var PatDocs = from d in Tcontext.PatientsDoctorss where d.DoctorId == DoctorID select d;
-            PatientsDoctors patdoc = PatDocs.First();
 
             string name = "Paracetamol";
             DateTime start_date = DateTime.Now;
@@ -2633,7 +2631,7 @@ namespace zorgapp.Controllers
 
             catch (Exception e)
             {
-                Pass = true;
+                Pass = false;
                 Aresult = "This patient is not linked to this doctor!  " + e.Message;
                 model = new TestViewModel()
                 {
@@ -2653,8 +2651,6 @@ namespace zorgapp.Controllers
             //assert
 
             Patient patient = Tcontext.Patients.FirstOrDefault(y => y.PatientId == patient_id);
-            string docName = doctor.FirstName;
-            string patName = patient.FirstName;
             PatientsDoctors patientsDoctors_ = Tcontext.PatientsDoctorss.FirstOrDefault(
                 p => p.PatientId == patient_id && p.DoctorId == DoctorID
             );
