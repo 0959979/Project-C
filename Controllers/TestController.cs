@@ -1703,14 +1703,18 @@ namespace zorgapp.Controllers
             PatientsDoctors patdoc = patientdoctors.First(); 
             int patientid = patdoc.PatientId;
             Patient pat = Tcontext.Patients.FirstOrDefault(u => u.PatientId == patientid);
+            string LocalID = "";
             var localids = pat.LocalId;
-            string LocalID = localids.First();
 
-            if (pat.LocalId == null)
+
+            if (pat.LocalId == null || pat.LocalId.Contains(""))
             {
-                pat.LocalId = new List<string>();
+                pat.LocalId = new List<String>();
+                pat.LocalId.Add("LocalId1");
                 Tcontext.SaveChanges();
+                LocalID = "LocalIdTEST1";
             }
+
 
             if (LocalID == null)
             {
@@ -1754,7 +1758,7 @@ namespace zorgapp.Controllers
                 return model;
             }
 
-               List<int> count = new List<int>();
+            List<int> count = new List<int>();
 
             foreach (var item in localids)
                 {

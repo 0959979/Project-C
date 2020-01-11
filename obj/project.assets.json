@@ -14909,26 +14909,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ses-9\\.nuget\\packages\\": {}
+    "/Users/yasemin/.nuget/packages/": {},
+    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ses-9\\OneDrive\\Bureaublad\\Git repos\\Project-C\\zorgapp.csproj",
+      "projectUniqueName": "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj",
       "projectName": "zorgapp",
-      "projectPath": "C:\\Users\\ses-9\\OneDrive\\Bureaublad\\Git repos\\Project-C\\zorgapp.csproj",
-      "packagesPath": "C:\\Users\\ses-9\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ses-9\\OneDrive\\Bureaublad\\Git repos\\Project-C\\obj\\",
+      "projectPath": "/Users/yasemin/Documents/Inf_jaar_2/Project-C/zorgapp.csproj",
+      "packagesPath": "/Users/yasemin/.nuget/packages/",
+      "outputPath": "/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\ses-9\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/yasemin/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -14985,7 +14987,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.100/RuntimeIdentifierGraph.json"
       }
     }
   }
