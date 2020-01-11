@@ -1,16 +1,12 @@
 ﻿<!DOCTYPE html>
 
 
-<!-- @{
-    ViewData["Title"] = "Message";
-} -->
-
 <h2>Send Message</h2>
 <p>Enter all fields and press send</p>
 
 <form method="post">
     Recipient username:<br>
-    <input type="string" required name=reciever id="reciever" value="@ViewBag.reply"><br>
+    <input type="string" required name=receiver id="receiver" value="@ViewBag.reply"><br>
     Subject:<br>
     <input type="string" required name=subject id="subject"><br>
     Message:<br>

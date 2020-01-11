@@ -170,22 +170,18 @@ namespace zorgapp.Controllers
                 if (!string.IsNullOrEmpty(Next)) //if the doctor pressed the next button
                 {
                     dayoffset += 7;
-                    //ViewBag.Recieved = "Next, dayoffset = "+dayoffset.ToString();
                 }
                 else if (!string.IsNullOrEmpty(Previous)) //if the doctor pressed the previous button
                 {
                     dayoffset -= 7;
-                    //ViewBag.Recieved = "Previous, dayoffset = " + dayoffset.ToString();
                 }
                 else if (!string.IsNullOrEmpty(Apply)) //if the doctor pressed the apply button
                 {
                     dayoffset += 0;
-                    //ViewBag.Recieved = "Previous, dayoffset = " + dayoffset.ToString();
                 }
                 else //if he did not press any of the 3 above buttons
                 {
                     dayoffset = 0;
-                    //ViewBag.Recieved = "None";
                 }
                 if (endhour <= starthour)
                 {
@@ -202,9 +198,7 @@ namespace zorgapp.Controllers
                 List<int> Minute = new List<int>();
                 List<Case> Case = new List<Case>();
                 List<Appointment> Appointment = new List<Appointment>();
-                //List<List<int>> AppointmentDatesHours = new List<List<int>>();
-                //List<string> AppointmentStrings = new List<string>();
-                DateTime Today = DateTime.Now;//new DateTime(2020, 4, 13);
+                DateTime Today = DateTime.Now;
                 Today = Today.AddDays(dayoffset);
                 DateTime FWeekday;
                 int offset;
@@ -251,7 +245,6 @@ namespace zorgapp.Controllers
                         day = day.AddDays(d - offset);
                         Day.Add(day.DayOfWeek.ToString());
                         Date.Add(day.Date.ToShortDateString());
-                        //System.Diagnostics.Debug.WriteLine("RonanDayList: " + day.ToString());
                     }
                 }
                 //The hours and minutes that will be shown
@@ -283,13 +276,12 @@ namespace zorgapp.Controllers
                     }
                 }
                 //Gets the appointments of that week
-                { //query door Pelle geschreven
+                { 
                     Patient user = _context.Patients.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
                     int patientid = user.PatientId;
 
                     var cases = from c in _context.Cases where c.PatientId == patientid select c;
                     var Tempappointments = new List<Appointment>();
-                    //var appointments = from a in _context.Appointments where a.select a;
 
                     foreach (var item in cases) //change LQueryable<Case> to List<Case>
                     {
@@ -313,9 +305,7 @@ namespace zorgapp.Controllers
                         {
                             infosub = infosub.Substring(0, 16) + "...";
                         }
-                        /*DateTime AppTime = new DateTime();
-                        AppTime.AddHours(item.Date.Hour);
-                        AppTime.AddMinutes(item.Date.Minute);*/
+
                         Appointment.Add(new Appointment()
                         {
                             AppointmentId = item.AppointmentId,
@@ -656,8 +646,7 @@ namespace zorgapp.Controllers
             {
                 medicineList.Add(item);
             }
-            //var c = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            //var appointment = from m in _context.Appointments where m.PatientId == patientid select c;
+
             var cases = from c in _context.Cases where c.PatientId == patientid select c;
             List<string> caseids = new List<string>();
             var emptyappointment = _context.Appointments.FirstOrDefault(m => m.AppointmentId == 0);
@@ -706,7 +695,7 @@ namespace zorgapp.Controllers
                 USER.FirstName = firstname;
                 USER.LastName = lastname;
                 USER.Email = email;
-                USER.PhoneNumber = phonenumber.ToString();//DIT NIET MERGEN, IS TIJDELIJK
+                USER.PhoneNumber = phonenumber;
                 _context.SaveChanges();
                 return RedirectToAction("Profile", "Patient");
             }
@@ -718,11 +707,7 @@ namespace zorgapp.Controllers
         {
             return View();
         }
-        /*public IActionResult CodeGenerated(int uses)
-        {
-            ViewData["Uses"] = uses;
-            return View();
-        }*/
+
         [Authorize(Roles = "Patient")]
         public IActionResult GenerateNewCode(int Uses) //when the patient clicks to generate a new code
         {
@@ -756,7 +741,6 @@ namespace zorgapp.Controllers
             {
                 ViewBag.MessageRed = "You need to enter a Username and Code to proceed";
                 return View();
-                //RedirectToAction("Patient", "AuthorizationForm");
             }
             else //username and code are both filled in
             {
@@ -877,7 +861,6 @@ namespace zorgapp.Controllers
             if (patient == null) //if this patient does not exist
             {
                 throw new Exception("Trying to check code for non-existent patient using patientId: " + patientId.ToString());
-                //return false;
             }
             else //the patient does exist
             {
@@ -924,7 +907,6 @@ namespace zorgapp.Controllers
             if (patient == null) //if the patient does not exist
             {
                 throw new Exception("Trying to check code for non-existent patient using username: " + username);
-                //return false;
             }
             else
             {
@@ -1166,7 +1148,6 @@ namespace zorgapp.Controllers
 
         public IActionResult TestPage()
         {
-            //Login("admin", "password", "patient");
             List<Tuple<string, string>> tupleList = new List<Tuple<string, string>>();
             
             List<PatientTest> testlist = new List<PatientTest>();
@@ -1272,7 +1253,6 @@ namespace zorgapp.Controllers
             //arrange
             bool Pass = false;
             PatientController controller = testController;
-            //controller.Login("admin", "password", "Patient");
 
             int uses = 3;
 
@@ -1358,7 +1338,6 @@ namespace zorgapp.Controllers
             //arrange
             bool Pass = false;
             PatientController controller = testController;
-            //controller.Login("admin", "password", "Patient");
 
             int uses = -2;
 
@@ -1446,7 +1425,6 @@ namespace zorgapp.Controllers
             //arrange
             bool Pass = false;
             PatientController controller = testController;
-            //controller.Login("admin", "password", "patient");
 
             int uses = 20;
 
@@ -1535,7 +1513,6 @@ namespace zorgapp.Controllers
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-            //controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
@@ -1703,7 +1680,6 @@ namespace zorgapp.Controllers
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-            //controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
@@ -1874,7 +1850,6 @@ namespace zorgapp.Controllers
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-            //controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == null);
@@ -1903,15 +1878,7 @@ namespace zorgapp.Controllers
                 Tcontext.Patients.Remove(patient);
                 Tcontext.SaveChanges();
             }
-            /*else
-            {
-                if (patient.CanSeeMeId.Contains(loggedPatient.PatientId))
-                {
-                    patient.CanSeeMeId.Remove(loggedPatient.PatientId);
-                    loggedPatient.ICanSeeId.Remove(patient.PatientId);
-                }
-            }*/
-            //controller.DbAddCode(code, 1, "Admin2");
+
             Tcontext.SaveChanges();
 
 
@@ -2038,7 +2005,6 @@ namespace zorgapp.Controllers
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-            //controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
@@ -2190,7 +2156,6 @@ namespace zorgapp.Controllers
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-            //controller.Login("admin", "password", "patient");
 
             string code = Program.GenerateLinkCode();
             Patient patient = Tcontext.Patients.FirstOrDefault(u => u.UserName.ToLower() == "Admin2".ToLower());
@@ -2342,7 +2307,6 @@ namespace zorgapp.Controllers
             bool Pass = false;
             PatientController controller = testController;
             DatabaseContext Tcontext = testController.getContext();
-            //controller.Login("admin", "password", "patient");
 
             int revokeId = -10;
 
@@ -2911,7 +2875,6 @@ namespace zorgapp.Controllers
 
             //assert
             DatabaseContext Tcontext = testController.getContext();
-            //var user = HttpContext.Current.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             var user = Thread.CurrentPrincipal?.Identity.Name;
             Thread.CurrentPrincipal = null;
             controller.Logout();
@@ -3000,7 +2963,6 @@ namespace zorgapp.Controllers
 
             //assert
             DatabaseContext Tcontext = testController.getContext();
-            //var user = HttpContext.Current.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             var user = Thread.CurrentPrincipal?.Identity.Name;
             Thread.CurrentPrincipal = null;
             controller.Logout();
@@ -3089,7 +3051,6 @@ namespace zorgapp.Controllers
 
             //assert
             DatabaseContext Tcontext = testController.getContext();
-            //var user = HttpContext.Current.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             var user = Thread.CurrentPrincipal?.Identity.Name;
             Thread.CurrentPrincipal = null;
             controller.Logout();
@@ -3178,7 +3139,6 @@ namespace zorgapp.Controllers
 
             //assert
             DatabaseContext Tcontext = testController.getContext();
-            //var user = HttpContext.Current.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             var user = Thread.CurrentPrincipal?.Identity.Name;
             Thread.CurrentPrincipal = null;
             controller.Logout();
@@ -3267,7 +3227,6 @@ namespace zorgapp.Controllers
 
             //assert
             DatabaseContext Tcontext = testController.getContext();
-            //var user = HttpContext.Current.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             var user = Thread.CurrentPrincipal?.Identity.Name;
             Thread.CurrentPrincipal = null;
             controller.Logout();
@@ -3356,7 +3315,6 @@ namespace zorgapp.Controllers
 
             //assert
             DatabaseContext Tcontext = testController.getContext();
-            //var user = HttpContext.Current.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             var user = Thread.CurrentPrincipal?.Identity.Name;
             Thread.CurrentPrincipal = null;
             controller.Logout();

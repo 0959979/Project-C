@@ -62,7 +62,6 @@
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Inbox.cshtml.g.cs
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Login.cshtml.g.cs
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/Message.cshtml.g.cs
-/Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/MessageDisplay.cshtml.g.cs
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/MessageSend.cshtml.g.cs
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/noAccess.cshtml.g.cs
 /Users/yasemin/Documents/Inf_jaar_2/Project-C/obj/Debug/netcoreapp2.1/Razor/Views/Patient/PatientList.cshtml.g.cs
