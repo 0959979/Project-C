@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj": {}
+    "C:\\Users\\ses-9\\OneDrive\\Bureaublad\\Git repos\\Project-C\\zorgapp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj": {
+    "C:\\Users\\ses-9\\OneDrive\\Bureaublad\\Git repos\\Project-C\\zorgapp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
+        "projectUniqueName": "C:\\Users\\ses-9\\OneDrive\\Bureaublad\\Git repos\\Project-C\\zorgapp.csproj",
         "projectName": "zorgapp",
-        "projectPath": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\zorgapp.csproj",
-        "packagesPath": "C:\\Users\\santa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\santa\\OneDrive\\Documents\\GitHub\\Project-C\\obj\\",
+        "projectPath": "C:\\Users\\ses-9\\OneDrive\\Bureaublad\\Git repos\\Project-C\\zorgapp.csproj",
+        "packagesPath": "C:\\Users\\ses-9\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ses-9\\OneDrive\\Bureaublad\\Git repos\\Project-C\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\santa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ses-9\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

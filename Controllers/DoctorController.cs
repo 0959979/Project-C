@@ -97,10 +97,11 @@ namespace zorgapp.Controllers
         }
 
 
-
+        //return the view of create case only when doctor is logged in
         [Authorize(Roles = "Doctor")]
+        //Doctor Creates a case for patients using case id and name and patient id
         public ActionResult CreateCase(string caseid, string casename, int patientid)
-        {
+        {       //checks if caseid and name are not null, then checks if this patient is linked to the doctor or not.
             if (caseid != null && casename != null)
             {
                 Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
@@ -111,12 +112,12 @@ namespace zorgapp.Controllers
                     return View();
                 }
                 Case ecase = _context.Cases.FirstOrDefault(c => c.CaseId == caseid && c.DoctorId == doctorid);
-                if (ecase != null)
+                if (ecase != null)  // checks if case already exists
                 {
                     ViewBag.emptyfield1 = "A case with case Id '"+ecase.CaseId+"' already exists!";
                     return View();
                 }
-                Case newcase = new Case()
+                Case newcase = new Case() //if cas doesnt exist, make new case with inserted values
                 {
                     CaseId = caseid,
                     CaseName = casename,
@@ -126,7 +127,7 @@ namespace zorgapp.Controllers
                 _context.Cases.Add(newcase);
                 _context.SaveChanges();
 
-                return RedirectToAction("CreateAppointment", "Doctor");
+                return RedirectToAction("CreateAppointment", "Doctor"); // After making the case it moves to CreateAppointment view, to make an appointment
             }
 
             return View();
@@ -627,32 +628,33 @@ namespace zorgapp.Controllers
         }
 
 
-
+        // to see all appointments in a list
         public ActionResult AppointmentList(string caseid)
         {
-            if (caseid != null)
+            if (caseid != null) //checks for case existence
             {
                 Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
                 int doctorid = user.DoctorId;
 
-                var cases = from c in _context.Cases where c.DoctorId == doctorid select c;
-                var Case = new List<Case>();
+                var cases = from c in _context.Cases where c.DoctorId == doctorid select c;// gets case info from database
+                var Case = new List<Case>(); // makes a list of new cases
 
                 var Appointment = new List<Appointment>();
                 var appointments = from a in _context.Appointments where a.CaseId == caseid select a;
                 appointments = from c in appointments where c.DoctorId == doctorid select c; //only the appointments of that doctorId
 
-                ViewBag.ID = caseid;
-
+                ViewBag.ID = caseid; 
+                // makes a query to add cases
                 foreach (var item in cases)
                 {
                     Case.Add(item);
                 }
+                // makes a query to add appointments
                 foreach (var item in appointments)
                 {
                     Appointment.Add(item);
                 }
-
+                // a view model to show list of cases and list of appointments
                 AppointmentViewModel caseappointments = new AppointmentViewModel
                 {
                     Cases = Case,
@@ -661,26 +663,26 @@ namespace zorgapp.Controllers
 
                 return View(caseappointments);
             }
-            else
-            {
+            else // checks if the case id is null
+            {   //get the information of logged doctor ( username )
                 Doctor user = _context.Doctors.FirstOrDefault(u => u.UserName == User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
-                int doctorid = user.DoctorId;
+                int doctorid = user.DoctorId; // get the id of that user and links it to this variable
 
-                var cases = from c in _context.Cases where c.DoctorId == doctorid select c;
-                var Case = new List<Case>();
+                var cases = from c in _context.Cases where c.DoctorId == doctorid select c; //link this variable to cases of this logged in doctor
+                var Case = new List<Case>();  // maakes a new list for the logged in doctor
 
-                var Appointment = new List<Appointment>();
-                var appointments = from a in _context.Appointments where a.CaseId == caseid select a;
+                var Appointment = new List<Appointment>(); // makes a new list of appointments as well
+                var appointments = from a in _context.Appointments where a.CaseId == caseid select a; //it links all appointments for one case id
 
-                foreach (var item in cases)
+                foreach (var item in cases) // makes the case
                 {
                     Case.Add(item);
                 }
-                foreach (var item in appointments)
+                foreach (var item in appointments) // makes the appointment
                 {
                     Appointment.Add(item);
                 }
-
+                // to show both appointments and cases
                 AppointmentViewModel caseappointments = new AppointmentViewModel
                 {
                     Cases = Case,
@@ -1024,13 +1026,14 @@ namespace zorgapp.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Doctor")]
+        [Authorize(Roles = "Doctor")] // checks If doctor is logged in
+        // To update doctor account information.
         public IActionResult UpdateAccount(string firstname, string lastname, string email, string phonenumber, string specialism)
         {
             if (firstname != null)
             {
-                var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-                var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME);
+                var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value; //gets info of logged in doctor
+                var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME); //gets username of that doctor
                 USER.FirstName = firstname;
                 USER.LastName = lastname;
                 USER.Email = email;
@@ -1041,58 +1044,21 @@ namespace zorgapp.Controllers
             }
             return View();
         }
-
+        // checks if doctor logged in
         [Authorize(Roles = "Doctor")]
         public IActionResult UpdateDoctorAccount()
-        {
+        {// ensure that information was updated and show it on screen
             string firstname = TempData["MyTempData"].ToString();
             ViewData["FirstName"] = firstname;
             return View();
         }
-        // public ActionResult AddMedicines(string name, DateTime start_date, DateTime end_date, int amount, int patient_id, float mg)
-        // {
-        //     List<Patient> Patientslist = new List<Patient>();
-
-        //     var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-        //     var USER = _context.Doctors.FirstOrDefault(u => u.UserName == USERNAME);
-        //     int Id = USER.DoctorId;
-        //     var patientslist = from m in _context.PatientsDoctorss where m.DoctorId == Id select m;
-        //     foreach (var item in patientslist)
-        //     {
-        //         if (item.PatientId != null)
-        //         {
-        //             var patientname = _context.Patients.FirstOrDefault(p => p.PatientId == item.PatientId);
-        //             Patientslist.Add(patientname);
-        //         };
-
-		// 	}
-
-        //     if (name != null)
-        //     {
-        //         Medicine medicine_ = new Medicine()
-        //         {
-        //             Name = name,
-        //             DateStart = start_date,
-        //             DateEnd = end_date,
-        //             Amount = amount,
-        //             PatientId = patient_id,
-        //             Mg = mg
-        //         };
-
-        //         _context.Medicines.Add(medicine_);
-        //         _context.SaveChanges();
-        //     }
-
-
-        //     return View(Patientslist);
-		// }
-
+       // doctor can add medicines to his patients
         public ActionResult AddMedicines(string name, DateTime start_date, DateTime end_date, int amount, int patient_id, float mg)
         {
-            
+            // checks that name, start date, and end date parametres data is inserted (After test)
             if (name != null && start_date != null && end_date != null  )
             {
-
+                // maeks a new medicine
                 Medicine medicine_ = new Medicine()
                 {
                     Name = name,
@@ -1102,8 +1068,9 @@ namespace zorgapp.Controllers
                     PatientId = patient_id,
                     Mg = mg
                 };
-
+                // add medicine to database
                 _context.Medicines.Add(medicine_);
+                // it saves changes on database
                 _context.SaveChanges();
             }
 

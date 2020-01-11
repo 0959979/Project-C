@@ -693,14 +693,16 @@ namespace zorgapp.Controllers
 
             return View(patInfoviewModel);
         }
-
+        // checks if patient is logged in
         [Authorize(Roles = "Patient")]
+        //updates the information of this logged in patient with inserting new information
         public IActionResult UpdateAccount(string firstname, string lastname, string email, string phonenumber)
-        {
+        { //checks if this patient exists 
             if (firstname != null)
-            {
-                var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-                var USER = _context.Patients.FirstOrDefault(u => u.UserName == USERNAME);
+            {  
+                var USERNAME = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value; // get the information of logged in patient
+                var USER = _context.Patients.FirstOrDefault(u => u.UserName == USERNAME); // get the user name from those information
+                // insert new information
                 USER.FirstName = firstname;
                 USER.LastName = lastname;
                 USER.Email = email;
